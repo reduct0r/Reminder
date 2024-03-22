@@ -397,3 +397,6 @@ bld/
 [Ll]ogs/
 # Add this line
 out/
+### Ninja ###
+.ninja_deps
+.ninja_log
