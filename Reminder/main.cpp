@@ -4,7 +4,6 @@
 
 int main() 
 {
-    int a = 10;
     sf::RenderWindow window(sf::VideoMode(800, 600), "Horizontal Squeeze Simulation");
     window.setFramerateLimit(60);
 
