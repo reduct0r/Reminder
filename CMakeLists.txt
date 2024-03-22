@@ -8,6 +8,10 @@ set(SOURCES "Reminder/main.cpp")
 add_executable (Reminder  ${SOURCES})
 # !!!!!!!!!!!! ДОБАВИТЬ ЗАГОЛОВОЧНЫЕ !!!!!!!!!!!!!!!!!!!!!!
 
+# Копируем папку с ресерсами (д.с. текстуры) в out
+set(RESURSES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/out/build/x64-debug")
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Textures DESTINATION ${RESURSES_DIR})
+
 # Подключение SFML для работы "из коробки"
 set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third-party/sfml")			# Директория для хранения SFML
 set(SFML_URL https://github.com/reduct0r/Compiled-version-of-sfml.git)	# Репозиторий со стабильной динамической версией SFML
