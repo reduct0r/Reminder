@@ -6,11 +6,10 @@ set(SOURCES "Reminder/main.cpp")
 
 # Добавление источников в исполняемый файл проекта
 add_executable (Reminder  ${SOURCES})
-# !!!!!!!!!!!! ДОБАВИТЬ ЗАГОЛОВОЧНЫЕ !!!!!!!!!!!!!!!!!!!!!!
 
 # Копируем папку с ресерсами (д.с. текстуры) в out
 set(RESURSES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/out/build/x64-debug")
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Textures DESTINATION ${RESURSES_DIR})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources DESTINATION ${RESURSES_DIR})
 
 # Подключение SFML для работы "из коробки"
 set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third-party/sfml")			# Директория для хранения SFML
@@ -24,6 +23,9 @@ file(MAKE_DIRECTORY ${SFML_DIR})
 execute_process(COMMAND git clone --branch ${BRANCH_NAME} --single-branch ${SFML_URL} ${SFML_DIR})
 message("Успешно")
 # Файлы для копирования
+
+
+if(WIN32)
 set(files_to_copy
     ${SFML_DIR}/SFML-2.6.1/bin/openal32.dll
     ${SFML_DIR}/SFML-2.6.1/bin/sfml-audio-d-2.dll
@@ -32,12 +34,11 @@ set(files_to_copy
     ${SFML_DIR}/SFML-2.6.1/bin/sfml-system-d-2.dll
     ${SFML_DIR}/SFML-2.6.1/bin/sfml-window-d-2.dll
 )
-
 # Копировать dll файлы в build
 foreach(file ${files_to_copy})
     file(COPY ${file} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 endforeach()
-
+endif()
 # Подключение библиотек (КОНФИГРУРАЦИЯ DEBUG!)
 target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-graphics-d.lib)
 target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-audio-d.lib)
