@@ -2,12 +2,15 @@
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Установка переменных среды
-set(SOURCES "Reminder/main.cpp")
-
+include_directories(${CMAKE_SOURCE_DIR}/Reminder/Sections/Settings)
+set(SOURCES "Reminder/main.cpp" "Reminder/Init/init.cpp" "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp")
+set(HEADERS "Reminder/Init/H_Init.h" "Reminder/Sections/Settings/H_settings.h" "Reminder/Sections/WelcomeScreen/H_Welcome_screen.h")
 # Добавление источников в исполняемый файл проекта
-add_executable (Reminder  ${SOURCES})
+add_executable (Reminder ${SOURCES} ${HEADERS})
 
-# Копируем папку с ресерсами (д.с. текстуры) в out
+include_directories(Init)
+
+# Копируем папку с ресурсами в out
 set(RESURSES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/out/build/x64-debug")
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources DESTINATION ${RESURSES_DIR})
 
