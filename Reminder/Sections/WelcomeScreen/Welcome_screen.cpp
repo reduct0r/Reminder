@@ -1,4 +1,5 @@
 #include "H_Welcome_screen.h"
+#include "../../UI Animations/UI_anims.h"
 
 void ShowWelcomeScreen()
 {
@@ -70,112 +71,48 @@ void DemoCard(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureMan
 
 void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManager, Reminder::WindowSpecs& mainWindowSpecs)
 {
-
     sf::Sprite background(textureManager.getTexture("Background_Main"));
-
-    float k = mainWindow.getSize().x / textureManager.getTexture("Background_Main").getSize().x;
-
     background.setScale(static_cast<float>(mainWindow.getSize().x) / textureManager.getTexture("Background_Main").getSize().x,
         static_cast<float>(mainWindow.getSize().y) / textureManager.getTexture("Background_Main").getSize().y);
+
+    sf::Texture button1T = textureManager.getTexture("Login_button");
+    sf::Texture button1hT = textureManager.getTexture("Login_button_hovered");
+    sf::Texture button2T = textureManager.getTexture("Reg_button");
+    sf::Texture button2hT = textureManager.getTexture("Reg_button_hovered");
 
 
     sf::Sprite button1(textureManager.getTexture("Login_button"));
     sf::Sprite button2(textureManager.getTexture("Reg_button"));
-
     float buttonWidth = button1.getLocalBounds().width;
     float buttonHeight = button1.getLocalBounds().height;
 
-    /* Масштабировние спрайтов в соотвествии с разрешением окна */
-    float scaleX = mainWindow.getSize().x / 1920.0f;; // масштаб по оси X
-    float scaleY = mainWindow.getSize().y / 1080.0f;; // масштаб по оси Y
+    /* Масштабировние спрайтов в соотвествии с разрешением окна. Сохранение пропорций */
+    float scaleX = mainWindow.getSize().x / float(textureManager.getTexture("Background_Main").getSize().x); // масштаб по оси X
+    float scaleY = mainWindow.getSize().y / float(textureManager.getTexture("Background_Main").getSize().y); // масштаб по оси Y
     button1.setScale(scaleX, scaleY);
     button2.setScale(scaleX, scaleY);
 
     // Предварительно устанавливаем позиции кнопок по середине окна c последующим смещением
-    float ButttonPosX = mainWindow.getSize().x / 2 - button1.getGlobalBounds().width / 2;
-    float ButttonPosY = mainWindow.getSize().y / 2 - button1.getGlobalBounds().height / 2;
+    float ButttonPosX = mainWindow.getSize().x / 2.0 - button1.getGlobalBounds().width / 2.0;
+    float ButttonPosY = mainWindow.getSize().y / 2.0 - button1.getGlobalBounds().height / 2.0;
 
+    // Смещения
     button1.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 6.0);
     button2.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 30.0);
 
-    float alpha = 255; // Начальная прозрачность спрайта
-    bool changedButton1 = 0;
-    bool procAnim1 = 0;
-
-    bool changedButton2 = 0;
-    bool cancAnim2 = 0;
-
     sf::Vector2i mousePosition = sf::Mouse::getPosition(mainWindow);
     sf::FloatRect buttonBounds = button1.getGlobalBounds();
+
+    Reminder::ButtonState button1st;
+    Reminder::ButtonState button2st;
 
     while (mainWindow.isOpen())
     {
         sf::Vector2i mousePosition = sf::Mouse::getPosition(mainWindow);
 
-        if (button1.getGlobalBounds().contains(mousePosition.x, mousePosition.y))
-        {
+        Reminder::SmoothButtonAnim(button1, mousePosition, button1T, button1hT, button1st);
 
-            if (alpha > 0 and !changedButton1)
-            {
-                alpha -= 5.0f; // Изменение прозрачности спрайта со временем
-                button1.setColor(sf::Color(alpha, alpha, alpha, 255)); // Установка новой прозрачности спрайта
-                procAnim1 = 1;
-                changedButton1 = 0;
-            }
-            else if (alpha == 0)
-            {
-                button1.setTexture(textureManager.getTexture("Login_button_hovered"));
-                alpha = 255;
-                button1.setColor(sf::Color(alpha, alpha, alpha, 255));
-                changedButton1 = 1;
-                procAnim1 = 0;
-            }
-            if (procAnim1 and !changedButton1)
-            {
-                std::cout << "check" << "\n";
-            }   
-        }
-        else
-        {
-            if (procAnim1 and !changedButton1) // Плавная отмена анимации затемнения
-            {
-                std::cout << "procAnim1 and !changedButton1" << "\n";
-                alpha += 5.0f;
-                button1.setColor(sf::Color(alpha, alpha, alpha, 255)); // Установка новой прозрачности спрайта
-                if (alpha == 255) { procAnim1 = 0; }
-            }
-
-            if (alpha > 0 and changedButton1) // Затемняем нажатую
-            {
-                std::cout << "alpha > 0 and changedButton1" << "\n";
-                alpha -= 5.0f; // Изменение прозрачности спрайта со временем
-                button1.setColor(sf::Color(alpha, alpha, alpha, 255)); // Установка новой прозрачности спрайта
-                procAnim1 = 1;
-                if (alpha == 0) { procAnim1 = 0; }
-            }
-
-            else if (alpha < 255 and !procAnim1) // Возвращаем зеленую плавно
-            {
-                std::cout << "alpha = 0" << "\n";
-                alpha += 5.0f;
-                std::cout << alpha << "\n";
-                button1.setTexture(textureManager.getTexture("Login_button"));
-                button1.setColor(sf::Color(alpha, alpha, alpha, 255));
-                changedButton1 = 0;
-            }
-        }
-
-
-        if (button2.getGlobalBounds().contains(mousePosition.x, mousePosition.y))
-        {
-            button2.setTexture(textureManager.getTexture("Reg_button_hovered"));
-        }
-        else
-        {
-            button2.setTexture(textureManager.getTexture("Reg_button"));
-        }
-
-
+        Reminder::SmoothButtonAnim(button2, mousePosition, button2T, button2hT, button2st);
 
 
         sf::Event event;
@@ -183,7 +120,9 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
         {
             if (event.type == sf::Event::Closed)
                 mainWindow.close();
-                
+             
+            /*...*/
+
         }
 
         mainWindow.clear();

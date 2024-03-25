@@ -3,15 +3,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Установка переменных среды
 include_directories(${CMAKE_SOURCE_DIR}/Reminder/Sections/Settings)
-set(SOURCES "Reminder/main.cpp" "Reminder/Init/init.cpp" "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp")
-set(HEADERS "Reminder/Init/H_Init.h" "Reminder/Sections/Settings/H_settings.h" "Reminder/Sections/WelcomeScreen/H_Welcome_screen.h")
+set(SOURCES "Reminder/main.cpp" "Reminder/Init/init.cpp" "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp" "Reminder/UI Animations/UI_anims.cpp")
+set(HEADERS "Reminder/Init/H_Init.h" "Reminder/Sections/Settings/H_settings.h" "Reminder/Reminder.h")
 # Добавление источников в исполняемый файл проекта
 
-set(project Reminder)
-
 project(Reminder)
-
-include_directories(Init)
 
 # Файлы для копирования
 if(WIN32)

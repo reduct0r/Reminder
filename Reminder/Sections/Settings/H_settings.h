@@ -13,8 +13,8 @@ namespace Reminder
     public:
         WindowSpecs():
             Title("Reminder"),
-            Width(1920),
-            Height(1080),
+            Width(960),
+            Height(540),
             FPS(120){}
 
         void setTitle(const std::string& title) 
