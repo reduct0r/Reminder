@@ -98,38 +98,92 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
     button1.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 6.0);
     button2.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 30.0);
 
+    float alpha = 255; // Начальная прозрачность спрайта
+    bool changedButton1 = 0;
+    bool procAnim1 = 0;
 
+    bool changedButton2 = 0;
+    bool cancAnim2 = 0;
+
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(mainWindow);
+    sf::FloatRect buttonBounds = button1.getGlobalBounds();
 
     while (mainWindow.isOpen())
     {
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(mainWindow);
+
+        if (button1.getGlobalBounds().contains(mousePosition.x, mousePosition.y))
+        {
+
+            if (alpha > 0 and !changedButton1)
+            {
+                alpha -= 5.0f; // Изменение прозрачности спрайта со временем
+                button1.setColor(sf::Color(alpha, alpha, alpha, 255)); // Установка новой прозрачности спрайта
+                procAnim1 = 1;
+                changedButton1 = 0;
+            }
+            else if (alpha == 0)
+            {
+                button1.setTexture(textureManager.getTexture("Login_button_hovered"));
+                alpha = 255;
+                button1.setColor(sf::Color(alpha, alpha, alpha, 255));
+                changedButton1 = 1;
+                procAnim1 = 0;
+            }
+            if (procAnim1 and !changedButton1)
+            {
+                std::cout << "check" << "\n";
+            }   
+        }
+        else
+        {
+            if (procAnim1 and !changedButton1) // Плавная отмена анимации затемнения
+            {
+                std::cout << "procAnim1 and !changedButton1" << "\n";
+                alpha += 5.0f;
+                button1.setColor(sf::Color(alpha, alpha, alpha, 255)); // Установка новой прозрачности спрайта
+                if (alpha == 255) { procAnim1 = 0; }
+            }
+
+            if (alpha > 0 and changedButton1) // Затемняем нажатую
+            {
+                std::cout << "alpha > 0 and changedButton1" << "\n";
+                alpha -= 5.0f; // Изменение прозрачности спрайта со временем
+                button1.setColor(sf::Color(alpha, alpha, alpha, 255)); // Установка новой прозрачности спрайта
+                procAnim1 = 1;
+                if (alpha == 0) { procAnim1 = 0; }
+            }
+
+            else if (alpha < 255 and !procAnim1) // Возвращаем зеленую плавно
+            {
+                std::cout << "alpha = 0" << "\n";
+                alpha += 5.0f;
+                std::cout << alpha << "\n";
+                button1.setTexture(textureManager.getTexture("Login_button"));
+                button1.setColor(sf::Color(alpha, alpha, alpha, 255));
+                changedButton1 = 0;
+            }
+        }
+
+
+        if (button2.getGlobalBounds().contains(mousePosition.x, mousePosition.y))
+        {
+            button2.setTexture(textureManager.getTexture("Reg_button_hovered"));
+        }
+        else
+        {
+            button2.setTexture(textureManager.getTexture("Reg_button"));
+        }
+
+
+
+
         sf::Event event;
         while (mainWindow.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 mainWindow.close();
-
-            // Проверяем наведение на кнопки и меняем текстуру
-            if (event.type == sf::Event::MouseMoved) 
-            {
-                sf::Vector2i mousePosition = sf::Mouse::getPosition(mainWindow);
-                if (button1.getGlobalBounds().contains(mousePosition.x, mousePosition.y)) 
-                {
-                    button1.setTexture(textureManager.getTexture("Login_button_hovered"));
-                }
-                else 
-                {
-                    button1.setTexture(textureManager.getTexture("Login_button"));
-                }
-
-                if (button2.getGlobalBounds().contains(mousePosition.x, mousePosition.y)) 
-                {
-                    button2.setTexture(textureManager.getTexture("Reg_button_hovered"));
-                }
-                else 
-                {
-                    button2.setTexture(textureManager.getTexture("Reg_button"));
-                }
-            }
+                
         }
 
         mainWindow.clear();

@@ -22,7 +22,7 @@ if(WIN32)
     file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources DESTINATION ${RESOURCES_DIR})
 
     # Подключение SFML для работы "из коробки"
-    set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third-party/sfml")      # Директория для хранения SFML
+    set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third-party/sfml")            # Директория для хранения SFML
     set(SFML_URL https://github.com/reduct0r/Compiled-version-of-sfml.git)  # Репозиторий со стабильной динамической версией SFML
     set(BRANCH_NAME "master")                        # Ветка
 
@@ -57,7 +57,6 @@ if(WIN32)
     include_directories(${SFML_DIR}/SFML-2.6.1/include)
 
 elseif(APPLE)
-
     find_package(SFML COMPONENTS graphics audio REQUIRED)
 
     set(SFML_INCLUDE_DIRS /opt/homebrew/include/)
@@ -77,5 +76,4 @@ elseif(APPLE)
     add_executable(${project}
             ${${project}_SOURCE_LIST} ${HEADERS} ${SOURCES})
     target_link_libraries(${project} ${SFML_LIBRARIES})
-
 endif()
