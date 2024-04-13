@@ -1,6 +1,6 @@
-#include "UI_anims.h"
+п»ї#include "UI_anims.h"
 #include <iostream>
-
+//TEST
 void Reminder::SmoothButtonAnim(sf::Sprite& button, sf::Vector2i& mousePosition, sf::Texture& buttonT, sf::Texture& button_hT, ButtonState& button_st)
 {
     float speed = 8.5;
@@ -9,8 +9,8 @@ void Reminder::SmoothButtonAnim(sf::Sprite& button, sf::Vector2i& mousePosition,
     {
         if (button_st.alpha > 0 and !button_st.changedButton)
         {
-            button_st.alpha -= speed; // Изменение затемнения спрайта со временем
-            button.setColor(sf::Color(button_st.alpha, button_st.alpha, button_st.alpha, 255)); // Установка новой прозрачности спрайта
+            button_st.alpha -= speed; // РР·РјРµРЅРµРЅРёРµ Р·Р°С‚РµРјРЅРµРЅРёСЏ СЃРїСЂР°Р№С‚Р° СЃРѕ РІСЂРµРјРµРЅРµРј
+            button.setColor(sf::Color(button_st.alpha, button_st.alpha, button_st.alpha, 255)); // РЈСЃС‚Р°РЅРѕРІРєР° РЅРѕРІРѕР№ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚Рё СЃРїСЂР°Р№С‚Р°
             button_st.procAnim = 1;
             button_st.changedButton = 0;
         }
@@ -25,20 +25,20 @@ void Reminder::SmoothButtonAnim(sf::Sprite& button, sf::Vector2i& mousePosition,
         if (button_st.procAnim and button_st.changedButton and button_st.alpha < 255)
         {
             button_st.alpha += speed;
-            button.setColor(sf::Color(button_st.alpha, button_st.alpha, button_st.alpha, 255)); // Установка новой прозрачности спрайта
+            button.setColor(sf::Color(button_st.alpha, button_st.alpha, button_st.alpha, 255)); // РЈСЃС‚Р°РЅРѕРІРєР° РЅРѕРІРѕР№ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚Рё СЃРїСЂР°Р№С‚Р°
             if (button_st.alpha == 255) { button_st.procAnim = 0; }
         }
     }
     else
     {
-        if (button_st.procAnim and !button_st.changedButton) // Плавная отмена анимации затемнения
+        if (button_st.procAnim and !button_st.changedButton) // РџР»Р°РІРЅР°СЏ РѕС‚РјРµРЅР° Р°РЅРёРјР°С†РёРё Р·Р°С‚РµРјРЅРµРЅРёСЏ
         {
             button_st.alpha += speed;
-            button.setColor(sf::Color(button_st.alpha, button_st.alpha, button_st.alpha, 255)); // Установка новой прозрачности спрайта
+            button.setColor(sf::Color(button_st.alpha, button_st.alpha, button_st.alpha, 255)); // РЈСЃС‚Р°РЅРѕРІРєР° РЅРѕРІРѕР№ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚Рё СЃРїСЂР°Р№С‚Р°
             if (button_st.alpha == 255) { button_st.procAnim = 0; }
         }
 
-        if (button_st.alpha > 0 and button_st.changedButton) // Затемняем нажатую
+        if (button_st.alpha > 0 and button_st.changedButton) // Р—Р°С‚РµРјРЅСЏРµРј РЅР°Р¶Р°С‚СѓСЋ
         {
             button_st.alpha -= speed;
             button.setColor(sf::Color(button_st.alpha, button_st.alpha, button_st.alpha, 255));
@@ -46,7 +46,7 @@ void Reminder::SmoothButtonAnim(sf::Sprite& button, sf::Vector2i& mousePosition,
             if (button_st.alpha == 0) { button_st.procAnim = 0; }
         }
 
-        else if (button_st.alpha < 255 and !button_st.procAnim) // Возвращаем зеленую плавно
+        else if (button_st.alpha < 255 and !button_st.procAnim) // Р’РѕР·РІСЂР°С‰Р°РµРј Р·РµР»РµРЅСѓСЋ РїР»Р°РІРЅРѕ
         {
             button_st.alpha += speed;
             button.setTexture(buttonT);

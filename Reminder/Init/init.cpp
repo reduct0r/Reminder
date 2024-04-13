@@ -16,3 +16,4 @@ Reminder::TextureManager Reminder::InitTexturesMain()
 
 	return textureManagerMain;
 }
+//TEST

@@ -6,3 +6,4 @@ file(GLOB SOURCES "*.cpp" "*.h")
 
 # Создание библиотеки из файлов текущей поддиректории
 add_library(Init ${SOURCES})
+//TEST

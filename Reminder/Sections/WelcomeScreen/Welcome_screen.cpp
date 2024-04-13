@@ -1,31 +1,31 @@
-#include "H_Welcome_screen.h"
+п»ї#include "H_Welcome_screen.h"
 #include "../../UI Animations/UI_anims.h"
-
+//TEST
 void ShowWelcomeScreen()
 {
     Reminder::WindowSpecs mainWindowSpecs;
     sf::RenderWindow mainWindow(sf::VideoMode(mainWindowSpecs.getWidth(), mainWindowSpecs.getHeight()), mainWindowSpecs.getTitle());
     mainWindow.setFramerateLimit(mainWindowSpecs.getFPS());
-    Reminder::TextureManager textureManager = Reminder::InitTexturesMain();                      // Загрузка текстур
+    Reminder::TextureManager textureManager = Reminder::InitTexturesMain();                      // Р—Р°РіСЂСѓР·РєР° С‚РµРєСЃС‚СѓСЂ
 
     //DemoCard(mainWindow, textureManager, mainWindowSpecs);
     ShowUI(mainWindow, textureManager, mainWindowSpecs);
 }
 
-// Демонстрационная карточка
+// Р”РµРјРѕРЅСЃС‚СЂР°С†РёРѕРЅРЅР°СЏ РєР°СЂС‚РѕС‡РєР°
 void DemoCard(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManager, Reminder::WindowSpecs& mainWindowSpecs)
 {
     sf::Sprite sprite(textureManager.getTexture("card1"));
-    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);     // Точка поворота в центр спрайта
-    sprite.setPosition(mainWindowSpecs.getWidth() / 2, mainWindowSpecs.getHeight() / 2);         // Позиционирование спрайта в центре окна
+    sprite.setOrigin(sprite.getLocalBounds().width / 2, sprite.getLocalBounds().height / 2);     // РўРѕС‡РєР° РїРѕРІРѕСЂРѕС‚Р° РІ С†РµРЅС‚СЂ СЃРїСЂР°Р№С‚Р°
+    sprite.setPosition(mainWindowSpecs.getWidth() / 2, mainWindowSpecs.getHeight() / 2);         // РџРѕР·РёС†РёРѕРЅРёСЂРѕРІР°РЅРёРµ СЃРїСЂР°Р№С‚Р° РІ С†РµРЅС‚СЂРµ РѕРєРЅР°
 
-    float scaleX = 0.5f; // Исходный масштаб по X и Y
+    float scaleX = 0.5f; // РСЃС…РѕРґРЅС‹Р№ РјР°СЃС€С‚Р°Р± РїРѕ X Рё Y
     const float scaleY = 0.5f;
     sprite.setScale(scaleX, scaleY);
 
-    // Параметры для анимации сжатия и расширения (поворот)
-    bool squeezing = 1; // Направление изменения масштаба
-    bool changed = 0;   // Замена текстуры
+    // РџР°СЂР°РјРµС‚СЂС‹ РґР»СЏ Р°РЅРёРјР°С†РёРё СЃР¶Р°С‚РёСЏ Рё СЂР°СЃС€РёСЂРµРЅРёСЏ (РїРѕРІРѕСЂРѕС‚)
+    bool squeezing = 1; // РќР°РїСЂР°РІР»РµРЅРёРµ РёР·РјРµРЅРµРЅРёСЏ РјР°СЃС€С‚Р°Р±Р°
+    bool changed = 0;   // Р—Р°РјРµРЅР° С‚РµРєСЃС‚СѓСЂС‹
     while (mainWindow.isOpen())
     {
         sf::Event event;
@@ -43,7 +43,7 @@ void DemoCard(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureMan
             scaleX += 0.01;
         }
 
-        if (scaleX <= 0 or scaleX >= 0.5)         // Изменение направления анимации и текстуры при достижении границ   
+        if (scaleX <= 0 or scaleX >= 0.5)         // РР·РјРµРЅРµРЅРёРµ РЅР°РїСЂР°РІР»РµРЅРёСЏ Р°РЅРёРјР°С†РёРё Рё С‚РµРєСЃС‚СѓСЂС‹ РїСЂРё РґРѕСЃС‚РёР¶РµРЅРёРё РіСЂР°РЅРёС†   
         {
             if (scaleX <= 0 and changed == 0)
             {
@@ -86,17 +86,17 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
     float buttonWidth = button1.getLocalBounds().width;
     float buttonHeight = button1.getLocalBounds().height;
 
-    /* Масштабировние спрайтов в соотвествии с разрешением окна. Сохранение пропорций */
-    float scaleX = mainWindow.getSize().x / float(textureManager.getTexture("Background_Main").getSize().x); // масштаб по оси X
-    float scaleY = mainWindow.getSize().y / float(textureManager.getTexture("Background_Main").getSize().y); // масштаб по оси Y
+    /* РњР°СЃС€С‚Р°Р±РёСЂРѕРІРЅРёРµ СЃРїСЂР°Р№С‚РѕРІ РІ СЃРѕРѕС‚РІРµСЃС‚РІРёРё СЃ СЂР°Р·СЂРµС€РµРЅРёРµРј РѕРєРЅР°. РЎРѕС…СЂР°РЅРµРЅРёРµ РїСЂРѕРїРѕСЂС†РёР№ */
+    float scaleX = mainWindow.getSize().x / float(textureManager.getTexture("Background_Main").getSize().x); // РјР°СЃС€С‚Р°Р± РїРѕ РѕСЃРё X
+    float scaleY = mainWindow.getSize().y / float(textureManager.getTexture("Background_Main").getSize().y); // РјР°СЃС€С‚Р°Р± РїРѕ РѕСЃРё Y
     button1.setScale(scaleX, scaleY);
     button2.setScale(scaleX, scaleY);
 
-    // Предварительно устанавливаем позиции кнопок по середине окна c последующим смещением
+    // РџСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРѕР·РёС†РёРё РєРЅРѕРїРѕРє РїРѕ СЃРµСЂРµРґРёРЅРµ РѕРєРЅР° c РїРѕСЃР»РµРґСѓСЋС‰РёРј СЃРјРµС‰РµРЅРёРµРј
     float ButttonPosX = mainWindow.getSize().x / 2.0 - button1.getGlobalBounds().width / 2.0;
     float ButttonPosY = mainWindow.getSize().y / 2.0 - button1.getGlobalBounds().height / 2.0;
 
-    // Смещения
+    // РЎРјРµС‰РµРЅРёСЏ
     button1.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 6.0);
     button2.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 30.0);
 
