@@ -1,4 +1,5 @@
 #include "H_Welcome_screen.h"
+#include "../../UI Animations/UI_anims.h"
 
 void ShowWelcomeScreen()
 {
@@ -70,66 +71,58 @@ void DemoCard(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureMan
 
 void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManager, Reminder::WindowSpecs& mainWindowSpecs)
 {
-
     sf::Sprite background(textureManager.getTexture("Background_Main"));
-
-    float k = mainWindow.getSize().x / textureManager.getTexture("Background_Main").getSize().x;
-
     background.setScale(static_cast<float>(mainWindow.getSize().x) / textureManager.getTexture("Background_Main").getSize().x,
         static_cast<float>(mainWindow.getSize().y) / textureManager.getTexture("Background_Main").getSize().y);
+
+    sf::Texture button1T = textureManager.getTexture("Login_button");
+    sf::Texture button1hT = textureManager.getTexture("Login_button_hovered");
+    sf::Texture button2T = textureManager.getTexture("Reg_button");
+    sf::Texture button2hT = textureManager.getTexture("Reg_button_hovered");
 
 
     sf::Sprite button1(textureManager.getTexture("Login_button"));
     sf::Sprite button2(textureManager.getTexture("Reg_button"));
-
     float buttonWidth = button1.getLocalBounds().width;
     float buttonHeight = button1.getLocalBounds().height;
 
-    /* Масштабировние спрайтов в соотвествии с разрешением окна */
-    float scaleX = mainWindow.getSize().x / 1920.0f;; // масштаб по оси X
-    float scaleY = mainWindow.getSize().y / 1080.0f;; // масштаб по оси Y
+    /* Масштабировние спрайтов в соотвествии с разрешением окна. Сохранение пропорций */
+    float scaleX = mainWindow.getSize().x / float(textureManager.getTexture("Background_Main").getSize().x); // масштаб по оси X
+    float scaleY = mainWindow.getSize().y / float(textureManager.getTexture("Background_Main").getSize().y); // масштаб по оси Y
     button1.setScale(scaleX, scaleY);
     button2.setScale(scaleX, scaleY);
 
     // Предварительно устанавливаем позиции кнопок по середине окна c последующим смещением
-    float ButttonPosX = mainWindow.getSize().x / 2 - button1.getGlobalBounds().width / 2;
-    float ButttonPosY = mainWindow.getSize().y / 2 - button1.getGlobalBounds().height / 2;
+    float ButttonPosX = mainWindow.getSize().x / 2.0 - button1.getGlobalBounds().width / 2.0;
+    float ButttonPosY = mainWindow.getSize().y / 2.0 - button1.getGlobalBounds().height / 2.0;
 
+    // Смещения
     button1.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 6.0);
     button2.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 30.0);
 
+    sf::Vector2i mousePosition = sf::Mouse::getPosition(mainWindow);
+    sf::FloatRect buttonBounds = button1.getGlobalBounds();
 
+    Reminder::ButtonState button1st;
+    Reminder::ButtonState button2st;
 
     while (mainWindow.isOpen())
     {
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(mainWindow);
+
+        Reminder::SmoothButtonAnim(button1, mousePosition, button1T, button1hT, button1st);
+
+        Reminder::SmoothButtonAnim(button2, mousePosition, button2T, button2hT, button2st);
+
+
         sf::Event event;
         while (mainWindow.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 mainWindow.close();
+             
+            /*...*/
 
-            // Проверяем наведение на кнопки и меняем текстуру
-            if (event.type == sf::Event::MouseMoved) 
-            {
-                sf::Vector2i mousePosition = sf::Mouse::getPosition(mainWindow);
-                if (button1.getGlobalBounds().contains(mousePosition.x, mousePosition.y)) 
-                {
-                    button1.setTexture(textureManager.getTexture("Login_button_hovered"));
-                }
-                else 
-                {
-                    button1.setTexture(textureManager.getTexture("Login_button"));
-                }
-
-                if (button2.getGlobalBounds().contains(mousePosition.x, mousePosition.y)) 
-                {
-                    button2.setTexture(textureManager.getTexture("Reg_button_hovered"));
-                }
-                else 
-                {
-                    button2.setTexture(textureManager.getTexture("Reg_button"));
-                }
-            }
         }
 
         mainWindow.clear();
