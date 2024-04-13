@@ -10,6 +10,7 @@ set(HEADERS "Reminder/Init/H_Init.h" "Reminder/Sections/Settings/H_settings.h" "
 project(Reminder)
 
 # Файлы для копирования
+# TEST
 if(WIN32)
     add_executable (Reminder ${SOURCES} ${HEADERS})
 
