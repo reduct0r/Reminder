@@ -21,10 +21,6 @@ set(HEADERS
 set(project Reminder)
 
 # Файлы для копирования
-if (WIN32)
-    add_executable(${project}  ${SOURCES} ${HEADERS})
-
-# Файлы для копирования
 # TEST
 if(WIN32)
     add_executable (Reminder ${SOURCES} ${HEADERS})
