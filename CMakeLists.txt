@@ -14,6 +14,7 @@ project(Reminder)
 include_directories(Init)
 
 # Файлы для копирования
+# TEST
 if(WIN32)
     add_executable (Reminder ${SOURCES} ${HEADERS})
 
