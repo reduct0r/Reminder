@@ -1,14 +1,28 @@
-﻿cmake_minimum_required(VERSION 3.8)
-set(CMAKE_CXX_STANDARD 20)
+﻿set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+project(Reminder)
+
 # Установка переменных среды
 include_directories(${CMAKE_SOURCE_DIR}/Reminder/Sections/Settings)
-set(SOURCES "Reminder/main.cpp" "Reminder/Init/init.cpp" "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp")
-set(HEADERS "Reminder/Init/H_Init.h" "Reminder/Sections/Settings/H_settings.h" "Reminder/Sections/WelcomeScreen/H_Welcome_screen.h")
-# Добавление источников в исполняемый файл проекта
-add_executable (Reminder ${SOURCES} ${HEADERS})
+set(SOURCES
+        "Reminder/main.cpp"
+        "Reminder/Init/init.cpp"
+        "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp"
+        "Reminder/UI Animations/UI_anims.cpp"
+)
+set(HEADERS
+        "Reminder/Init/H_Init.h"
+        "Reminder/Sections/Settings/H_settings.h"
+        "Reminder/Reminder.h"
+)
 
-include_directories(Init)
+# Добавление источников в исполняемый файл проекта
+set(project Reminder)
+
+# Файлы для копирования
+if (WIN32)
+    add_executable(${project}  ${SOURCES} ${HEADERS})
 
 # Файлы для копирования
 # TEST
@@ -19,40 +33,69 @@ if(WIN32)
     set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/out/build/x64-debug")
     file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources DESTINATION ${RESOURCES_DIR})
 
-# Подключение SFML для работы "из коробки"
-set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third-party/sfml")			# Директория для хранения SFML
-set(SFML_URL https://github.com/reduct0r/Compiled-version-of-sfml.git)	# Репозиторий со стабильной динамической версией SFML
-set(BRANCH_NAME "master")												# Ветка
+    # Подключение SFML для работы "из коробки"
+    set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third-party/sfml")            # Директория для хранения SFML
+    set(SFML_URL https://github.com/reduct0r/Compiled-version-of-sfml.git)  # Репозиторий со стабильной динамической версией SFML
+    set(BRANCH_NAME "master")                        # Ветка
 
-# Создать папку назначения, если она не существует
-file(MAKE_DIRECTORY ${SFML_DIR})
+    # Создать папку назначения, если она не существует
+    file(MAKE_DIRECTORY ${SFML_DIR})
 
-# Загрузить библиотеку SFML с GitHub
-execute_process(COMMAND git clone --branch ${BRANCH_NAME} --single-branch ${SFML_URL} ${SFML_DIR})
-message("Успешно")
-# Файлы для копирования
+    # Загрузить библиотеку SFML с GitHub
+    execute_process(
+            COMMAND git clone --branch ${BRANCH_NAME} --single-branch ${SFML_URL} ${SFML_DIR}
+            RESULT_VARIABLE GIT_RESULT
+    )
 
+    # Проверка результата выполнения команды git clone
+    if (GIT_RESULT EQUAL "0")
+        message("Успешно!")
+    else ()
+        message("Не удалось выполнить команду git clone.")
+    endif ()
 
-if(WIN32)
-set(files_to_copy
-    ${SFML_DIR}/SFML-2.6.1/bin/openal32.dll
-    ${SFML_DIR}/SFML-2.6.1/bin/sfml-audio-d-2.dll
-    ${SFML_DIR}/SFML-2.6.1/bin/sfml-graphics-d-2.dll
-    ${SFML_DIR}/SFML-2.6.1/bin/sfml-network-d-2.dll
-    ${SFML_DIR}/SFML-2.6.1/bin/sfml-system-d-2.dll
-    ${SFML_DIR}/SFML-2.6.1/bin/sfml-window-d-2.dll
-)
-# Копировать dll файлы в build
-foreach(file ${files_to_copy})
-    file(COPY ${file} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-endforeach()
-endif()
-# Подключение библиотек (КОНФИГРУРАЦИЯ DEBUG!)
-target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-graphics-d.lib)
-target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-audio-d.lib)
-target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-network-d.lib)
-target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-system-d.lib)
-target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-window-d.lib)
+    set(files_to_copy
+            ${SFML_DIR}/SFML-2.6.1/bin/openal32.dll
+            ${SFML_DIR}/SFML-2.6.1/bin/sfml-audio-d-2.dll
+            ${SFML_DIR}/SFML-2.6.1/bin/sfml-graphics-d-2.dll
+            ${SFML_DIR}/SFML-2.6.1/bin/sfml-network-d-2.dll
+            ${SFML_DIR}/SFML-2.6.1/bin/sfml-system-d-2.dll
+            ${SFML_DIR}/SFML-2.6.1/bin/sfml-window-d-2.dll
+    )
+    # Копировать dll файлы в build
+    foreach (file ${files_to_copy})
+        file(COPY ${file} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+    endforeach ()
 
-# Заголовочные файлы библиотеки
-include_directories(${SFML_DIR}/SFML-2.6.1/include)	
+    # Подключение библиотек (КОНФИГРУРАЦИЯ DEBUG!)
+    target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-graphics-d.lib)
+    target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-audio-d.lib)
+    target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-network-d.lib)
+    target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-system-d.lib)
+    target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-window-d.lib)
+
+    # Заголовочные файлы библиотеки
+    include_directories(${SFML_DIR}/SFML-2.6.1/include)
+
+elseif (APPLE)
+    find_package(SFML COMPONENTS graphics audio REQUIRED)
+
+    set(SFML_INCLUDE_DIRS /opt/homebrew/include/)
+
+    set(SFML_LIBRARIES /opt/homebrew/lib/libsfml-audio.dylib
+            /opt/homebrew/lib/libsfml-graphics.dylib
+            /opt/homebrew/lib/libsfml-network.dylib
+            /opt/homebrew/lib/libsfml-system.dylib
+            /opt/homebrew/lib/libsfml-window.dylib
+    )
+
+    message(SFML_INCLUDE_DIRS="${SFML_INCLUDE_DIRS}")
+    message(SFML_LIBRARIES="${SFML_LIBRARIES}")
+
+    include_directories(${SFML_INCLUDE_DIRS})
+    set(${project}_SOURCE_LIST ${${project}_SOURCES})
+
+    add_executable(${project} ${SOURCES} ${HEADERS})
+
+    target_link_libraries(${project} ${SFML_LIBRARIES})
+endif ()

@@ -1,5 +1,5 @@
 #include <string>
-
+//TEST
 namespace Reminder
 {
 	class WindowSpecs

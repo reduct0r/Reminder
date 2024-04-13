@@ -38,3 +38,4 @@ namespace Reminder
     // Функции Init
     TextureManager InitTexturesMain();
 }
+//TEST
