@@ -76,6 +76,9 @@ if(WIN32)
 elseif (APPLE)
     find_package(SFML COMPONENTS graphics audio REQUIRED)
 
+    set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake-build-debug")
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources DESTINATION ${RESOURCES_DIR})
+
     set(SFML_INCLUDE_DIRS /opt/homebrew/include/)
 
     set(SFML_LIBRARIES /opt/homebrew/lib/libsfml-audio.dylib
