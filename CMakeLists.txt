@@ -1,44 +1,44 @@
-﻿set(CMAKE_CXX_STANDARD 20)
+﻿cmake_minimum_required(VERSION 3.28)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(Reminder)
 
 # Установка переменных среды
 include_directories(${CMAKE_SOURCE_DIR}/Reminder/Sections/Settings)
+
 set(SOURCES
         "Reminder/main.cpp"
         "Reminder/Init/init.cpp"
         "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp"
         "Reminder/UI Animations/UI_anims.cpp"
-        Reminder/Database/Database.cpp
-        Reminder/Database/Database.h
+        "Reminder/Database/Database.cpp"
+        "Reminder/Database/Database.h"
 )
+
 set(HEADERS
         "Reminder/Init/H_Init.h"
         "Reminder/Sections/Settings/H_settings.h"
         "Reminder/Reminder.h"
-        Reminder/Database/Database.cpp
-        Reminder/Database/Database.h
+        "Reminder/Database/Database.cpp"
+        "Reminder/Database/Database.h"
 )
 
 # Добавление источников в исполняемый файл проекта
 set(project Reminder)
 
 # Файлы для копирования
-# TEST
 if(WIN32)
-    add_executable (Reminder ${SOURCES} ${HEADERS}
-            Reminder/Database/Database.cpp
-            Reminder/Database/Database.h)
+    add_executable (Reminder ${SOURCES} ${HEADERS})
 
     # Копируем папку с ресурсами в out
     set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/out/build/x64-debug")
     file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources DESTINATION ${RESOURCES_DIR})
 
     # Подключение SFML для работы "из коробки"
-    set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third-party/sfml")            # Директория для хранения SFML
-    set(SFML_URL https://github.com/reduct0r/Compiled-version-of-sfml.git)  # Репозиторий со стабильной динамической версией SFML
-    set(BRANCH_NAME "master")                        # Ветка
+    set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third-party/sfml") # Директория для хранения SFML
+    set(SFML_URL https://github.com/reduct0r/Compiled-version-of-sfml.git) # Репозиторий со стабильной динамической версией SFML
+    set(BRANCH_NAME "master") # Ветка
 
     # Создать папку назначения, если она не существует
     file(MAKE_DIRECTORY ${SFML_DIR})
@@ -64,6 +64,7 @@ if(WIN32)
             ${SFML_DIR}/SFML-2.6.1/bin/sfml-system-d-2.dll
             ${SFML_DIR}/SFML-2.6.1/bin/sfml-window-d-2.dll
     )
+
     # Копировать dll файлы в build
     foreach (file ${files_to_copy})
         file(COPY ${file} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
@@ -82,11 +83,25 @@ if(WIN32)
 elseif (APPLE)
     find_package(SFML COMPONENTS graphics audio REQUIRED)
 
+    # Setting postgre include dirs
+    set(POSTGRESQL_INCLUDE_DIRS /opt/homebrew/include/
+            /opt/homebrew/include/bsoncxx/pqxx
+    )
+
+    # Setting postre libraries
+    set(POSTGRESQL_LIBRARIES
+            /opt/homebrew/lib/libpqxx-7.9.dylib
+            /opt/homebrew/lib/libpqxx.dylib
+    )
+
+    # Coping textures in build directory
     set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake-build-debug")
     file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources DESTINATION ${RESOURCES_DIR})
 
+    # Setting SFML include dirs
     set(SFML_INCLUDE_DIRS /opt/homebrew/include/)
 
+    # Setting SFML libraries
     set(SFML_LIBRARIES /opt/homebrew/lib/libsfml-audio.dylib
             /opt/homebrew/lib/libsfml-graphics.dylib
             /opt/homebrew/lib/libsfml-network.dylib
@@ -94,15 +109,17 @@ elseif (APPLE)
             /opt/homebrew/lib/libsfml-window.dylib
     )
 
-    message(SFML_INCLUDE_DIRS="${SFML_INCLUDE_DIRS}")
-    message(SFML_LIBRARIES="${SFML_LIBRARIES}")
-
+    # Adding include_directories
+    include_directories(${POSTGRESQL_INCLUDE_DIRS})
     include_directories(${SFML_INCLUDE_DIRS})
+
+    # Setting sources lists
     set(${project}_SOURCE_LIST ${${project}_SOURCES})
 
-    add_executable(${project} ${SOURCES} ${HEADERS}
-            Reminder/Database/Database.cpp
-            Reminder/Database/Database.h)
+    # Adding executable files
+    add_executable(${project} ${SOURCES} ${HEADERS})
 
+    # Connecting libraries
     target_link_libraries(${project} ${SFML_LIBRARIES})
+    target_link_libraries(${project} ${POSTGRESQL_LIBRARIES})
 endif ()
