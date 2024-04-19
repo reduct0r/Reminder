@@ -10,11 +10,15 @@ set(SOURCES
         "Reminder/Init/init.cpp"
         "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp"
         "Reminder/UI Animations/UI_anims.cpp"
+        Reminder/Database/Database.cpp
+        Reminder/Database/Database.h
 )
 set(HEADERS
         "Reminder/Init/H_Init.h"
         "Reminder/Sections/Settings/H_settings.h"
         "Reminder/Reminder.h"
+        Reminder/Database/Database.cpp
+        Reminder/Database/Database.h
 )
 
 # Добавление источников в исполняемый файл проекта
@@ -23,7 +27,9 @@ set(project Reminder)
 # Файлы для копирования
 # TEST
 if(WIN32)
-    add_executable (Reminder ${SOURCES} ${HEADERS})
+    add_executable (Reminder ${SOURCES} ${HEADERS}
+            Reminder/Database/Database.cpp
+            Reminder/Database/Database.h)
 
     # Копируем папку с ресурсами в out
     set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/out/build/x64-debug")
@@ -94,7 +100,9 @@ elseif (APPLE)
     include_directories(${SFML_INCLUDE_DIRS})
     set(${project}_SOURCE_LIST ${${project}_SOURCES})
 
-    add_executable(${project} ${SOURCES} ${HEADERS})
+    add_executable(${project} ${SOURCES} ${HEADERS}
+            Reminder/Database/Database.cpp
+            Reminder/Database/Database.h)
 
     target_link_libraries(${project} ${SFML_LIBRARIES})
 endif ()

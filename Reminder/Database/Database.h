@@ -1,0 +1,12 @@
+//
+// Created by Exist on 19.04.2024.
+//
+
+#ifndef REMINDER_REMINDER_DATABASE_DATABASE_H_
+#define REMINDER_REMINDER_DATABASE_DATABASE_H_
+
+class Database {
+
+};
+
+#endif //REMINDER_REMINDER_DATABASE_DATABASE_H_
