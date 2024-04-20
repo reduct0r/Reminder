@@ -1,6 +1,7 @@
 ﻿#include "UI_anims.h"
 #include <iostream>
-//TEST
+
+
 void Reminder::SmoothButtonAnim(sf::Sprite& button, sf::Vector2i& mousePosition, sf::Texture& buttonT, sf::Texture& button_hT, ButtonState& button_st)
 {
     float speed = 8.5;
@@ -54,4 +55,41 @@ void Reminder::SmoothButtonAnim(sf::Sprite& button, sf::Vector2i& mousePosition,
             button_st.changedButton = 0;
         }
     }
+}
+
+bool Reminder::ShowRegisterField(sf::RenderWindow& mainWindow, sf::Sprite& button_log, sf::Sprite& button_reg, sf::Sprite& logo, sf::Sprite& log_field, sf::Sprite& pass_field, bool& reg)
+{
+
+    static double start_pos = button_reg.getPosition().y;
+    double dist = button_reg.getPosition().y;
+    double PosX = button_reg.getPosition().x;
+
+    static double start_pos_logo = logo.getPosition().y;
+    double dist_logo = logo.getPosition().y;
+    double PosX_logo = logo.getPosition().x;
+
+    double swipe_speed = 2;
+    double swipe_speed_logo = 1;
+
+    sf::IntRect TextureRect = button_log.getTextureRect();  // запоминаем
+    button_log.setTextureRect(sf::IntRect(0, 0, 0, 0));      // скрываем
+   
+
+    if (dist - start_pos >= mainWindow.getSize().x / 10.0)
+    {
+        log_field.setColor(sf::Color(255, 255, 255, 255));
+        pass_field.setColor(sf::Color(255, 255, 255, 255));
+        //reg = 0;
+        return 1;
+    }
+
+    dist += swipe_speed;
+    sf::Vector2f newPosition = sf::Vector2f(PosX, dist); // Новая позиция спрайта с учетом смещения вниз
+    button_reg.setPosition(newPosition);
+
+    dist_logo -= swipe_speed_logo;
+    sf::Vector2f newPosition_logo = sf::Vector2f(PosX_logo, dist_logo);
+    logo.setPosition(newPosition_logo);
+
+    return 0;
 }

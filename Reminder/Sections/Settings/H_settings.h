@@ -1,5 +1,5 @@
 #include <string>
-//TEST
+
 namespace Reminder
 {
 	class WindowSpecs
@@ -14,7 +14,7 @@ namespace Reminder
         WindowSpecs():
             Title("Reminder"),
             Width(960),
-            Height(540),
+            Height(570),
             FPS(120){}
 
         void setTitle(const std::string& title) 

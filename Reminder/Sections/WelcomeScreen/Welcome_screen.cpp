@@ -1,6 +1,6 @@
 ﻿#include "H_Welcome_screen.h"
-#include "../../UI Animations/UI_anims.h"
-//TEST
+#include "../../UI/UI_anims.h"
+
 void ShowWelcomeScreen()
 {
     Reminder::WindowSpecs mainWindowSpecs;
@@ -81,54 +81,139 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
     sf::Texture button2hT = textureManager.getTexture("Reg_button_hovered");
 
 
-    sf::Sprite button1(textureManager.getTexture("Login_button"));
-    sf::Sprite button2(textureManager.getTexture("Reg_button"));
-    float buttonWidth = button1.getLocalBounds().width;
-    float buttonHeight = button1.getLocalBounds().height;
+    sf::Sprite button_log(button1T);
+    sf::Sprite button_reg(button2T);
+    sf::Sprite logo(textureManager.getTexture("logo"));
+    sf::Sprite log_field(textureManager.getTexture("login_field"));
+    sf::Sprite pass_field(textureManager.getTexture("passw_field"));
+
+    float buttonWidth = button_log.getLocalBounds().width;
+    float buttonHeight = button_log.getLocalBounds().height;
 
     /* Масштабировние спрайтов в соотвествии с разрешением окна. Сохранение пропорций */
     float scaleX = mainWindow.getSize().x / float(textureManager.getTexture("Background_Main").getSize().x); // масштаб по оси X
     float scaleY = mainWindow.getSize().y / float(textureManager.getTexture("Background_Main").getSize().y); // масштаб по оси Y
-    button1.setScale(scaleX, scaleY);
-    button2.setScale(scaleX, scaleY);
+    button_log.setScale(scaleX, scaleY);
+    button_reg.setScale(scaleX, scaleY);
+    logo.setScale(scaleX, scaleY);
 
-    // Предварительно устанавливаем позиции кнопок по середине окна c последующим смещением
-    float ButttonPosX = mainWindow.getSize().x / 2.0 - button1.getGlobalBounds().width / 2.0;
-    float ButttonPosY = mainWindow.getSize().y / 2.0 - button1.getGlobalBounds().height / 2.0;
+    // Предварительно устанавливаем позиции по середине окна c последующим смещением
+    float ButttonPosX = mainWindow.getSize().x / 2.0 - button_log.getGlobalBounds().width / 2.0;
+    float ButttonPosY = mainWindow.getSize().y / 2.0 - button_log.getGlobalBounds().height / 2.0;
+
+    float LogoPosX = mainWindow.getSize().x / 2.0 - logo.getGlobalBounds().width / 2.0;
+    float LogoPosY = mainWindow.getSize().y / 2.0 - logo.getGlobalBounds().height / 2.0;
+
+    /* ======== ПОЛЯ ======== */
+    log_field.setColor(sf::Color(255, 255, 255, 0));
+    pass_field.setColor(sf::Color(255, 255, 255, 0));
+    float FieldPosX = mainWindow.getSize().x / 2.0 - log_field.getGlobalBounds().width / 2.0;
+    float FieldPosY = mainWindow.getSize().y / 2.0 - log_field.getGlobalBounds().height / 2.0;
+    log_field.setScale(mainWindow.getSize().x / 1900.0, mainWindow.getSize().x / 1900.0);
+    pass_field.setScale(log_field.getScale());
+    log_field.setPosition(ButttonPosX, ButttonPosY - mainWindow.getSize().y / 15.0);
+    pass_field.setPosition(ButttonPosX, log_field.getPosition().y + mainWindow.getSize().y / 8.5);
 
     // Смещения
-    button1.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 6.0);
-    button2.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 30.0);
+    button_log.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 6.0);
+    button_reg.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 30.0);
+    logo.setPosition(LogoPosX + mainWindow.getSize().x / 150.0, LogoPosY - mainWindow.getSize().y / 6.0);
 
     sf::Vector2i mousePosition = sf::Mouse::getPosition(mainWindow);
-    sf::FloatRect buttonBounds = button1.getGlobalBounds();
+    sf::FloatRect buttonBounds = button_log.getGlobalBounds();
 
     Reminder::ButtonState button1st;
     Reminder::ButtonState button2st;
+
+    UI::TextBox Login_textBox;
+    Login_textBox.setSize(mainWindow.getSize().y / 2.1, mainWindow.getSize().x / 40.0);
+    Login_textBox.setPosition(ButttonPosX + mainWindow.getSize().x / 20.0, ButttonPosY - mainWindow.getSize().y / 23.0);
+    Login_textBox.setBorder(0);
+    
+    UI::TextBox Password_textBox;
+    Password_textBox.setSize(mainWindow.getSize().y / 2.1, mainWindow.getSize().x / 40.0);
+    Password_textBox.setPosition(ButttonPosX + mainWindow.getSize().x / 20.0, ButttonPosY + mainWindow.getSize().y / 13.0);;
+    Password_textBox.setBorder(0);
+
+    sf::String Login;
+    sf::String Password;
+
+    bool reg = 0;
 
     while (mainWindow.isOpen())
     {
         sf::Vector2i mousePosition = sf::Mouse::getPosition(mainWindow);
 
-        Reminder::SmoothButtonAnim(button1, mousePosition, button1T, button1hT, button1st);
+        Reminder::SmoothButtonAnim(button_log, mousePosition, button1T, button1hT, button1st);
 
-        Reminder::SmoothButtonAnim(button2, mousePosition, button2T, button2hT, button2st);
-
+        Reminder::SmoothButtonAnim(button_reg, mousePosition, button2T, button2hT, button2st);
 
         sf::Event event;
         while (mainWindow.pollEvent(event))
         {
+            Login_textBox.handleEvent(event);
+            Password_textBox.handleEvent(event);
+
             if (event.type == sf::Event::Closed)
+            {
                 mainWindow.close();
-             
-            /*...*/
+            }
+
+            if (event.type == sf::Event::MouseButtonPressed) 
+            {
+                if (event.mouseButton.button == sf::Mouse::Left) 
+                {
+                    // Проверка, было ли нажатие внутри кнопки регистрации
+                    if (button_reg.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y) and reg == 0) 
+                    {
+                        reg = 1;
+                    }
+                    // Получение логина и пароля по нажатию кнопки регистрации после ввода текста в поля
+                    else if (button_reg.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y) and reg == 1 and Login_textBox.getCurrentText() != "" and Password_textBox.getCurrentText() != "")
+                    {
+                        Login = Login_textBox.getCurrentText();
+                        Password = Password_textBox.getCurrentText();
+                        
+                        std::string L = Login;
+                        std::string P = Password;
+                        std::cout << L << " " << P << "\n";
+                        reg = 0;
+
+                        /* ЗАРЕГИСТРИРОВАТЬ ПОЛЬЗОВАТЕЛЯ, ПЕРЕХОД В ГЛАВНОЕ МЕНЮ */
+                    }
+
+                    // Проверка, было ли нажатие внутри кнопки входа
+                    if (button_log.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y) and reg == 0)
+                    {
+                        /* ПРОЦЕСС ВХОДА, ЗАТЕМ ГЛАВНОЕ МЕНЮ*/
+                    }
+                }
+            }
+
+            if (event.mouseButton.button == sf::Keyboard::Escape) // Перезапустить вкладку
+            {
+                ShowUI(mainWindow, textureManager, mainWindowSpecs);
+            }
 
         }
-
         mainWindow.clear();
+
         mainWindow.draw(background);
-        mainWindow.draw(button1);
-        mainWindow.draw(button2);
+        mainWindow.draw(button_log);
+        mainWindow.draw(button_reg);
+        mainWindow.draw(logo);
+        mainWindow.draw(log_field);
+        mainWindow.draw(pass_field);
+
+        if (reg) // Процесс регистрации
+        {
+            if (Reminder::ShowRegisterField(mainWindow, button_log, button_reg, logo, log_field, pass_field, reg))
+            {
+                Login_textBox.draw(mainWindow);
+                Password_textBox.draw(mainWindow);
+            }
+        }
+
         mainWindow.display();
     }
 }

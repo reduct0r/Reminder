@@ -14,6 +14,12 @@ Reminder::TextureManager Reminder::InitTexturesMain()
 	textureManagerMain.loadTexture("Reg_button", "Resources/Textures/UI/Welcome Screen/Reg button first.png");
 	textureManagerMain.loadTexture("Reg_button_hovered", "Resources/Textures/UI/Welcome Screen/Reg button second.png");
 
+	textureManagerMain.loadTexture("logo", "Resources/Textures/UI/Welcome Screen/Logo reminder.png");
+
+	textureManagerMain.loadTexture("login_field", "Resources/Textures/UI/Welcome Screen/login.png");
+	textureManagerMain.loadTexture("passw_field", "Resources/Textures/UI/Welcome Screen/password.png");
+
+
 	return textureManagerMain;
 }
 //TEST

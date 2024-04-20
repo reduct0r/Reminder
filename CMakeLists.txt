@@ -9,13 +9,13 @@ set(SOURCES
         "Reminder/main.cpp"
         "Reminder/Init/init.cpp"
         "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp"
-        "Reminder/UI Animations/UI_anims.cpp"
-)
+        "Reminder/UI/UI_anims.cpp"
+        "Reminder/UI/TextBox.cpp")
 set(HEADERS
         "Reminder/Init/H_Init.h"
         "Reminder/Sections/Settings/H_settings.h"
         "Reminder/Reminder.h"
-)
+        "Reminder/UI/TextBox.h")
 
 # Добавление источников в исполняемый файл проекта
 set(project Reminder)
@@ -23,7 +23,7 @@ set(project Reminder)
 # Файлы для копирования
 # TEST
 if(WIN32)
-    add_executable (Reminder ${SOURCES} ${HEADERS})
+    add_executable (Reminder ${SOURCES} ${HEADERS} "Reminder/UI/TextBox.h")
 
     # Копируем папку с ресурсами в out
     set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/out/build/x64-debug")
@@ -32,7 +32,7 @@ if(WIN32)
     # Подключение SFML для работы "из коробки"
     set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third-party/sfml")            # Директория для хранения SFML
     set(SFML_URL https://github.com/reduct0r/Compiled-version-of-sfml.git)  # Репозиторий со стабильной динамической версией SFML
-    set(BRANCH_NAME "master")                        # Ветка
+    set(BRANCH_NAME "master")                                               # Ветка
 
     # Создать папку назначения, если она не существует
     file(MAKE_DIRECTORY ${SFML_DIR})
