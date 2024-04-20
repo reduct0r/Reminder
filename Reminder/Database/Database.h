@@ -3,12 +3,14 @@
 
 #include <string>
 #include "pqxx/pqxx"
+#include <iostream>
 
+namespace {
 class Database {
  private:
   static std::string connectionString;
  public:
 
 };
-
+}
 #endif
