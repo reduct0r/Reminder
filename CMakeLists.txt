@@ -10,12 +10,15 @@ set(SOURCES
         "Reminder/Init/init.cpp"
         "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp"
         "Reminder/UI/UI_anims.cpp"
-        "Reminder/UI/TextBox.cpp")
+        "Reminder/UI/TextBox.cpp"
+        "Reminder/Sections/Main menu/Main_menu.cpp")
 set(HEADERS
         "Reminder/Init/H_Init.h"
         "Reminder/Sections/Settings/H_settings.h"
         "Reminder/Reminder.h"
-        "Reminder/UI/TextBox.h")
+        "Reminder/UI/TextBox.h"
+        "Reminder/Sections/WelcomeScreen/H_Welcome_screen.h"
+        "Reminder/Sections/Main menu/H_Main_menu.h")
 
 # Добавление источников в исполняемый файл проекта
 set(project Reminder)

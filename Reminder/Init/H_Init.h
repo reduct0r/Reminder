@@ -1,4 +1,4 @@
-// Инициализация при запуске
+п»ї// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ РїСЂРё Р·Р°РїСѓСЃРєРµ
 
 #include <unordered_map>
 #include <string>
@@ -28,14 +28,14 @@ namespace Reminder
             }
         }
 
-
         const sf::Texture& getTexture(const std::string& key)
         {
             return m_textures[key];
         }
     };
 
-    // Функции Init
+    // Р¤СѓРЅРєС†РёРё Init
+    TextureManager InitTexturesWelcome();
     TextureManager InitTexturesMain();
 }
 //TEST

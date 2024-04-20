@@ -1,12 +1,11 @@
 ﻿#include "H_Welcome_screen.h"
-#include "../../UI/UI_anims.h"
 
 void ShowWelcomeScreen()
 {
     Reminder::WindowSpecs mainWindowSpecs;
     sf::RenderWindow mainWindow(sf::VideoMode(mainWindowSpecs.getWidth(), mainWindowSpecs.getHeight()), mainWindowSpecs.getTitle());
     mainWindow.setFramerateLimit(mainWindowSpecs.getFPS());
-    Reminder::TextureManager textureManager = Reminder::InitTexturesMain();                      // Загрузка текстур
+    Reminder::TextureManager textureManager = Reminder::InitTexturesWelcome();                      // Загрузка текстур
 
     //DemoCard(mainWindow, textureManager, mainWindowSpecs);
     ShowUI(mainWindow, textureManager, mainWindowSpecs);
@@ -180,19 +179,26 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
                         reg = 0;
 
                         /* ЗАРЕГИСТРИРОВАТЬ ПОЛЬЗОВАТЕЛЯ, ПЕРЕХОД В ГЛАВНОЕ МЕНЮ */
+
+                        ShowMainMenu(mainWindow);
+                        return;
                     }
 
                     // Проверка, было ли нажатие внутри кнопки входа
                     if (button_log.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y) and reg == 0)
                     {
                         /* ПРОЦЕСС ВХОДА, ЗАТЕМ ГЛАВНОЕ МЕНЮ*/
+
+                        ShowMainMenu(mainWindow);
+                        return;
                     }
                 }
             }
 
-            if (event.mouseButton.button == sf::Keyboard::Escape) // Перезапустить вкладку
+            if (event.mouseButton.button == sf::Keyboard::Escape and reg == 1) // Перезапустить вкладку
             {
                 ShowUI(mainWindow, textureManager, mainWindowSpecs);
+                return;
             }
 
         }
