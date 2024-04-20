@@ -142,6 +142,7 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
     sf::String Password;
 
     bool reg = 0;
+    bool transit = 0;
 
     while (mainWindow.isOpen())
     {
@@ -184,8 +185,7 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
 
                         /* ЗАРЕГИСТРИРОВАТЬ ПОЛЬЗОВАТЕЛЯ, ПЕРЕХОД В ГЛАВНОЕ МЕНЮ */
 
-                        ShowMainMenu(mainWindow);
-                        return;
+                        transit = 1;
                     }
 
                     else if (github.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
@@ -211,10 +211,7 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
                     // Проверка, было ли нажатие внутри кнопки входа
                     else if (button_log.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y) and reg == 0)
                     {
-                        /* ПРОЦЕСС ВХОДА, ЗАТЕМ ГЛАВНОЕ МЕНЮ*/
-
-                        ShowMainMenu(mainWindow);
-                        return;
+                        transit = 1;
                     }
                 }
             }
@@ -224,7 +221,6 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
                 ShowUI(mainWindow, textureManager, mainWindowSpecs);
                 return;
             }
-
         }
         mainWindow.clear();
 
@@ -244,6 +240,15 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
                 Password_textBox.draw(mainWindow);
             }
             mainWindow.draw(back);
+        }
+        if (transit)
+        {
+            if (Reminder::JumpAnim(mainWindow, button_log, button_reg, logo, log_field, pass_field))
+            {
+                ShowMainMenu(mainWindow);
+                transit = 0;
+                return;
+            }
         }
 
         mainWindow.display();

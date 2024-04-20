@@ -93,3 +93,129 @@ bool Reminder::ShowRegisterField(sf::RenderWindow& mainWindow, sf::Sprite& butto
 
     return 0;
 }
+
+void Reminder::BoneReturn()
+{
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Drag and Drop Demo with Animation");
+    sf::Texture texture;
+    window.setFramerateLimit(120);
+    if (!texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Github icon.png")) {
+        return;
+    }
+
+    sf::Sprite sprite;
+    sprite.setTexture(texture);
+    sf::Vector2f startPosition(400.f, 200.f); // Начальная позиция спрайта
+    sprite.setPosition(startPosition);
+
+    bool isDragging = false;
+    sf::Vector2f oldPos;
+    bool returnToStart = false;
+    const float acceleration = 0.2f; // Ускорение возврата
+    sf::Vector2f velocity(0.f, 0.f); // Скорость возврата
+
+    // Определение границ области для спрайта
+    constexpr float leftBound = 0.f;
+    constexpr float rightBound = 800.f;
+    constexpr float topBound = 0.f;
+    constexpr float bottomBound = 600.f;
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            switch (event.type) {
+            case sf::Event::Closed:
+                window.close();
+                break;
+
+            case sf::Event::MouseButtonPressed:
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (sprite.getGlobalBounds().contains(window.mapPixelToCoords(sf::Mouse::getPosition(window)))) {
+                        isDragging = true;
+                        returnToStart = false;
+                        oldPos = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
+                    }
+                }
+                break;
+
+            case sf::Event::MouseButtonReleased:
+                if (event.mouseButton.button == sf::Mouse::Left && isDragging) {
+                    isDragging = false;
+                    returnToStart = true;
+                }
+                break;
+
+            case sf::Event::MouseMoved:
+                if (isDragging) {
+                    const sf::Vector2f newPos = window.mapPixelToCoords(sf::Vector2i(event.mouseMove.x, event.mouseMove.y));
+                    const sf::Vector2f deltaPos = newPos - oldPos;
+                    sf::Vector2f newPosition = sprite.getPosition() + deltaPos;
+
+                    // Ограничение движения спрайта границами окна
+                    newPosition.x = std::max(leftBound, std::min(newPosition.x, rightBound - sprite.getGlobalBounds().width));
+                    newPosition.y = std::max(topBound, std::min(newPosition.y, bottomBound - sprite.getGlobalBounds().height));
+
+                    sprite.setPosition(newPosition);
+                    oldPos = newPos;
+                }
+                break;
+            }
+        }
+        if (returnToStart) {
+            sf::Vector2f direction = startPosition - sprite.getPosition();
+            float length = std::sqrt(direction.x * direction.x + direction.y * direction.y);
+
+            if (length > 2) {
+                direction /= length;
+                // Плавное уменьшение скорости, когда спрайт приближается к начальной позиции
+                velocity += direction * acceleration;
+                float speed = std::sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+                if (speed * speed > length) {
+                    // Уменьшение скорости, если она слишком велика по сравнению с оставшимся расстоянием
+                    speed = std::sqrt(length);
+                    velocity = direction * speed;
+                }
+                sprite.move(velocity);
+            }
+            else {
+                sprite.setPosition(startPosition);
+                returnToStart = false;
+                velocity = sf::Vector2f(0.f, 0.f); // Сброс скорости
+            }
+        }
+        window.clear();
+        window.draw(sprite);
+        window.display();
+    }
+}
+
+bool Reminder::JumpAnim(sf::RenderWindow& mainWindow, sf::Sprite& button_log, sf::Sprite& button_reg, sf::Sprite& logo, sf::Sprite& log_field, sf::Sprite& pass_field)
+{
+    // Ускорение и скорость для каждого спрайта
+    float acceleration = mainWindow.getSize().x / 500.0;
+    float static velocity_st = mainWindow.getSize().x / 300.0;
+    float static velocity = mainWindow.getSize().x / 300.0;
+
+    // Перемещение спрайтов с ускорением
+    button_log.move(velocity, 0);
+    button_reg.move(-velocity, 0);
+    logo.move(0, -velocity);
+    log_field.move(-velocity, 0);
+    pass_field.move(velocity, 0);
+
+    // Увеличение скорости
+    velocity += acceleration;
+
+    // Получение размеров окна
+    sf::Vector2u windowSize = mainWindow.getSize();
+
+    // Проверка, вышли ли спрайты за пределы окна
+    if (button_log.getPosition().x - 300 > windowSize.x and button_reg.getPosition().x + 300 < 0
+        and logo.getPosition().y + 300 < 0 and log_field.getPosition().x + 100 < 0 and pass_field.getPosition().x - 300 > windowSize.x)
+    {
+        velocity = velocity_st;
+        return true;
+    }
+
+    return false;
+}

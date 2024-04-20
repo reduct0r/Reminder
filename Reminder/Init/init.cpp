@@ -30,6 +30,7 @@ Reminder::TextureManager Reminder::InitTexturesMain()
 	Reminder::TextureManager textureManager;
 
 	textureManager.loadTexture("Background_Main", "Resources/Textures/UI/Welcome Screen/Background.png");
+	textureManager.loadTexture("LogOut", "Resources/Textures/UI/Main Menu/logout.png");
 
 	return textureManager;
 }
