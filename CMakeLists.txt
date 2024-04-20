@@ -23,8 +23,6 @@ set(HEADERS
 # Добавление источников в исполняемый файл проекта
 set(project Reminder)
 
-# Файлы для копирования
-# TEST
 if(WIN32)
     add_executable (Reminder ${SOURCES} ${HEADERS} "Reminder/UI/TextBox.h")
 

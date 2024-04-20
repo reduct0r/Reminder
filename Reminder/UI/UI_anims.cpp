@@ -68,8 +68,8 @@ bool Reminder::ShowRegisterField(sf::RenderWindow& mainWindow, sf::Sprite& butto
     double dist_logo = logo.getPosition().y;
     double PosX_logo = logo.getPosition().x;
 
-    double swipe_speed = 2;
-    double swipe_speed_logo = 1;
+    double swipe_speed = mainWindow.getSize().x / 400.0;
+    double swipe_speed_logo = mainWindow.getSize().x / 1000.0;
 
     sf::IntRect TextureRect = button_log.getTextureRect();  // запоминаем
     button_log.setTextureRect(sf::IntRect(0, 0, 0, 0));      // скрываем

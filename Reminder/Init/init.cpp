@@ -19,6 +19,8 @@ Reminder::TextureManager Reminder::InitTexturesWelcome()
 	textureManager.loadTexture("login_field", "Resources/Textures/UI/Welcome Screen/login.png");
 	textureManager.loadTexture("passw_field", "Resources/Textures/UI/Welcome Screen/password.png");
 
+	textureManager.loadTexture("back", "Resources/Textures/UI/Welcome Screen/back.png");
+
 
 	return textureManager;
 }

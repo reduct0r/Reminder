@@ -79,12 +79,13 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
     sf::Texture button2T = textureManager.getTexture("Reg_button");
     sf::Texture button2hT = textureManager.getTexture("Reg_button_hovered");
 
-
     sf::Sprite button_log(button1T);
     sf::Sprite button_reg(button2T);
     sf::Sprite logo(textureManager.getTexture("logo"));
     sf::Sprite log_field(textureManager.getTexture("login_field"));
     sf::Sprite pass_field(textureManager.getTexture("passw_field"));
+    sf::Sprite github(textureManager.getTexture("Github_icon"));
+    sf::Sprite back(textureManager.getTexture("back"));
 
     float buttonWidth = button_log.getLocalBounds().width;
     float buttonHeight = button_log.getLocalBounds().height;
@@ -95,7 +96,8 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
     button_log.setScale(scaleX, scaleY);
     button_reg.setScale(scaleX, scaleY);
     logo.setScale(scaleX, scaleY);
-
+    github.setScale(scaleX, scaleY);
+    back.setScale(scaleX / 10.0, scaleY / 10.0);
     // Предварительно устанавливаем позиции по середине окна c последующим смещением
     float ButttonPosX = mainWindow.getSize().x / 2.0 - button_log.getGlobalBounds().width / 2.0;
     float ButttonPosY = mainWindow.getSize().y / 2.0 - button_log.getGlobalBounds().height / 2.0;
@@ -117,6 +119,8 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
     button_log.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 6.0);
     button_reg.setPosition(ButttonPosX, ButttonPosY + mainWindow.getSize().y / 30.0);
     logo.setPosition(LogoPosX + mainWindow.getSize().x / 150.0, LogoPosY - mainWindow.getSize().y / 6.0);
+    github.setPosition(mainWindow.getSize().x / 100.0, mainWindow.getSize().y * 0.9);
+    back.setPosition(mainWindow.getSize().x / 100.0, mainWindow.getSize().x / 100.0);
 
     sf::Vector2i mousePosition = sf::Mouse::getPosition(mainWindow);
     sf::FloatRect buttonBounds = button_log.getGlobalBounds();
@@ -184,8 +188,28 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
                         return;
                     }
 
+                    else if (github.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+                    {
+                        std::string url = "https://github.com/reduct0r/Reminder";
+
+                        #ifdef _WIN32
+                            std::string command = "start " + url + ""; // Для Windows
+                        #elif __APPLE__
+                            std::string command = "open " + url + ""; // Для macOS
+                        #endif
+
+                        // Вызываем командную строку сформированной команды
+                        system(command.c_str());
+                    }
+
+                    else if (back.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) // Перезапустить вкладку
+                    {
+                        ShowUI(mainWindow, textureManager, mainWindowSpecs);
+                        return;
+                    }
+
                     // Проверка, было ли нажатие внутри кнопки входа
-                    if (button_log.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y) and reg == 0)
+                    else if (button_log.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y) and reg == 0)
                     {
                         /* ПРОЦЕСС ВХОДА, ЗАТЕМ ГЛАВНОЕ МЕНЮ*/
 
@@ -195,7 +219,7 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
                 }
             }
 
-            if (event.mouseButton.button == sf::Keyboard::Escape and reg == 1) // Перезапустить вкладку
+            if (event.type == sf::Event::KeyPressed and event.key.code == sf::Keyboard::Escape and reg == 1) // Перезапустить вкладку
             {
                 ShowUI(mainWindow, textureManager, mainWindowSpecs);
                 return;
@@ -210,6 +234,7 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
         mainWindow.draw(logo);
         mainWindow.draw(log_field);
         mainWindow.draw(pass_field);
+        mainWindow.draw(github);
 
         if (reg) // Процесс регистрации
         {
@@ -218,6 +243,7 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
                 Login_textBox.draw(mainWindow);
                 Password_textBox.draw(mainWindow);
             }
+            mainWindow.draw(back);
         }
 
         mainWindow.display();
