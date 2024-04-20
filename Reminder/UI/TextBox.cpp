@@ -1,4 +1,4 @@
-#include "TextBox.h"
+ï»¿#include "TextBox.h"
 
 namespace UI 
 {
@@ -22,7 +22,7 @@ namespace UI
 
     void TextBox::Text::setSize(unsigned int x) { text.setCharacterSize(x); }
 
-    /* ========= Main TextBox methods ========= */
+    /* ========= Main TextBox methods ========= */ 
     TextBox::TextBox() : inpText("", 6, 5) 
     {
         outerRect.setSize(sf::Vector2f(460, 32));
@@ -153,7 +153,7 @@ namespace UI
                 }
             }
 
-            //if (event.key.code == sf::Keyboard::Enter) // Î÷èñòêà è ïîëó÷èíèå ïî íàæàòèþ Enter
+            //if (event.key.code == sf::Keyboard::Enter) // ÐžÑ‡Ð¸ÑÑ‚ÐºÐ° Ð¸ Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ð½Ð¸Ðµ Ð¿Ð¾ Ð½Ð°Ð¶Ð°Ñ‚Ð¸ÑŽ Enter
             //{
             //    if (getPinp.getSize() > 0) txtInp = getPinp;
             //    focusChar = 0;

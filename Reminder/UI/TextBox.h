@@ -1,4 +1,4 @@
-#include<SFML/Graphics.hpp>
+﻿#include<SFML/Graphics.hpp>
 #ifndef SDX_TEXTBOX
 #define SDX_TEXTBOX
 
@@ -14,7 +14,7 @@ namespace UI
         sf::String txtInp;
         sf::Clock clock;
         sf::Time time;
-        //sf::Cursor cursor;
+        //sf::Cursor cursor; 
         unsigned int textSize;
         unsigned int focusChar;
         float charWidth;

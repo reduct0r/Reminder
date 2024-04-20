@@ -1,4 +1,4 @@
-﻿// Инициализация при запуске
+﻿// Инициализация при запуске 
 
 #include <unordered_map>
 #include <string>

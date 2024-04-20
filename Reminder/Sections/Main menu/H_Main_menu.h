@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../../Init/H_Init.h"
 #include "H_settings.h"
 namespace sf 

@@ -196,7 +196,7 @@ bool Reminder::JumpAnim(sf::RenderWindow& mainWindow, sf::Sprite& button_log, sf
     float static velocity_st = mainWindow.getSize().x / 300.0;
     float static velocity = mainWindow.getSize().x / 300.0;
 
-    // Перемещение спрайтов с ускорением
+    // Перемещение спрайтов с ускорением 
     button_log.move(velocity, 0);
     button_reg.move(-velocity, 0);
     logo.move(0, -velocity);

@@ -1,24 +1,24 @@
-#include "H_Main_menu.h"
+п»ї#include "H_Main_menu.h"
 
 bool ExitShure(sf::RenderWindow& mainWindow)
 {
-    // Показать диалоговое окно перед выходом из аккаунта
-    sf::RenderWindow confirmWindow(sf::VideoMode(300, 150), "Exit confirmation");
-
-    // Создание текста с вопросом
+    // РџРѕРєР°Р·Р°С‚СЊ РґРёР°Р»РѕРіРѕРІРѕРµ РѕРєРЅРѕ РїРµСЂРµРґ РІС‹С…РѕРґРѕРј РёР· Р°РєРєР°СѓРЅС‚Р°
+    sf::RenderWindow confirmWindow(sf::VideoMode(mainWindow.getSize().x/3, mainWindow.getSize().y/3), "Exit confirmation");
+    
+    // РЎРѕР·РґР°РЅРёРµ С‚РµРєСЃС‚Р° СЃ РІРѕРїСЂРѕСЃРѕРј
     sf::Font font;
     font.loadFromFile("Resources/Fonts/BRLNSR.ttf");
     sf::Text question("Are you sure you want to log out?", font, 20);
     question.setPosition(10, 20);
 
-    // Создание кнопки для подтверждения
+    // РЎРѕР·РґР°РЅРёРµ РєРЅРѕРїРєРё РґР»СЏ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ
     sf::RectangleShape confirmButton(sf::Vector2f(100, 50));
     confirmButton.setPosition(50, 80);
     confirmButton.setFillColor(sf::Color::Green);
     sf::Text confirmText("Yes", font, 20);
     confirmText.setPosition(75, 90);
 
-    // Создание кнопки для отмены
+    // РЎРѕР·РґР°РЅРёРµ РєРЅРѕРїРєРё РґР»СЏ РѕС‚РјРµРЅС‹
     sf::RectangleShape cancelButton(sf::Vector2f(100, 50));
     cancelButton.setPosition(150, 80);
     cancelButton.setFillColor(sf::Color::Red);
@@ -63,17 +63,17 @@ bool ExitShure(sf::RenderWindow& mainWindow)
 
 void ShowMainMenu(sf::RenderWindow& mainWindow)
 {
-    Reminder::TextureManager textureManager = Reminder::InitTexturesMain();                      // Загрузка текстур
+    Reminder::TextureManager textureManager = Reminder::InitTexturesMain();                      // Р—Р°РіСЂСѓР·РєР° С‚РµРєСЃС‚СѓСЂ
     sf::Sprite background(textureManager.getTexture("Background_Main"));
     background.setScale(static_cast<float>(mainWindow.getSize().x) / textureManager.getTexture("Background_Main").getSize().x,
         static_cast<float>(mainWindow.getSize().y) / textureManager.getTexture("Background_Main").getSize().y);
 
     sf::Sprite logOut(textureManager.getTexture("LogOut"));
-    float scaleX = mainWindow.getSize().x / float(textureManager.getTexture("Background_Main").getSize().x); // масштаб по оси X
-    float scaleY = mainWindow.getSize().y / float(textureManager.getTexture("Background_Main").getSize().y); // масштаб по оси Y
+    float scaleX = mainWindow.getSize().x / float(textureManager.getTexture("Background_Main").getSize().x); // РјР°СЃС€С‚Р°Р± РїРѕ РѕСЃРё X
+    float scaleY = mainWindow.getSize().y / float(textureManager.getTexture("Background_Main").getSize().y); // РјР°СЃС€С‚Р°Р± РїРѕ РѕСЃРё Y
     logOut.setScale(scaleX / 15.0, scaleY / 15.0);
 
-    // Предварительно устанавливаем позиции по середине окна c последующим смещением
+    // РџСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕ СѓСЃС‚Р°РЅР°РІР»РёРІР°РµРј РїРѕР·РёС†РёРё РїРѕ СЃРµСЂРµРґРёРЅРµ РѕРєРЅР° c РїРѕСЃР»РµРґСѓСЋС‰РёРј СЃРјРµС‰РµРЅРёРµРј
     float PosX = mainWindow.getSize().x / 2.0;
     float PosY = mainWindow.getSize().y / 2.0;
 
@@ -93,17 +93,17 @@ void ShowMainMenu(sf::RenderWindow& mainWindow)
             {
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
-                    // Проверка, было ли нажатие внутри кнопки Разлогиниться
+                    // РџСЂРѕРІРµСЂРєР°, Р±С‹Р»Рѕ Р»Рё РЅР°Р¶Р°С‚РёРµ РІРЅСѓС‚СЂРё РєРЅРѕРїРєРё Р Р°Р·Р»РѕРіРёРЅРёС‚СЊСЃСЏ
                     if (logOut.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
                     {
                         ExitShure(mainWindow);
 
-                        /* РАЗЛОГИНИТЬ */
+                        /* Р РђР—Р›РћР“РРќРРўР¬ */
                     }
                 }
             }
 
-            if (event.mouseButton.button == sf::Keyboard::Escape) // Перезапустить вкладку
+            if (event.mouseButton.button == sf::Keyboard::Escape) // РџРµСЂРµР·Р°РїСѓСЃС‚РёС‚СЊ РІРєР»Р°РґРєСѓ
             {
                 ShowMainMenu(mainWindow);
                 return;
