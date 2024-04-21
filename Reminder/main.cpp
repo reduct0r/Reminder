@@ -1,15 +1,13 @@
-﻿#include <SFML/Graphics.hpp>
-#include <cmath>
-#include <iostream>
-#include "Sections/WelcomeScreen/H_Welcome_screen.h"
+﻿#include "Sections/WelcomeScreen/H_Welcome_screen.h"
 #include "Database/Database.h"
 
 int main() {
 
+  Reminder::Database database;
 
-  Database database;
+  std::cout << database.addUser("Exist", "admin") << std::endl;
 
-  // database.initDatabase();
+  std::cout << database.getPassword("Exist") << std::endl;
 
   ShowWelcomeScreen();
 
