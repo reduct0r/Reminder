@@ -3,5 +3,9 @@
 #include <SFML/Window.hpp>
 //TEST
 void ShowWelcomeScreen();
-void DemoCard(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManager, Reminder::WindowSpecs& mainWindowSpecs);
-void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManager, Reminder::WindowSpecs& mainWindowSpecs);
+void DemoCard(sf::RenderWindow &mainWindow,
+              Reminder::TextureManager &textureManager,
+              Reminder::WindowSpecs &mainWindowSpecs);
+void ShowUI(sf::RenderWindow &mainWindow,
+            Reminder::TextureManager &textureManager,
+            Reminder::WindowSpecs &mainWindowSpecs);
