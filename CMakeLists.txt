@@ -95,11 +95,6 @@ elseif (APPLE)
     # Finding SFML components
     find_package(SFML COMPONENTS graphics audio REQUIRED)
 
-    # Setting openssl include dirs
-    set(OPENSSL_INCLUDE_DIRS /opt/homebrew/include/
-            /opt/homebrew/include/openssl/
-    )
-
     # Setting openssl libraries
     set(OPENSSL_LIBRARIES
             /opt/homebrew/lib/libssl.3.dylib
@@ -110,17 +105,11 @@ elseif (APPLE)
             /opt/homebrew/lib/libcrypto.dylib
     )
 
-    # Setting json include dirs
-    set(JSON_INCLUDE_DIRS /opt/homebrew/include/json/)
-
     # Setting json libraries
     set(JSON_LIBRARIES
             /opt/homebrew/lib/libjsoncpp.25.dylib
             /opt/homebrew/lib/libjsoncpp.dylib
     )
-
-    # Setting postgre include dirs
-    set(POSTGRESQL_INCLUDE_DIRS /opt/homebrew/include/bsoncxx/pqxx)
 
     # Setting postre libraries
     set(POSTGRESQL_LIBRARIES
@@ -140,14 +129,11 @@ elseif (APPLE)
     )
 
     # Adding include_directories
-    include_directories(${POSTGRESQL_INCLUDE_DIRS})
     include_directories(${SFML_INCLUDE_DIRS})
-    include_directories(${JSON_INCLUDE_DIRS})
-    include_directories(${OPENSSL_INCLUDE_DIRS})
 
     # Connecting libraries
-    target_link_libraries(${project} ${SFML_LIBRARIES})
     target_link_libraries(${project} ${POSTGRESQL_LIBRARIES})
+    target_link_libraries(${project} ${SFML_LIBRARIES})
     target_link_libraries(${project} ${JSON_LIBRARIES})
     target_link_libraries(${project} ${OPENSSL_LIBRARIES})
 
