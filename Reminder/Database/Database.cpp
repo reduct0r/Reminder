@@ -9,7 +9,7 @@ std::string Database::hashPassword(const std::string &password) {
   unsigned char hash[SHA256_DIGEST_LENGTH];
 
   // Инициализация контекста хеширования
-  EVP_DigestInit_ex(mdctx, md, NULL);
+  EVP_DigestInit_ex(mdctx, md, nullptr);
 
   // Обновление контекста хеширования данными пароля
   EVP_DigestUpdate(mdctx, password.c_str(), password.length());
@@ -35,16 +35,22 @@ bool Database::comparePasswords(const std::string &loginUsedPassword, const std:
 
 std::string Database::addUser(const std::string &username, const std::string &password) {
   try {
+    std::string usernameToLowerCase = username;
+    std::transform(usernameToLowerCase.begin(),
+                   usernameToLowerCase.end(),
+                   usernameToLowerCase.begin(),
+                   [](unsigned char c) { return std::tolower(c); });
+
     std::string hashedPassword = hashPassword(password);
     pqxx::work tunnel(connection);
     std::string query =
-        "INSERT INTO " + usersTableName + " (username, password) VALUES ('" + username + "', '" +
+        "INSERT INTO " + usersTableName + " (username, password) VALUES ('" + usernameToLowerCase + "', '" +
             hashedPassword + "');";
     tunnel.exec(query);
     tunnel.commit();
 
     std::string returnString =
-        "New user added:\n{\n'username':'" + username + "',\n'encryptedPassword':'" + hashedPassword +
+        "New user added:\n{\n'username':'" + usernameToLowerCase + "',\n'encryptedPassword':'" + hashedPassword +
             "'\n}";
     return returnString;
   } catch (const pqxx::unique_violation &e) {

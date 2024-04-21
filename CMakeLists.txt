@@ -145,7 +145,6 @@ elseif (APPLE)
     include_directories(${JSON_INCLUDE_DIRS})
     include_directories(${OPENSSL_INCLUDE_DIRS})
 
-
     # Connecting libraries
     target_link_libraries(${project} ${SFML_LIBRARIES})
     target_link_libraries(${project} ${POSTGRESQL_LIBRARIES})

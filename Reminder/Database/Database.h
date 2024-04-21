@@ -8,6 +8,7 @@
 #include <fstream>
 #include <openssl/evp.h>
 #include <openssl/sha.h>
+#include <algorithm>
 
 namespace Reminder {
 class Database {
