@@ -4,6 +4,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(Reminder)
 
+# Добавление источников в исполняемый файл проекта
+set(project Reminder)
+
 # Установка переменных среды
 include_directories(${CMAKE_SOURCE_DIR}/Reminder/Sections/Settings)
 
@@ -13,7 +16,6 @@ set(SOURCES
         "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp"
         "Reminder/UI Animations/UI_anims.cpp"
         "Reminder/Database/Database.cpp"
-        "Reminder/Database/Database.h"
 )
 
 set(HEADERS
@@ -23,9 +25,6 @@ set(HEADERS
         "Reminder/Database/Database.cpp"
         "Reminder/Database/Database.h"
 )
-
-# Добавление источников в исполняемый файл проекта
-set(project Reminder)
 
 # Файлы для копирования
 if(WIN32)
@@ -51,9 +50,9 @@ if(WIN32)
 
     # Проверка результата выполнения команды git clone
     if (GIT_RESULT EQUAL "0")
-        message("Успешно!")
+        message("Git clone successfull!")
     else ()
-        message("Не удалось выполнить команду git clone.")
+        message("Git cloning failed!")
     endif ()
 
     set(files_to_copy
@@ -70,6 +69,9 @@ if(WIN32)
         file(COPY ${file} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
     endforeach ()
 
+    # Заголовочные файлы библиотеки
+    include_directories(${SFML_DIR}/SFML-2.6.1/include)
+
     # Подключение библиотек (КОНФИГРУРАЦИЯ DEBUG!)
     target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-graphics-d.lib)
     target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-audio-d.lib)
@@ -77,26 +79,39 @@ if(WIN32)
     target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-system-d.lib)
     target_link_libraries(Reminder ${SFML_DIR}/SFML-2.6.1/lib/sfml-window-d.lib)
 
-    # Заголовочные файлы библиотеки
-    include_directories(${SFML_DIR}/SFML-2.6.1/include)
+    message("Successful!")
 
 elseif (APPLE)
+    # Setting sources lists
+    set(${project}_SOURCE_LIST ${${project}_SOURCES})
+
+    # Coping textures in build directory
+    set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake-build-debug")
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources DESTINATION ${RESOURCES_DIR})
+
+    # Adding executable files
+    add_executable(${project} ${SOURCES} ${HEADERS})
+
+    # Finding SFML components
     find_package(SFML COMPONENTS graphics audio REQUIRED)
 
-    # Setting postgre include dirs
-    set(POSTGRESQL_INCLUDE_DIRS /opt/homebrew/include/
-            /opt/homebrew/include/bsoncxx/pqxx
+    # Setting json include dirs
+    set(JSON_INCLUDE_DIRS /opt/homebrew/include/json/)
+
+    # Setting json libraries
+    set(JSON_LIBRARIES
+            /opt/homebrew/lib/libjsoncpp.25.dylib
+            /opt/homebrew/lib/libjsoncpp.dylib
     )
+
+    # Setting postgre include dirs
+    set(POSTGRESQL_INCLUDE_DIRS /opt/homebrew/include/bsoncxx/pqxx)
 
     # Setting postre libraries
     set(POSTGRESQL_LIBRARIES
             /opt/homebrew/lib/libpqxx-7.9.dylib
             /opt/homebrew/lib/libpqxx.dylib
     )
-
-    # Coping textures in build directory
-    set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake-build-debug")
-    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources DESTINATION ${RESOURCES_DIR})
 
     # Setting SFML include dirs
     set(SFML_INCLUDE_DIRS /opt/homebrew/include/)
@@ -112,14 +127,12 @@ elseif (APPLE)
     # Adding include_directories
     include_directories(${POSTGRESQL_INCLUDE_DIRS})
     include_directories(${SFML_INCLUDE_DIRS})
-
-    # Setting sources lists
-    set(${project}_SOURCE_LIST ${${project}_SOURCES})
-
-    # Adding executable files
-    add_executable(${project} ${SOURCES} ${HEADERS})
+    include_directories(${JSON_INCLUDE_DIRS})
 
     # Connecting libraries
     target_link_libraries(${project} ${SFML_LIBRARIES})
     target_link_libraries(${project} ${POSTGRESQL_LIBRARIES})
+    target_link_libraries(${project} ${JSON_LIBRARIES})
+
+    message("Successful!")
 endif ()

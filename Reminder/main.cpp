@@ -2,10 +2,16 @@
 #include <cmath>
 #include <iostream>
 #include "Sections/WelcomeScreen/H_Welcome_screen.h"
-//TEST
-int main() 
-{
-    ShowWelcomeScreen();
+#include "Database/Database.h"
 
-    return 0;
+int main() {
+
+
+  Database database;
+
+  // database.initDatabase();
+
+  ShowWelcomeScreen();
+
+  return 0;
 }
