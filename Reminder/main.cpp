@@ -9,7 +9,7 @@ int main() {
 
   std::cout << database.getPassword("Exist") << std::endl;
 
-  ShowWelcomeScreen();
+  // ShowWelcomeScreen();
 
   return 0;
 }
