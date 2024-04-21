@@ -11,20 +11,25 @@ set(SOURCES
         "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp"
         "Reminder/UI/UI_anims.cpp"
         "Reminder/UI/TextBox.cpp"
-        "Reminder/Sections/Main menu/Main_menu.cpp")
+        "Reminder/Sections/Main menu/Main_menu.cpp" 
+        "Reminder/Sections/Settings/Settings.cpp"
+        "Reminder/UI/Button.cpp"
+)
 set(HEADERS
         "Reminder/Init/H_Init.h"
         "Reminder/Sections/Settings/H_settings.h"
         "Reminder/Reminder.h"
         "Reminder/UI/TextBox.h"
         "Reminder/Sections/WelcomeScreen/H_Welcome_screen.h"
-        "Reminder/Sections/Main menu/H_Main_menu.h")
+        "Reminder/Sections/Main menu/H_Main_menu.h" 
+        "Reminder/UI/DropDownList.h"
+        "Reminder/UI/Button.h")
 
 # Добавление источников в исполняемый файл проекта
 set(project Reminder)
 
 if(WIN32)
-    add_executable (Reminder ${SOURCES} ${HEADERS} "Reminder/UI/TextBox.h")
+    add_executable (Reminder ${SOURCES} ${HEADERS})
 
     # Копируем папку с ресурсами в out
     set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/out/build/x64-debug")
@@ -73,6 +78,14 @@ if(WIN32)
 
     # Заголовочные файлы библиотеки
     include_directories(${SFML_DIR}/SFML-2.6.1/include)
+
+    find_package(PostgreSQL REQUIRED)
+    find_package(libpqxx CONFIG REQUIRED)
+    find_package(jsoncpp CONFIG REQUIRED)
+
+    target_link_libraries(Reminder PostgreSQL::PostgreSQL)
+    target_link_libraries(Reminder libpqxx::pqxx)
+    target_link_libraries(Reminder JsonCpp::JsonCpp)
 
 elseif (APPLE)
     find_package(SFML COMPONENTS graphics audio REQUIRED)

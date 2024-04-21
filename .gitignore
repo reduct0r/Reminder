@@ -400,3 +400,6 @@ out/
 ### Ninja ###
 .ninja_deps
 .ninja_log
+
+CMakeUserPresets.json
+vcpkg-configuration.json

@@ -1,4 +1,7 @@
 #include <string>
+#include <fstream>
+#include <iostream>
+#include <map>
 
 namespace Reminder
 {
