@@ -1,32 +1,54 @@
 #include "Database.h"
 using namespace Reminder;
 
-std::string decryptPassword(const std::string &password) {
-  std::string decryptedPassword = password.substr(0, password.length() - 10);
-  return decryptedPassword;
+std::string Database::hashPassword(const std::string &password) {
+  // Создание объекта контекста хеширования SHA-256
+  EVP_MD_CTX *mdctx = EVP_MD_CTX_new();
+  const EVP_MD *md = EVP_sha256();
+
+  unsigned char hash[SHA256_DIGEST_LENGTH];
+
+  // Инициализация контекста хеширования
+  EVP_DigestInit_ex(mdctx, md, NULL);
+
+  // Обновление контекста хеширования данными пароля
+  EVP_DigestUpdate(mdctx, password.c_str(), password.length());
+
+  // Получение хеша
+  unsigned int hash_len;
+  EVP_DigestFinal_ex(mdctx, hash, &hash_len);
+
+  // Освобождение контекста хеширования
+  EVP_MD_CTX_free(mdctx);
+
+  // Преобразование хеша в строку
+  std::stringstream ss;
+  for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
+    ss << std::hex << std::setw(2) << std::setfill('0') << (int) hash[i];
+  }
+  return ss.str();
 }
 
-std::string encryptPassword(const std::string &password) {
-  std::string encryptedPassword = password + "ENCRYPTION";
-  return encryptedPassword;
+bool Database::comparePasswords(const std::string &loginUsedPassword, const std::string &databaseHashedPassword) {
+  return Database::hashPassword(loginUsedPassword) == databaseHashedPassword;
 }
 
 std::string Database::addUser(const std::string &username, const std::string &password) {
   try {
-    std::string encryptedPassword = encryptPassword(password);
+    std::string hashedPassword = hashPassword(password);
     pqxx::work tunnel(connection);
     std::string query =
         "INSERT INTO " + usersTableName + " (username, password) VALUES ('" + username + "', '" +
-            encryptedPassword + "');";
+            hashedPassword + "');";
     tunnel.exec(query);
     tunnel.commit();
 
     std::string returnString =
-        "New user added:\n{\n'username':'" + username + "',\n'encryptedPassword':'" + encryptedPassword +
+        "New user added:\n{\n'username':'" + username + "',\n'encryptedPassword':'" + hashedPassword +
             "'\n}";
     return returnString;
   } catch (const pqxx::unique_violation &e) {
-    return "Username is already taken :( Take another one!";
+    return "Такой никнейм уже занят! Придумайте что-то другое :)\n";
   }
 }
 
@@ -36,15 +58,15 @@ std::string Database::getPassword(const std::string &name) {
   pqxx::result result = tunnel.exec(query);
   tunnel.commit();
   if (result.empty()) {
-    return "There is no user with this name";
+    return "Пользователя с такими никнеймом не существует! Проверьте правильность введенных данных\n";
   }
-  return decryptPassword(result[0][0].as<std::string>());
+  return result[0][0].as<std::string>();
 }
 
 void Database::parseConfigFile() {
   std::ifstream file("/Users/exist/CLionProjects/Reminder/Reminder/Database/DatabaseConfig.json");
   if (!file.is_open()) {
-    std::cerr << "Unable to open JSON file" << std::endl;
+    std::cerr << "Невозможно открыть JSON файл" << std::endl;
     exit(1);
   }
 
@@ -55,7 +77,7 @@ void Database::parseConfigFile() {
   file.close();
 
   if (!parsingSuccessful) {
-    std::cerr << "Error parsing JSON: " << errs << std::endl;
+    std::cerr << "Ошибка парсинга JSON: " << errs << std::endl;
     exit(1);
   }
 

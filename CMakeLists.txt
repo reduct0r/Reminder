@@ -95,6 +95,21 @@ elseif (APPLE)
     # Finding SFML components
     find_package(SFML COMPONENTS graphics audio REQUIRED)
 
+    # Setting openssl include dirs
+    set(OPENSSL_INCLUDE_DIRS /opt/homebrew/include/
+            /opt/homebrew/include/openssl/
+    )
+
+    # Setting openssl libraries
+    set(OPENSSL_LIBRARIES
+            /opt/homebrew/lib/libssl.3.dylib
+            /opt/homebrew/lib/libssl.a
+            /opt/homebrew/lib/libssl.dylib
+            /opt/homebrew/lib/libcrypto.3.dylib
+            /opt/homebrew/lib/libcrypto.a
+            /opt/homebrew/lib/libcrypto.dylib
+    )
+
     # Setting json include dirs
     set(JSON_INCLUDE_DIRS /opt/homebrew/include/json/)
 
@@ -128,11 +143,14 @@ elseif (APPLE)
     include_directories(${POSTGRESQL_INCLUDE_DIRS})
     include_directories(${SFML_INCLUDE_DIRS})
     include_directories(${JSON_INCLUDE_DIRS})
+    include_directories(${OPENSSL_INCLUDE_DIRS})
+
 
     # Connecting libraries
     target_link_libraries(${project} ${SFML_LIBRARIES})
     target_link_libraries(${project} ${POSTGRESQL_LIBRARIES})
     target_link_libraries(${project} ${JSON_LIBRARIES})
+    target_link_libraries(${project} ${OPENSSL_LIBRARIES})
 
     message("Successful!")
 endif ()

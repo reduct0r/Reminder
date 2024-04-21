@@ -6,6 +6,8 @@
 #include <iostream>
 #include <json/json.h>
 #include <fstream>
+#include <openssl/evp.h>
+#include <openssl/sha.h>
 
 namespace Reminder {
 class Database {
@@ -22,6 +24,10 @@ class Database {
   virtual ~Database() {
     connection.close();
   }
+
+  static std::string hashPassword(const std::string &password);
+
+  static bool comparePasswords(const std::string &password, const std::string &hashedPassword);
 
   void parseConfigFile();
 
