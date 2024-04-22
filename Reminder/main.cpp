@@ -32,6 +32,7 @@ void checkPass() {
 }
 
 int main() {
+
   while (true) {
     int activity;
 
@@ -52,5 +53,4 @@ int main() {
         break;
     }
   }
-  // ShowWelcomeScreen();
 }

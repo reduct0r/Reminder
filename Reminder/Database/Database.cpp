@@ -50,17 +50,23 @@ std::string Database::addUser(const std::string &username, const std::string &pa
     tunnel.commit();
 
     std::string returnString =
-        "New user added:\n{\n'username':'" + usernameToLowerCase + "',\n'encryptedPassword':'" + hashedPassword +
-            "'\n}";
+        "Новая запись в таблице:\n{\n'username':'" + usernameToLowerCase + "',\n'encryptedPassword':'" + hashedPassword
+            +
+                "'\n}";
     return returnString;
   } catch (const pqxx::unique_violation &e) {
     return "Такой никнейм уже занят! Придумайте что-то другое :)\n";
   }
 }
 
-std::string Database::getPassword(const std::string &name) {
+std::string Database::getPassword(const std::string &username) {
+  std::string usernameToLowerCase = username;
+  std::transform(usernameToLowerCase.begin(),
+                 usernameToLowerCase.end(),
+                 usernameToLowerCase.begin(),
+                 [](unsigned char c) { return std::tolower(c); });
   pqxx::work tunnel(connection);
-  std::string query = "SELECT password FROM " + usersTableName + " WHERE username = '" + name + "';";
+  std::string query = "SELECT password FROM " + usersTableName + " WHERE username = '" + usernameToLowerCase + "';";
   pqxx::result result = tunnel.exec(query);
   tunnel.commit();
   if (result.empty()) {
