@@ -3,7 +3,7 @@
 #
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (Reminder "Reminder.cpp" "Reminder.h")
+add_executable (Reminder "Reminder.cpp" "Reminder.h" "State.cpp" "State.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.8)
   set_property(TARGET Reminder PROPERTY CXX_STANDARD 20)

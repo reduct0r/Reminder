@@ -245,7 +245,7 @@ void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManag
         {
             if (Reminder::JumpAnim(mainWindow, button_log, button_reg, logo, log_field, pass_field))
             {
-                ShowMainMenu(mainWindow);
+                //ShowMainMenu(mainWindow);
                 transit = 0;
                 return;
             }
