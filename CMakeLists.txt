@@ -5,6 +5,7 @@ project(Reminder)
 
 # Установка переменных среды
 include_directories(${CMAKE_SOURCE_DIR}/Reminder/Sections/Settings)
+
 set(SOURCES
         "Reminder/main.cpp"
         "Reminder/Init/init.cpp"
@@ -36,8 +37,12 @@ if(WIN32)
     add_executable (Reminder ${SOURCES} ${HEADERS})
 
     # Копируем папку с ресурсами в out
+
     set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/out/build/x64-debug")
     file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources DESTINATION ${RESOURCES_DIR})
+
+    set(CONFIG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/out/build/x64-debug")
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Reminder/Config DESTINATION ${CONFIG_DIR})
 
     # Подключение SFML для работы "из коробки"
     set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third-party/sfml")            # Директория для хранения SFML
@@ -92,6 +97,8 @@ if(WIN32)
     target_link_libraries(Reminder JsonCpp::JsonCpp)
 
 elseif (APPLE)
+
+    #!!! ДОБАВИТЬ КОПИРОВАНИЕ ПАПКИ CONFIG КАК У WIN32 !!!
     find_package(SFML COMPONENTS graphics audio REQUIRED)
 
     set(SFML_INCLUDE_DIRS /opt/homebrew/include/)

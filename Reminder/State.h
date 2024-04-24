@@ -6,6 +6,9 @@
 #include<vector>
 #include<map>
 #include<stack>
+#include<fstream>
+#include<sstream>
+
 #include <SFML/Graphics.hpp>
 
 class State

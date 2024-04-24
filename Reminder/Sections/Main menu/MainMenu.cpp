@@ -121,7 +121,25 @@
 
 void MainMenu::InitWindow()
 {
-	this->window = new sf::RenderWindow(sf::VideoMode(800, 600), "TEST");
+	std::ifstream ifs("Config/SFML SPECS.ini");
+
+	sf::VideoMode windowBounds(800, 600);
+	std::string title = "None";
+	unsigned frameLimit = 120;
+	bool verticalSync = false;
+
+	if (ifs.is_open())
+	{
+		std::getline(ifs, title);
+		ifs >> windowBounds.width >> windowBounds.height;
+		ifs >> frameLimit;
+		ifs >> verticalSync;
+	}
+
+
+	this->window = new sf::RenderWindow(windowBounds, title);
+	this->window->setFramerateLimit(frameLimit);
+	this->window->setVerticalSyncEnabled(verticalSync);
 }
 
 void MainMenu::InitStates()

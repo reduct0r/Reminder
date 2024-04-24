@@ -7,8 +7,8 @@ class MainMenuState :
 	public State
 {
 private:
-	//MainMenuState(sf::RenderWindow* window);
-	//virtual ~MainMenuState();
+	sf::RectangleShape bg;
+
 
 public:
 	void Update(const float& dt);
