@@ -27,15 +27,18 @@ namespace UI
 		sf::Sprite sprite;
 
 	public:
+		float animSpeed = 8.5;
+
 		Button(float x, float y, float width, float height, sf::Font* font, sf::String text, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture);
 		
 		~Button();
 
 		void Render(sf::RenderTarget* target) const;
 
-		void Update(const sf::Vector2f mousePosition, float alpha, bool changedButton, bool procAnim);
+		void Update(const sf::Vector2f mousePosition);
 
-		//void SmoothAnim(sf::Vector2f mousePosition, ButtonState& button_st);
+		void SmoothAnim_black(float& animSpeed);
+		void SmoothAnim_light(float& animSpeed);
 		
 		const bool isPressed() const;
 	};

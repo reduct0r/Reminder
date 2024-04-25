@@ -66,7 +66,7 @@ void MainMenuState::UpdateButtons()
 {
 	for (auto &it : this->buttons)
 	{
-		it.second->Update(this->MousePosView, 1, 1, 1);
+		it.second->Update(this->MousePosView);
 	}
 
 	/* Обработка кнопок */
