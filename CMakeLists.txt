@@ -9,7 +9,7 @@ include_directories(${CMAKE_SOURCE_DIR}/Reminder/Sections/Settings)
 set(SOURCES
         "Reminder/main.cpp"
         "Reminder/Init/init.cpp"
-        "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp"
+        "Reminder/Sections/WelcomeScreen/WelcomeScreen.cpp"
         "Reminder/UI/UI_anims.cpp"
         "Reminder/UI/TextBox.cpp"
         "Reminder/Sections/Main menu/MainMenu.cpp" 
@@ -17,17 +17,20 @@ set(SOURCES
         "Reminder/UI/Button.cpp"
         "Reminder/State.cpp"
         "Reminder/Sections/Main menu/MainMenuState.cpp"
+        "Reminder/Sections/WelcomeScreen/WelcomeScreenState.cpp"
 )
+
 set(HEADERS
         "Reminder/Init/H_Init.h"
         "Reminder/Sections/Settings/H_settings.h"
         "Reminder/UI/TextBox.h"
-        "Reminder/Sections/WelcomeScreen/H_Welcome_screen.h"
+        "Reminder/Sections/WelcomeScreen/WelcomeScreen.h"
         "Reminder/Sections/Main menu/MainMenu.h" 
         "Reminder/UI/DropDownList.h"
         "Reminder/UI/Button.h" 
         "Reminder/State.h"
         "Reminder/Sections/Main menu/MainMenuState.h" 
+        "Reminder/Sections/WelcomeScreen/WelcomeScreenState.h"
 )
 
 # Добавление источников в исполняемый файл проекта

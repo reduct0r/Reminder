@@ -1,9 +1,8 @@
-#ifndef MAINMENUSTATE_H
-#define MAINMENUSTATE_H
+#ifndef WELCOMWSCREENSTATE_H
+#define  WELCOMWSCREENSTATE_H
 
 #include "../../State.h"
-
-class MainMenuState :
+class WelcomeScreenState :
 	public State
 {
 private:
@@ -26,8 +25,8 @@ public:
 
 	void EndState();
 
-	MainMenuState(sf::RenderWindow* window);
-	virtual ~MainMenuState();
+	WelcomeScreenState(sf::RenderWindow* window);
+	virtual ~WelcomeScreenState();
 };
 
 #endif

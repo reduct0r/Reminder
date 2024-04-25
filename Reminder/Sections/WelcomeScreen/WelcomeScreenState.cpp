@@ -1,7 +1,7 @@
-#include "MainMenuState.h"
+#include "WelcomeScreenState.h"
 #include <iostream>
 
-MainMenuState::MainMenuState(sf::RenderWindow* window)
+WelcomeScreenState::WelcomeScreenState(sf::RenderWindow* window)
 	:State(window)
 {
 	this->InitFonts();
@@ -13,7 +13,7 @@ MainMenuState::MainMenuState(sf::RenderWindow* window)
 	this->bg.setFillColor(sf::Color::Magenta);
 }
 
-MainMenuState::~MainMenuState()
+WelcomeScreenState::~WelcomeScreenState()
 {
 	auto it = this->buttons.begin();
 	for (auto it = this->buttons.begin(); it != this->buttons.end(); ++it)
@@ -22,26 +22,26 @@ MainMenuState::~MainMenuState()
 	}
 }
 
-void MainMenuState::UpdateKeyBoardBinds(const float& dt)
+void WelcomeScreenState::UpdateKeyBoardBinds(const float& dt)
 {
 	this->CheckForQuit();
 }
 
-void MainMenuState::EndState()
+void WelcomeScreenState::EndState()
 {
 	std::cout << "ENDING...";
 }
 
 
-void MainMenuState::InitFonts()
+void WelcomeScreenState::InitFonts()
 {
 	if (!this->font.loadFromFile("Resources/Fonts/ARIAL.ttf"))
 	{
-		throw("MainMenuState: COULD NOT LOAD FONT");
+		throw("WelcomeScreenState: COULD NOT LOAD FONT");
 	}
 }
 
-void MainMenuState::InitButtons()
+void WelcomeScreenState::InitButtons()
 {
 	sf::Texture T1;
 	T1.loadFromFile("Resources/Textures/UI/Welcome Screen/Login button first.png");
@@ -56,15 +56,15 @@ void MainMenuState::InitButtons()
 }
 
 // UPDATE 
-void MainMenuState::Update(const float& dt)
+void WelcomeScreenState::Update(const float& dt)
 {
 	this->UpdateMousePos();
 	this->UpdateButtons();
 }
 
-void MainMenuState::UpdateButtons()
+void WelcomeScreenState::UpdateButtons()
 {
-	for (auto &it : this->buttons)
+	for (auto& it : this->buttons)
 	{
 		it.second->Update(this->MousePosView, 1, 1, 1);
 	}
@@ -77,7 +77,7 @@ void MainMenuState::UpdateButtons()
 }
 
 //RENDER
-void MainMenuState::Render(sf::RenderTarget* target)
+void WelcomeScreenState::Render(sf::RenderTarget* target)
 {
 	if (!target)
 	{
@@ -88,7 +88,7 @@ void MainMenuState::Render(sf::RenderTarget* target)
 	this->RenderButtons(target);
 }
 
-void MainMenuState::RenderButtons(sf::RenderTarget* target)
+void WelcomeScreenState::RenderButtons(sf::RenderTarget* target)
 {
 	for (auto& it : this->buttons)
 	{
