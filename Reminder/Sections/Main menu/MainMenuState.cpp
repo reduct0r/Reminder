@@ -1,8 +1,8 @@
 #include "MainMenuState.h"
 #include <iostream>
 
-MainMenuState::MainMenuState(sf::RenderWindow* window)
-	:State(window)
+MainMenuState::MainMenuState(sf::RenderWindow* window, std::stack<State*>* states)
+	:State(window, states)
 {
 	this->InitFonts();
 	this->InitFonts();
@@ -10,7 +10,7 @@ MainMenuState::MainMenuState(sf::RenderWindow* window)
 
 
 	this->bg.setSize(sf::Vector2f(window->getSize().x, window->getSize().y));
-	this->bg.setFillColor(sf::Color::Magenta);
+	this->bg.setFillColor(sf::Color::White);
 }
 
 MainMenuState::~MainMenuState()
@@ -50,9 +50,9 @@ void MainMenuState::InitButtons()
 
 
 
-	this->buttons["GAME_STATE_BTN"] = new UI::Button(100, 100, 0.5, 0.5, &this->font, sf::String("STATE_BTN"), T1, T2, T2);
+	this->buttons["GAME_STATE_BTN"] = new UI::Button(250, 100, 0.5, 0.5, &this->font, sf::String("STATE_BTN"), T1, T2, T2);
 
-	this->buttons["GAME_STATE_BTN2"] = new UI::Button(200, 500, 0.5, 0.5, &this->font, sf::String("STATE_BTN2"), T1, T2, T2);
+	this->buttons["GAME_STATE_BTN2"] = new UI::Button(250, 500, 0.5, 0.5, &this->font, sf::String("STATE_BTN2"), T1, T2, T2);
 }
 
 // UPDATE 

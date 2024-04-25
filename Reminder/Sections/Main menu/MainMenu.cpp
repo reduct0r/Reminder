@@ -144,7 +144,7 @@ void MainMenu::InitWindow()
 
 void MainMenu::InitStates()
 {
-	this->states.push(new MainMenuState(this->window));
+	this->states.push(new MainMenuState(this->window, &this->states));
 }
 
 MainMenu::MainMenu()

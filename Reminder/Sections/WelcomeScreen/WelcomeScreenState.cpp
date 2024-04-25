@@ -1,11 +1,11 @@
 #include "WelcomeScreenState.h"
 #include <iostream>
 
-WelcomeScreenState::WelcomeScreenState(sf::RenderWindow* window)
-	:State(window)
+WelcomeScreenState::WelcomeScreenState(sf::RenderWindow* window, std::stack<State*>* states)
+	:State(window, states)
 {
 	this->InitFonts();
-	this->InitFonts();
+	this->InitTextures();
 	this->InitButtons();
 
 
@@ -29,7 +29,7 @@ void WelcomeScreenState::UpdateKeyBoardBinds(const float& dt)
 
 void WelcomeScreenState::EndState()
 {
-	std::cout << "ENDING...";
+	std::cout << "Welcome Screen ENDING...";
 }
 
 
@@ -50,9 +50,20 @@ void WelcomeScreenState::InitButtons()
 
 
 
-	this->buttons["GAME_STATE_BTN"] = new UI::Button(100, 100, 0.5, 0.5, &this->font, sf::String("STATE_BTN"), T1, T2, T2);
+	this->buttons["GO_TO_MAINMENU_BTN"] = new UI::Button(100, 100, 0.5, 0.5, &this->font, sf::String(""), this->textures["LOGIN_BT_IDLE"], this->textures["LOGIN_BT_HOVER"], this->textures["LOGIN_BT_HOVER"]);
 
-	this->buttons["GAME_STATE_BTN2"] = new UI::Button(200, 500, 0.5, 0.5, &this->font, sf::String("STATE_BTN2"), T1, T2, T2);
+	this->buttons["EXIT_BTN"] = new UI::Button(200, 500, 0.5, 0.5, &this->font, sf::String(""), T1, T2, T2);
+}
+
+
+void WelcomeScreenState::InitTextures()
+{
+	sf::Texture texture;
+	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Login button first.png");
+	this->textures["LOGIN_BT_IDLE"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Login button second.png");
+	this->textures["LOGIN_BT_HOVER"] = texture;
 }
 
 // UPDATE 
@@ -70,7 +81,15 @@ void WelcomeScreenState::UpdateButtons()
 	}
 
 	/* Обработка кнопок */
-	if (this->buttons["GAME_STATE_BTN2"]->isPressed())
+
+	if (this->buttons["GO_TO_MAINMENU_BTN"]->isPressed())
+	{
+		this->states->push(new MainMenuState(this->window, this->states));
+	}
+
+
+
+	if (this->buttons["EXIT_BTN"]->isPressed())
 	{
 		this->ToQuit = 1;
 	}

@@ -283,7 +283,7 @@ void WelcomeScreen::InitWindow()
 
 void WelcomeScreen::InitStates()
 {
-    this->states.push(new WelcomeScreenState(this->window));
+    this->states.push(new WelcomeScreenState(this->window, &this->states));
 }
 
 WelcomeScreen::WelcomeScreen()

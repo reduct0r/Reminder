@@ -26,7 +26,7 @@ public:
 
 	void EndState();
 
-	MainMenuState(sf::RenderWindow* window);
+	MainMenuState(sf::RenderWindow* window, std::stack<State*>* states);
 	virtual ~MainMenuState();
 };
 

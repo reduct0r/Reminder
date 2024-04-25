@@ -2,6 +2,7 @@
 #define  WELCOMWSCREENSTATE_H
 
 #include "../../State.h"
+#include "../Main menu/MainMenuState.h"
 class WelcomeScreenState :
 	public State
 {
@@ -13,6 +14,7 @@ private:
 	//Inits
 	void InitFonts();
 	void InitButtons();
+	void InitTextures();
 
 
 public:
@@ -25,7 +27,7 @@ public:
 
 	void EndState();
 
-	WelcomeScreenState(sf::RenderWindow* window);
+	WelcomeScreenState(sf::RenderWindow* window, std::stack<State*>* states);
 	virtual ~WelcomeScreenState();
 };
 

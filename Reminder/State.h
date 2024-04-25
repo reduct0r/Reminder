@@ -18,15 +18,17 @@ private:
 
 protected:
 	sf::RenderWindow* window;						// Текущее окно
-	std::vector<sf::Texture> textures;				// Набор текстур для текущего стейта
+	std::map<std::string,sf::Texture> textures;		// Набор текстур для текущего стейта
 	bool ToQuit;									// Выход?
 
 	sf::Vector2i MousePosScreen;
 	sf::Vector2i MousePosWindow;
 	sf::Vector2f MousePosView;
 
+	std::stack<State*>* states;						//orig
+
 public:
-	State(sf::RenderWindow* window);				// Конструктор
+	State(sf::RenderWindow* window, std::stack<State*>* states);				// Конструктор
 	virtual ~State();								// Деструктор
 
 	const bool getQuit() const;						
