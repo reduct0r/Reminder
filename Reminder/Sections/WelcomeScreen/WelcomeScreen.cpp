@@ -371,13 +371,7 @@ void WelcomeScreen::Run()
 
 void WelcomeScreen::UpdateEvents()
 {
-    while (this->window->pollEvent(this->sfEvent))
-    {
-        if (this->sfEvent.type == sf::Event::Closed)
-        {
-            this->window->close();
-        }
-    }
+
 }
 
 void WelcomeScreen::UpdateDT()

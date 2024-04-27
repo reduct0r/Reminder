@@ -51,7 +51,11 @@ namespace UI
         void setSize(float, float);                 //update box size first parameter for x, second for y.
         void setPosition(float, float);             //update (x,y) position of top-left corner
         void setBorder(float);                      //update border thickness.
-    
+        
+        void Render(sf::RenderTarget* target);
+        void SetColor(sf::Color color);
+        void ClearInput();
+
     private:
         Text inpText;
     };

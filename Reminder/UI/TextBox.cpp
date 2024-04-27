@@ -57,7 +57,7 @@ namespace UI
         outerRect.setPosition(sf::Vector2f(y1, y2));
         innerRect.setPosition(sf::Vector2f(y1 + z, y2 + z));
         outerRect.setFillColor(sf::Color::Black);
-        innerRect.setFillColor(sf::Color::White);
+        innerRect.setFillColor(sf::Color::Color(231, 240, 254, 255));
 
         blinker.setSize(sf::Vector2f(1, x2 - 2 * z - 2));
         blinker.setPosition(sf::Vector2f(y1 + z + 2, y2 + z + 1));
@@ -215,6 +215,7 @@ namespace UI
     void TextBox::draw(sf::RenderWindow& window) 
     {
         time += clock.restart();
+
         if (focus) 
         {
             if (time.asSeconds() > 1) 
@@ -250,5 +251,56 @@ namespace UI
         window.draw(innerRect);
         window.draw(blinker);
         window.draw(inpText.get());
+    }
+
+    void TextBox::Render(sf::RenderTarget* target)
+    {
+        time += clock.restart();
+        if (focus)
+        {
+            if (time.asSeconds() > 1)
+            {
+                time = sf::Time::Zero;
+                blinker.setFillColor(sf::Color::Black);
+            }
+            else if (time.asSeconds() > 0.5)
+            {
+                blinker.setFillColor(sf::Color::Color(231, 240, 254, 255));
+            }
+        }
+        else
+        {
+            blinker.setFillColor(sf::Color::Color(231, 240, 254, 255));
+            if (time.asSeconds() > 300)
+            {
+                time = sf::Time::Zero;
+            }
+        }
+
+        if (focusChar == 0)
+        {
+            blinker.setPosition(posX + thickness + 2, posY + thickness + 1);
+        }
+        else
+        {
+            blinker.setPosition(sf::Vector2f(inpText.get().findCharacterPos(focusChar).x, posY + thickness + 1));
+        }
+
+        inpText.setText(getPinp);
+        target->draw(this->outerRect);
+        target->draw(this->innerRect);
+        target->draw(this->blinker);
+        target->draw(this->inpText.get());
+
+    }
+    void TextBox::SetColor(sf::Color color)
+    {
+        this->innerRect.setFillColor(color);
+    }
+
+    void TextBox::ClearInput()
+    {
+        this->getPinp = "";
+        this->txtInp = "";
     }
 }

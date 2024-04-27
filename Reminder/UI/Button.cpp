@@ -29,19 +29,17 @@ UI::Button::~Button()
 {
 }
 
-
 void UI::Button::Update(const sf::Vector2f mousePosition)
 {
+    UpdateDT();
 	/* IDLE */
     this->ButtonState = BTN_IDLE;
-
     sf::Sprite button= this->sprite;
 
     /* HOVER */
 	if (button.getGlobalBounds().contains(mousePosition))
 	{
 		this->ButtonState = BTN_HOVER;
-
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
 		{
 			this->ButtonState = BTN_ACTIVE;
@@ -61,14 +59,19 @@ void UI::Button::Update(const sf::Vector2f mousePosition)
 		break;
 
 	case BTN_ACTIVE:
-		this->sprite.setTexture(this->pressedTexture);
-        
+		//this->sprite.setTexture(this->pressedTexture);
 		break;
 
 	default:
 		this->sprite.setColor(sf::Color::Red);
 		break;
 	}
+}
+
+void UI::Button::UpdateDT()
+{
+    //this->dt = this->dtClock.restart().asSeconds();
+    //std::cout << this->dt << "\n";
 }
 
 
@@ -89,55 +92,76 @@ void UI::Button::Render(sf::RenderTarget* target) const
 
 void UI::Button::SmoothAnim_black(float& animSpeed)
 {
-    //sf::Sprite button;
-    //if (BTN_HOVER)
+
+    if (this->alpha > 0 and !this->changedButton)
     {
-        if (this->alpha > 0 and !this->changedButton)
-        {
-            this->alpha -= animSpeed; // Изменение затемнения спрайта со временем
-            this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
-            this->procAnim = 1;
-            this->changedButton = 0;
-        }
-        else if (this->alpha == 0)
-        {
-            this->sprite.setTexture(this->hoveredTexture);
-            this->alpha = 255;
-            this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
-            this->changedButton = 1;
-            this->procAnim = 0;
-        }
-        if (this->procAnim and this->changedButton and this->alpha < 255)
-        {
-            this->alpha += animSpeed;
-            this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
-            if (this->alpha == 255) { this->procAnim = 0; }
-        }
+        this->alpha -= animSpeed; // Изменение затемнения спрайта со временем
+        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
+        this->procAnim = 1;
+        this->changedButton = 0;
     }
+    else if (this->alpha == 0)
+    {
+        this->sprite.setTexture(this->hoveredTexture);
+        this->alpha = 255;
+        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
+        this->changedButton = 1;
+        this->procAnim = 0;
+    }
+    if (this->procAnim and this->changedButton and this->alpha < 255)
+    {
+        this->alpha += animSpeed;
+        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
+        if (this->alpha == 255) { this->procAnim = 0; }
+    }
+
 }
 
  void UI::Button::SmoothAnim_light(float& animSpeed)
  {
-        if (this->procAnim and !this->changedButton) // Плавная отмена анимации затемнения
-        {
-            this->alpha += animSpeed;
-            this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
-            if (this->alpha == 255) { this->procAnim = 0; }
-        }
+    if (this->procAnim and !this->changedButton) // Плавная отмена анимации затемнения
+    {
+        this->alpha += animSpeed;
+        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
+        if (this->alpha == 255) { this->procAnim = 0; }
+    }
 
-        if (this->alpha > 0 and this->changedButton) // Затемняем нажатую
-        {
-            this->alpha -= animSpeed;
-            this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
-            this->procAnim = 1;
-            if (this->alpha == 0) { this->procAnim = 0; }
-        }
+    if (this->alpha > 0 and this->changedButton) // Затемняем нажатую
+    {
+        this->alpha -= animSpeed;
+        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
+        this->procAnim = 1;
+        if (this->alpha == 0) { this->procAnim = 0; }
+    }
 
-        else if (this->alpha < 255 and !this->procAnim) // Возвращаем зеленую плавно
-        {
-            this->alpha += animSpeed;
-            this->sprite.setTexture(this->idleTexture);
-            this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
-            this->changedButton = 0;
-        }
+    else if (this->alpha < 255 and !this->procAnim) // Возвращаем зеленую плавно
+    {
+        this->alpha += animSpeed;
+        this->sprite.setTexture(this->idleTexture);
+        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
+        this->changedButton = 0;
+    }
 }
+
+ void UI::Button::Hide(bool flag)
+ {
+     static float scaleX = this->sprite.getScale().x;
+     float scale = scaleX * !flag;
+     this->sprite.setScale(scale, scale);
+ }
+
+ void UI::Button::setPos(sf::Vector2f& vector)
+ {
+     this->sprite.setPosition(vector);
+ }
+
+ void UI::Button::setPos(float x, float y)
+ {
+     this->sprite.setPosition(x, y);
+ }
+ 
+ sf::Vector2f UI::Button::getPos()
+ {
+     sf::Vector2f vector = this->sprite.getPosition();
+     return vector;
+ }

@@ -17,6 +17,8 @@ namespace UI
 		bool changedButton = 0;
 		bool procAnim = 0;
 
+		//float dt;
+
 		sf::Font* font;
 		sf::Text text;
 
@@ -25,6 +27,7 @@ namespace UI
 		sf::Texture pressedTexture;
 
 		sf::Sprite sprite;
+		//sf::Clock dtClock;
 
 	public:
 		float animSpeed = 8.5;
@@ -36,9 +39,15 @@ namespace UI
 		void Render(sf::RenderTarget* target) const;
 
 		void Update(const sf::Vector2f mousePosition);
+		void UpdateDT();
 
 		void SmoothAnim_black(float& animSpeed);
 		void SmoothAnim_light(float& animSpeed);
+
+		void Hide(bool flag);
+		void setPos(sf::Vector2f& vector);
+		void setPos(float x, float y);
+		sf::Vector2f getPos();
 		
 		const bool isPressed() const;
 	};

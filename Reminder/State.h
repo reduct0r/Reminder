@@ -11,6 +11,7 @@
 #include "../../UI/Button.h"
 
 #include <SFML/Graphics.hpp>
+#include <unordered_map>
 
 class State
 {
@@ -19,7 +20,7 @@ private:
 protected:
 	sf::RenderWindow* window;						// Текущее окно
 	std::map<std::string,sf::Texture> textures;		// Набор текстур для текущего стейта
-	std::map<std::string, sf::Sprite> sprites;		// Набор спрайтов для текущего стейта, не включая background
+	std::unordered_map<std::string, sf::Sprite> sprites;		// Набор спрайтов для текущего стейта, не включая background
 	bool ToQuit;									// Выход?
 
 	sf::Vector2i MousePosScreen;
