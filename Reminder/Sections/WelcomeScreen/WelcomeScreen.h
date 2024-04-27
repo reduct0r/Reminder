@@ -20,14 +20,18 @@ private:
     sf::RenderWindow* window;
     sf::Event sfEvent;
     sf::Clock dtClock;
+    sf::ContextSettings windowSettings;
     float dt;
+    bool fullsceen;
 
     std::stack<State*> states;
+    std::vector<sf::VideoMode> videoModes;
 
+    // Init
+    void InitVars();
     void InitWindow();
     void InitStates();
-
-
+    
 public:
     // Core
     WelcomeScreen();

@@ -261,24 +261,48 @@
 void WelcomeScreen::InitWindow()
 {
     std::ifstream ifs("Config/SFML SPECS.ini");
+    this->videoModes = sf::VideoMode::getFullscreenModes();
 
-    sf::VideoMode windowBounds(800, 600);
     std::string title = "None";
+    //sf::VideoMode windowBounds(800, 600);
+    sf::VideoMode windowBounds = sf::VideoMode::getDesktopMode();
     unsigned frameLimit = 120;
     bool verticalSync = false;
+    unsigned antialiasing_level = 0;
+    bool fullsceen = false;
 
     if (ifs.is_open())
     {
+        std::cout << "open" << "\n";
         std::getline(ifs, title);
         ifs >> windowBounds.width >> windowBounds.height;
+        ifs >> fullsceen;
         ifs >> frameLimit;
         ifs >> verticalSync;
+        ifs >> antialiasing_level;
     }
+    ifs.close();
 
-
-    this->window = new sf::RenderWindow(windowBounds, title);
+    this->fullsceen = fullsceen;
+    this->windowSettings.antialiasingLevel = antialiasing_level;
+    if (this->fullsceen)
+    {
+        this->window = new sf::RenderWindow(windowBounds, title, sf::Style::Fullscreen, windowSettings);
+    }
+    else
+    {
+        this->window = new sf::RenderWindow(windowBounds, title, sf::Style::Titlebar | sf::Style::Close, windowSettings);
+    }
+    
     this->window->setFramerateLimit(frameLimit);
     this->window->setVerticalSyncEnabled(verticalSync);
+}
+
+void WelcomeScreen::InitVars()
+{
+    this->window = nullptr;
+    this->dt = 0;
+    this->fullsceen = false;
 }
 
 void WelcomeScreen::InitStates()
@@ -328,17 +352,6 @@ void WelcomeScreen::Update()
     }
 }
 
-void WelcomeScreen::Render()
-{
-    this->window->clear();
-
-    if (!this->states.empty())
-    {
-        this->states.top()->Render(this->window);
-    }
-
-    this->window->display();
-}
 
 void WelcomeScreen::EndApplication()
 {
@@ -370,4 +383,17 @@ void WelcomeScreen::UpdateEvents()
 void WelcomeScreen::UpdateDT()
 {
     this->dt = this->dtClock.restart().asSeconds();
+}
+
+// RENDER
+void WelcomeScreen::Render()
+{
+    this->window->clear();
+
+    if (!this->states.empty())
+    {
+        this->states.top()->Render(this->window);
+    }
+
+    this->window->display();
 }
