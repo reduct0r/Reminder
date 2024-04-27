@@ -48,7 +48,10 @@ namespace UI
 		void setPos(sf::Vector2f& vector);
 		void setPos(float x, float y);
 		sf::Vector2f getPos();
-		
+
+		void setText(const sf::String text);
+
 		const bool isPressed() const;
+		const std::string& getText() const;
 	};
 }

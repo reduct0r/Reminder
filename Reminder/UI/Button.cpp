@@ -16,7 +16,7 @@ UI::Button::Button(float x, float y, float width, float height, sf::Font* font, 
 	this->text.setFont(*this->font);
 	this->text.setString(text);
 	this->text.setColor(sf::Color::Black);
-	this->text.setCharacterSize(12);
+	this->text.setCharacterSize(16);
 	this->text.setPosition(
 		this->sprite.getPosition().x + (this->sprite.getGlobalBounds().width / 2.0) - this->text.getGlobalBounds().width / 2.0,
 		this->sprite.getPosition().y + (this->sprite.getGlobalBounds().height / 2.0)  - this->text.getGlobalBounds().height / 2.0
@@ -75,6 +75,11 @@ void UI::Button::UpdateDT()
 }
 
 
+void UI::Button::setText(const sf::String text)
+{
+    this->text.setString(text);
+}
+
 const bool UI::Button::isPressed() const
 {
 	if (this->ButtonState == BTN_ACTIVE)
@@ -82,6 +87,11 @@ const bool UI::Button::isPressed() const
 		return true;
 	}
 	return false;
+}
+
+const std::string& UI::Button::getText() const
+{
+    return this->text.getString();
 }
 
 void UI::Button::Render(sf::RenderTarget* target) const

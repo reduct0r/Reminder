@@ -300,7 +300,7 @@ namespace UI
 
     void TextBox::ClearInput()
     {
-        this->getPinp = "";
-        this->txtInp = "";
+        focusChar = 0;
+        getPinp.clear();
     }
 }

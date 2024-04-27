@@ -20,6 +20,8 @@ MainMenuState::~MainMenuState()
 	{
 		delete it->second;
 	}
+
+	delete this->ddl;
 }
 
 void MainMenuState::UpdateKeyBoardBinds(const float& dt)
@@ -53,6 +55,10 @@ void MainMenuState::InitButtons()
 	this->buttons["GAME_STATE_BTN"] = new UI::Button(250, 100, 0.5, 0.5, &this->font, sf::String("STATE_BTN"), T1, T2, T2);
 
 	this->buttons["GAME_STATE_BTN2"] = new UI::Button(250, 500, 0.5, 0.5, &this->font, sf::String("STATE_BTN2"), T1, T2, T2);
+	std::string li[] = { "sdf", "ssfsfqa", "qwe2", "3rfs", "sfw4e4", };
+	this->ddl = new UI::DropDownList(0.5, 5, 0, 100, 100, &this->font, li, T1, T2, T2);
+
+
 }
 
 // UPDATE 
@@ -60,6 +66,8 @@ void MainMenuState::Update(const float& dt)
 {
 	this->UpdateMousePos();
 	this->UpdateButtons();
+
+	this->ddl->Update(this->MousePosView, dt);
 }
 
 void MainMenuState::UpdateButtons()
@@ -86,6 +94,8 @@ void MainMenuState::Render(sf::RenderTarget* target)
 
 	target->draw(this->bg);
 	this->RenderButtons(target);
+
+	this->ddl->Render(target);
 }
 
 void MainMenuState::RenderButtons(sf::RenderTarget* target)

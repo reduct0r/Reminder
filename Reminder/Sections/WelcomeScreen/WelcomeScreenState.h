@@ -1,7 +1,6 @@
 #ifndef WELCOMWSCREENSTATE_H
 #define  WELCOMWSCREENSTATE_H
 
-#include "../../State.h"
 #include "../Main menu/MainMenuState.h"
 #include "../../UI/TextBox.h"
 #include <string>

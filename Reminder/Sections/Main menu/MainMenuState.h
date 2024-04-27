@@ -10,7 +10,7 @@ private:
 	sf::RectangleShape bg;
 	sf::Font font;
 	std::map<std::string, UI::Button*> buttons;
-
+	UI::DropDownList* ddl;
 	//Inits
 	void InitFonts();
 	void InitButtons();

@@ -15,6 +15,7 @@ set(SOURCES
         "Reminder/Sections/Main menu/MainMenu.cpp" 
         "Reminder/Sections/Settings/Settings.cpp"
         "Reminder/UI/Button.cpp"
+        "Reminder/UI/DropDownList.cpp"
         "Reminder/State.cpp"
         "Reminder/Sections/Main menu/MainMenuState.cpp"
         "Reminder/Sections/WelcomeScreen/WelcomeScreenState.cpp"
