@@ -20,6 +20,12 @@ WelcomeScreenState::~WelcomeScreenState()
 	{
 		delete it->second;
 	}
+
+	auto it2 = this->textboxes.begin();
+	for (auto it2 = this->textboxes.begin(); it2 != this->textboxes.end(); ++it2)
+	{
+		delete it2->second;
+	}
 }
 
 void WelcomeScreenState::AnimOpenFields()
@@ -30,16 +36,16 @@ void WelcomeScreenState::AnimOpenFields()
 
 	float a = acceleration;
 	static float startPos = this->buttons["REGISTER_BTN"]->getPos().x;
-	static float duration = -10;
+	static float duration = -this->scale * 20;
 	static bool isLoginBtnHidden = false;
 	if (!isLoginBtnHidden)
 	{
 		this->sprites["LOG_FIELD"].setScale(scale, scale);
 		this->sprites["PASS_FIELD"].setScale(scale, scale);
-		speed = 1.0f;
-		speed1 = 0.5f;
-		speed2 = 0.7f;
-		speed3 = 0.8f;
+		speed = this->scale * 2;
+		speed1 = this->scale;
+		speed2 = this->scale * 1.4;
+		speed3 = this->scale * 1.6;
 		this->buttons["LOGIN_BTN"]->Hide(1);
 		this->buttons["BACK_BTN"]->Hide(0);
 		isLoginBtnHidden = true;
@@ -65,7 +71,7 @@ void WelcomeScreenState::AnimOpenFields()
 	
 	float a1 = acceleration;
 	static float startPos1 = sprites["LOG_FIELD"].getPosition().y;
-	static float duration1 = 35;
+	static float duration1 = this->scale * 70;
 	sf::Vector2f posF1 = this->sprites["LOG_FIELD"].getPosition();
 	if (posF1.y - startPos1 >= duration1)
 	{
@@ -81,7 +87,7 @@ void WelcomeScreenState::AnimOpenFields()
 
 
 	sf::Vector2f posF2 = this->sprites["PASS_FIELD"].getPosition();
-	static float duration2 = 65;
+	static float duration2 = this->scale * 130;
 	static float startPos2 = sprites["PASS_FIELD"].getPosition().y;
 	float a2 = acceleration;
 
@@ -99,7 +105,7 @@ void WelcomeScreenState::AnimOpenFields()
 
 	/* logo */
 	static float startPos3 = sprites["LOGO"].getPosition().y;
-	static float duration3 = 30;
+	static float duration3 = this->scale * 60;
 	sf::Vector2f posF3 = this->sprites["LOGO"].getPosition();
 
 	if (startPos3 - posF3.y >= duration3)
@@ -133,17 +139,17 @@ void WelcomeScreenState::AnimCloseFields()
 
 	float a = acceleration;
 	static float startPos = this->buttons["REGISTER_BTN"]->getPos().x;
-	static float duration = 5;
+	static float duration = this->scale * 10;
 	static bool isLoginBtnHidden = false;
 	if (!isLoginBtnHidden)
 	{
 		this->textboxes["LOGIN"]->setPosition(this->window->getSize().x, this->window->getSize().x);
 		this->textboxes["PASSWORD"]->setPosition(this->window->getSize().x, this->window->getSize().x);
 
-		speed = 1.0f;
-		speed1 = 0.5f;
-		speed2 = 0.7f;
-		speed3 = 0.8f;
+		speed = this->scale * 2;
+		speed1 = this->scale;
+		speed2 = this->scale * 1.4;
+		speed3 = this->scale * 1.6;
 		this->buttons["LOGIN_BTN"]->Hide(0);
 		this->buttons["BACK_BTN"]->Hide(1);
 		isLoginBtnHidden = true;
@@ -166,7 +172,7 @@ void WelcomeScreenState::AnimCloseFields()
 	float scale = this->scale;
 	float a1 = acceleration;
 	static float startPos1 = sprites["LOG_FIELD"].getPosition().y;
-	static float duration1 = 35;
+	static float duration1 = this->scale * 70;
 	sf::Vector2f posF1 = this->sprites["LOG_FIELD"].getPosition();
 	if (startPos1 - posF1.y >= duration1)
 	{
@@ -182,7 +188,7 @@ void WelcomeScreenState::AnimCloseFields()
 
 
 	sf::Vector2f posF2 = this->sprites["PASS_FIELD"].getPosition();
-	static float duration2 = 65;
+	static float duration2 = this->scale * 130;
 	static float startPos2 = sprites["PASS_FIELD"].getPosition().y;
 	float a2 = acceleration;
 
@@ -200,7 +206,7 @@ void WelcomeScreenState::AnimCloseFields()
 
 	/* logo */
 	static float startPos3 = sprites["LOGO"].getPosition().y;
-	static float duration3 = 30;
+	static float duration3 = this->scale * 60;
 	sf::Vector2f posF3 = this->sprites["LOGO"].getPosition();
 
 	if (posF3.y - startPos3 >= duration3)
@@ -263,7 +269,7 @@ void WelcomeScreenState::InitButtons()
 
 	this->buttons["REGISTER_BTN"] = new UI::Button(mid, yaw + winY / 30.0f , scale, scale, &this->font, sf::String(""), this->textures["REG_BT_IDLE"], this->textures["REG_BT_HOVER"], this->textures["REG_BT_HOVER"]);
 
-	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, yaw + winY / 3.0, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
+	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, yaw + winY / 2.8, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
 	
 	this->buttons["BACK_BTN"] = new UI::Button(30, 30, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
 	this->buttons["BACK_BTN"]->Hide(1);
