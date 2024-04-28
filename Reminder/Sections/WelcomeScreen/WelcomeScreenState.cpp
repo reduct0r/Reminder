@@ -351,6 +351,7 @@ void WelcomeScreenState::InitSprites()
 void WelcomeScreenState::Update(const float& dt)
 {
 	this->UpdateMousePos();
+	this->UpdateKeyTime(dt);
 	this->UpdateButtons();
 	this->UpdateEvents();
 
@@ -386,7 +387,7 @@ void WelcomeScreenState::UpdateButtons()
 		this->states->push(new MainMenuState(this->window, this->states));
 	}
 
-	if (flag1 and this->buttons["REGISTER_BTN"]->isPressed())
+	if (flag1 and this->buttons["REGISTER_BTN"]->isPressed() and this->getKeyTime())
 	{
 		flag1 = 0;
 		flag2 = 1;
@@ -419,7 +420,7 @@ void WelcomeScreenState::UpdateButtons()
 
 
 
-	if (this->buttons["GITHUB_BTN"]->isPressed())
+	if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime())
 	{
 		std::string url = "https://github.com/reduct0r/Reminder";
 		

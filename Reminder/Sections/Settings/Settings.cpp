@@ -1,4 +1,4 @@
-#include "H_settings.h"
+#include "Settings.h"
 
 namespace Reminder
 {

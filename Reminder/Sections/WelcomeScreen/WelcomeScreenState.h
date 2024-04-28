@@ -2,8 +2,7 @@
 #define  WELCOMWSCREENSTATE_H
 
 #include "../Main menu/MainMenuState.h"
-#include "../../UI/TextBox.h"
-#include <string>
+
 class WelcomeScreenState :
 	public State
 {

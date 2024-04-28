@@ -1,10 +1,7 @@
-#ifndef MAINMENUSTATE_H
-#define MAINMENUSTATE_H
-
-#include "SettingsState.h"
+#pragma once
 #include "../../State.h"
 
-class MainMenuState :
+class SettingsState :
 	public State
 {
 private:
@@ -12,7 +9,6 @@ private:
 	sf::Font font;
 	sf::Event sfEvent;
 	std::map<std::string, UI::Button*> buttons;
-	UI::DropDownList* ddl;
 
 	float scale = 1;
 
@@ -26,8 +22,8 @@ private:
 
 
 public:
-	MainMenuState(sf::RenderWindow* window, std::stack<State*>* states);
-	virtual ~MainMenuState();
+	SettingsState(sf::RenderWindow* window, std::stack<State*>* states);
+	virtual ~SettingsState();
 
 	void Update(const float& dt);
 	void UpdateButtons();
@@ -38,7 +34,5 @@ public:
 	void RenderButtons(sf::RenderTarget* target = nullptr);
 	void RenderSprites(sf::RenderTarget* target = nullptr);
 	void Render(sf::RenderTarget* target = nullptr);
-	void EndState();
-};
 
-#endif
+};

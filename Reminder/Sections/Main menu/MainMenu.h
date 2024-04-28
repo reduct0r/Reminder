@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../../Init/H_Init.h"
-#include "H_settings.h"
+#include "Settings.h"
 #include "MainMenuState.h"
 
 namespace sf 
