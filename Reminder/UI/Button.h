@@ -13,10 +13,12 @@ namespace UI
 	{
 	private:
 		short unsigned ButtonState;
+		short unsigned id = 0;
+
 		float alpha = 255;
 		bool changedButton = 0;
 		bool procAnim = 0;
-
+		bool needAnim = 1;
 		//float dt;
 
 		sf::Font* font;
@@ -33,7 +35,8 @@ namespace UI
 		float animSpeed = 8.5;
 
 		Button(float x, float y, float width, float height, sf::Font* font, sf::String text, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture);
-		
+		Button(bool needAnim, float fontSize, float x, float y, float width, float height, sf::Font* font, sf::String text, sf::Texture idleTexture, sf::Texture hoveredTexture,
+			sf::Texture pressedTexture, short unsigned id = 0);
 		~Button();
 
 		void Render(sf::RenderTarget* target) const;
@@ -47,11 +50,12 @@ namespace UI
 		void Hide(bool flag);
 		void setPos(sf::Vector2f& vector);
 		void setPos(float x, float y);
-		sf::Vector2f getPos();
-
+		void setId(const short unsigned id);
 		void setText(const sf::String text);
-
+		
+		sf::Vector2f getPos();
 		const bool isPressed() const;
-		const std::string& getText() const;
+		const std::string getText() const;
+		const short unsigned& getId() const;
 	};
 }

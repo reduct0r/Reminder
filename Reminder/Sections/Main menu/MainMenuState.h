@@ -12,7 +12,6 @@ private:
 	sf::Font font;
 	sf::Event sfEvent;
 	std::map<std::string, UI::Button*> buttons;
-	UI::DropDownList* ddl;
 
 	float scale = 1;
 

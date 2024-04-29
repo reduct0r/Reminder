@@ -18,17 +18,18 @@ namespace UI
 
 		sf::Texture idleTexture;
 		sf::Texture hoveredTexture;
-		sf::Texture pressedTexture;
+		sf::Texture chooseTexture;
 
 	public:
-		DropDownList(float scale, unsigned nrOfElement, unsigned def_index, float x, float y, sf::Font* font,
-			std::string list[], sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture);
+		DropDownList(float scale, unsigned def_index, float x, float y, sf::Font* font, float fontSize,
+			std::vector<std::string> list, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture chooseTexture);
 		~DropDownList();
 
 		void Render(sf::RenderTarget* target) const;
 		void Update(const sf::Vector2f mousePosition, const float& dt);
 
 		const bool getKeyTime();
+		const unsigned short& getActiveElementId() const;
 		void UpdateKeyTime(const float& dt);
 	};
 

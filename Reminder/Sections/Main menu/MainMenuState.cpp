@@ -19,8 +19,6 @@ MainMenuState::~MainMenuState()
 	{
 		delete it->second;
 	}
-
-	delete this->ddl;
 }
 
 // INIT
@@ -56,16 +54,7 @@ void MainMenuState::InitButtons()
 	float yaw = 100;			// winY / 2.0 - this->textures["LOGIN_BT_IDLE"].getSize().y * scale / 2.0;
 
 	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, yaw + winY / 2.8, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
-	this->buttons["SETTINGS_BTN"] = new UI::Button(50, 50, scale, scale, &this->font, sf::String(""), this->textures["SETTINGS_ICON"], this->textures["SETTINGS_ICON"], this->textures["SETTINGS_ICON"]);
-
-
-
-
-	// testing
-	sf::Texture T3;
-	T3.loadFromFile("Resources/Textures/UI/Settings/Resolution.png");
-	std::string li[] = { "sdf", "ssfsfqa", "qwe2", "3rfs", "sfw4e4", };
-	this->ddl = new UI::DropDownList(0.5, 5, 0, 100, 100, &this->font, li, T3, T3, T3);
+	this->buttons["SETTINGS_BTN"] = new UI::Button(winX - winX / 15, winY / 50, scale, scale, &this->font, sf::String(""), this->textures["SETTINGS_ICON"], this->textures["SETTINGS_ICON"], this->textures["SETTINGS_ICON"]);
 
 }
 
@@ -106,8 +95,6 @@ void MainMenuState::Update(const float& dt)
 	this->UpdateKeyTime(dt);
 	this->UpdateButtons();
 	this->UpdateEvents();
-
-	this->ddl->Update(this->MousePosView, dt);
 }
 
 void MainMenuState::UpdateButtons()
@@ -120,7 +107,7 @@ void MainMenuState::UpdateButtons()
 	/* Обработка кнопок */
 	if (this->buttons["SETTINGS_BTN"]->isPressed())
 	{
-		this->ToQuit = 1;
+		this->states->push(new SettingsState(this->window, this->states));
 	}
 }
 
@@ -157,7 +144,6 @@ void MainMenuState::Render(sf::RenderTarget* target)
 	this->RenderButtons(target);
 	this->RenderSprites(target);
 
-	this->ddl->Render(target);
 }
 
 void MainMenuState::RenderButtons(sf::RenderTarget* target)

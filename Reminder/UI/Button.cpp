@@ -3,6 +3,7 @@
 
 UI::Button::Button(float x, float y, float width, float height, sf::Font* font, sf::String text, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture)
 {
+	this->id = 0;
     this->ButtonState = BTN_IDLE;
 	this->idleTexture = idleTexture;
 	this->hoveredTexture = hoveredTexture;
@@ -19,9 +20,33 @@ UI::Button::Button(float x, float y, float width, float height, sf::Font* font, 
 	this->text.setCharacterSize(16);
 	this->text.setPosition(
 		this->sprite.getPosition().x + (this->sprite.getGlobalBounds().width / 2.0) - this->text.getGlobalBounds().width / 2.0,
-		this->sprite.getPosition().y + (this->sprite.getGlobalBounds().height / 2.0)  - this->text.getGlobalBounds().height / 2.0
+		this->sprite.getPosition().y + (this->sprite.getGlobalBounds().height / 2.0)  - this->text.getGlobalBounds().height / 1.5
 	);
+}
 
+UI::Button::Button(bool needAnim, float fontSize, float x, float y, float width, float height, sf::Font* font, sf::String text,
+	sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture, short unsigned id)
+{
+	this->id = id;
+	this->needAnim = needAnim;
+	this->ButtonState = BTN_IDLE;
+	this->idleTexture = idleTexture;
+	this->hoveredTexture = hoveredTexture;
+	this->pressedTexture = pressedTexture;
+	this->font = font;
+
+	this->sprite.setTexture(this->idleTexture);
+	this->sprite.setPosition(sf::Vector2f(x, y));
+	this->sprite.setScale(width, height);
+
+	this->text.setFont(*this->font);
+	this->text.setString(text);
+	this->text.setColor(sf::Color::Black);
+	this->text.setCharacterSize(fontSize);
+	this->text.setPosition(
+		this->sprite.getPosition().x + (this->sprite.getGlobalBounds().width / 2.0) - this->text.getGlobalBounds().width / 2.0,
+		this->sprite.getPosition().y + (this->sprite.getGlobalBounds().height / 2.0) - this->text.getGlobalBounds().height / 1.3
+	);
 
 }
 
@@ -49,20 +74,37 @@ void UI::Button::Update(const sf::Vector2f mousePosition)
 	switch (this->ButtonState)
 	{
 	case BTN_IDLE:
-		//this->sprite.setTexture(this->idleTexture);
-        UI::Button::SmoothAnim_light(this->animSpeed);
+		if (this->needAnim)
+		{
+			UI::Button::SmoothAnim_light(this->animSpeed);
+		}
+		else
+		{
+			this->sprite.setTexture(this->idleTexture);
+		}
 		break;
 
 	case BTN_HOVER:
-		//this->sprite.setTexture(this->hoveredTexture);
-		UI::Button::SmoothAnim_black(this->animSpeed);
+		if (this->needAnim)
+		{
+			UI::Button::SmoothAnim_black(this->animSpeed);
+		}
+		else
+		{
+			this->sprite.setTexture(this->hoveredTexture);
+		}
 		break;
 
 	case BTN_ACTIVE:
-		//this->sprite.setTexture(this->pressedTexture);
+		if (! this->needAnim)
+		{
+			this->sprite.setTexture(this->pressedTexture);
+		}
+		
 		break;
 
 	default:
+
 		this->sprite.setColor(sf::Color::Red);
 		break;
 	}
@@ -78,6 +120,10 @@ void UI::Button::UpdateDT()
 void UI::Button::setText(const sf::String text)
 {
     this->text.setString(text);
+		this->text.setPosition(
+		this->sprite.getPosition().x + (this->sprite.getGlobalBounds().width / 2.0) - this->text.getGlobalBounds().width / 2.0,
+		this->sprite.getPosition().y + (this->sprite.getGlobalBounds().height / 2.0) - this->text.getGlobalBounds().height / 1.3
+	);
 }
 
 const bool UI::Button::isPressed() const
@@ -89,9 +135,14 @@ const bool UI::Button::isPressed() const
 	return false;
 }
 
-const std::string& UI::Button::getText() const
+const std::string UI::Button::getText() const
 {
     return this->text.getString();
+}
+
+const short unsigned& UI::Button::getId() const
+{
+	return this->id;
 }
 
 void UI::Button::Render(sf::RenderTarget* target) const
@@ -168,6 +219,11 @@ void UI::Button::SmoothAnim_black(float& animSpeed)
  void UI::Button::setPos(float x, float y)
  {
      this->sprite.setPosition(x, y);
+ }
+
+ void UI::Button::setId(const short unsigned id)
+ {
+	 this->id = id;
  }
  
  sf::Vector2f UI::Button::getPos()

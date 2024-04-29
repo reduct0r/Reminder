@@ -2,6 +2,7 @@
   "dependencies": [
     "libpqxx",
     "openssl",
-    "jsoncpp"
+    "jsoncpp",
+    "tinyfiledialogs"
   ]
 }
