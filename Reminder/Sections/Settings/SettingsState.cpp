@@ -70,9 +70,31 @@ void SettingsState::InitButtons()
 	float winY = float(this->window->getSize().y);
 	float scale = this->scale;
 
-	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, 50 + winY / 2.8, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
+	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 1.05 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.05 - this->textures["GITHUB_ICON"].getSize().y * scale, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
 	this->buttons["BACK_BTN"] = new UI::Button(30, 30, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
-	this->buttons["APPLY_BTN"] = new UI::Button(300, 300, scale, scale, &this->font, sf::String(""), this->textures["APPLY_IDL"], this->textures["APPLY_HVR"], this->textures["APPLY_HVR"]);
+	this->buttons["APPLY_BTN"] = new UI::Button(winX / 2 - this->textures["APPLY_IDL"].getSize().x * scale / 2.0, winY / 1.2, scale, scale, &this->font, sf::String(""), this->textures["APPLY_IDL"], this->textures["APPLY_HVR"], this->textures["APPLY_HVR"]);
+	
+	if (!this->gfxSettings.fullscreen)
+	{
+		this->buttons["FULLSCREEN_BTN"] = new UI::Button(0, 0, winX / 2 - this->textures["FULLSCREEN_MODE"].getSize().x * scale / 2.0, winY / 2, scale, scale, &this->font,
+			sf::String(""), this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE"]);
+	}
+	else
+	{
+		this->buttons["FULLSCREEN_BTN"] = new UI::Button(0, 0, winX / 2 - this->textures["WINDOW_MODE"].getSize().x * scale / 2.0, winY / 2, scale, scale, &this->font,
+			sf::String(""), this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE"]);
+	}
+
+	if (this->gfxSettings.sound)
+	{
+		this->buttons["SOUND_BTN"] = new UI::Button(0, 0, winX / 2 - this->textures["SOUND_ON"].getSize().x * scale / 2.0, winY / 3, scale, scale, &this->font,
+			sf::String(""), this->textures["SOUND_ON"], this->textures["SOUND_ON"], this->textures["SOUND_ON"]);
+	}
+	else
+	{
+		this->buttons["SOUND_BTN"] = new UI::Button(0, 0, winX / 2 - this->textures["SOUND_OFF"].getSize().x * scale / 2.0, winY / 3, scale, scale, &this->font,
+			sf::String(""), this->textures["SOUND_OFF"], this->textures["SOUND_OFF"], this->textures["SOUND_OFF"]);
+	}
 }
 
 void SettingsState::InitTextures()
@@ -106,6 +128,18 @@ void SettingsState::InitTextures()
 
 	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/back2.png");
 	this->textures["BACK"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Settings/fullscreen.png");
+	this->textures["FULLSCREEN_MODE"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Settings/to_window .png");
+	this->textures["WINDOW_MODE"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Settings/Volume on.png");
+	this->textures["SOUND_ON"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Settings/Volume_off.png");
+	this->textures["SOUND_OFF"] = texture;
 }
 
 void SettingsState::InitSprites()
@@ -118,6 +152,9 @@ void SettingsState::InitSprites()
 
 void SettingsState::InitDropDownLists()
 {
+	float winX = float(this->window->getSize().x);
+	float winY = float(this->window->getSize().y);
+	float scale = this->scale;
 
 	std::vector<std::string> l = {"Resolution", "960 x 540", "1024 x 576", "1152 x 648", "1280 x 720 (HD)", "1366 x 768", "1600 x 900", "1920 x 1080 (FHD)", "2560 x 1440 (QHD)", "3840 x 2160 (4K)", "7680 x 4320 (8K)" };
 	
@@ -128,7 +165,7 @@ void SettingsState::InitDropDownLists()
 		modes_str.push_back(std::to_string(i.width) + "x" + std::to_string(i.height));
 	}*/
 
-	this->dropDownLists["RESOLUTION"] = new UI::DropDownList(this->scale / 1.5, 0, 100, 0, &this->font, 25, l, this->textures["DDL_SECOND"],
+	this->dropDownLists["RESOLUTION"] = new UI::DropDownList(this->scale / 1.5, 0, winX / 3.2 - this->textures["DDL_MAIN"].getSize().x * scale / 2 , 0, &this->font, 25, l, this->textures["DDL_SECOND"],
 		this->textures["DDL_SECOND_HOVER"], this->textures["DDL_MAIN"]);
 }
 
@@ -156,13 +193,36 @@ void  SettingsState::UpdateButtons()
 		this->ToQuit = 1;
 	}
 
+	if (this->buttons["FULLSCREEN_BTN"]->isPressed() and this->getKeyTime())
+	{
+		if (this->gfxSettings.fullscreen == 0)
+		{
+			this->gfxSettings.fullscreen = 1;
+			this->buttons["FULLSCREEN_BTN"]->setNewTextures(this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE"]);
+		}
+		else
+		{
+			this->gfxSettings.fullscreen = 0;
+			this->buttons["FULLSCREEN_BTN"]->setNewTextures(this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE"]);
+		}
+	}
+
+
 	if (this->buttons["APPLY_BTN"]->isPressed() and this->getKeyTime())
 	{
 		// !!!
 		this->gfxSettings.resolution = this->videoModes[this->dropDownLists["RESOLUTION"]->getActiveElementId()];
-		this->window->create(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Default);
+		
+		if (this->gfxSettings.fullscreen)
+		{
+			this->window->create(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Fullscreen, this->gfxSettings.contextSettings);
+		}
+		else
+		{
+			this->window->create(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Titlebar | sf::Style::Close, this->gfxSettings.contextSettings);
+		}
 		this->gfxSettings.SaveToFile("Config/SFML SPECS.ini");
-
+		
 		this->InitTextures();
 		this->InitVars();
 		this->InitSprites();

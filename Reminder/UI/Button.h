@@ -52,6 +52,7 @@ namespace UI
 		void setPos(float x, float y);
 		void setId(const short unsigned id);
 		void setText(const sf::String text);
+		void setNewTextures(sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture);
 		
 		sf::Vector2f getPos();
 		const bool isPressed() const;

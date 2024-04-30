@@ -16,6 +16,7 @@ private:
 	std::map<std::string, UI::Button*> buttons;
 
 	float scale = 1;
+	bool startFullScreen = 0;
 
 	//Inits
 	void InitVars();

@@ -9,9 +9,11 @@ public:
     sf::VideoMode resolution;
     bool fullscreen;
     bool VSync;
+    bool sound = 1;
     unsigned frameLimit;
     sf::ContextSettings contextSettings;
     std::vector<sf::VideoMode> videoModes;
+    
 
     Settings();
 

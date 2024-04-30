@@ -10,6 +10,8 @@ MainMenuState::MainMenuState(sf::RenderWindow* window, std::stack<State*>* state
 	this->InitBG();
 	this->InitFonts();
 	this->InitButtons();
+
+	this->startFullScreen = this->gfxSettings.fullscreen;
 }
 
 MainMenuState::~MainMenuState()
@@ -95,8 +97,8 @@ void MainMenuState::Update(const float& dt)
 	this->UpdateKeyTime(dt);
 	this->UpdateButtons();
 	this->UpdateEvents();
-
-	if (this->bg.getTexture()->getSize().x * this->scale != this->gfxSettings.resolution.width)
+	
+	if (this->bg.getTexture()->getSize().x * this->scale != this->window->getSize().x)
 	{
 		this->InitTextures();
 		this->InitVars();

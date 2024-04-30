@@ -4,6 +4,7 @@
 UI::Button::Button(float x, float y, float width, float height, sf::Font* font, sf::String text, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture)
 {
 	this->id = 0;
+	this->needAnim = 1;
     this->ButtonState = BTN_IDLE;
 	this->idleTexture = idleTexture;
 	this->hoveredTexture = hoveredTexture;
@@ -124,6 +125,13 @@ void UI::Button::setText(const sf::String text)
 		this->sprite.getPosition().x + (this->sprite.getGlobalBounds().width / 2.0) - this->text.getGlobalBounds().width / 2.0,
 		this->sprite.getPosition().y + (this->sprite.getGlobalBounds().height / 2.0) - this->text.getGlobalBounds().height / 1.3
 	);
+}
+
+void UI::Button::setNewTextures(sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture)
+{
+	this->idleTexture = idleTexture;
+	this->hoveredTexture = hoveredTexture;
+	this->pressedTexture = pressedTexture;
 }
 
 const bool UI::Button::isPressed() const

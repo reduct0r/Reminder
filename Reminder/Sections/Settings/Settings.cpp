@@ -22,7 +22,8 @@ void Settings::SaveToFile(const std::string path)
         ofs << this->fullscreen << "\n";
         ofs << this->frameLimit << "\n";
         ofs << this->VSync << "\n";
-        ofs << this->contextSettings.antialiasingLevel;
+        ofs << this->contextSettings.antialiasingLevel << "\n";
+        ofs << this->sound;
     }
     ofs.close();
 }
@@ -37,7 +38,8 @@ void Settings::LoadFromFile(const std::string path)
         ifs >> this->fullscreen;
         ifs >> this->frameLimit;
         ifs >> this->VSync;
-        ifs >> this->contextSettings.antialiasingLevel;
+        ifs >> this->contextSettings.antialiasingLevel;\
+        ifs >> this->sound;
     }
     ifs.close();
 }
