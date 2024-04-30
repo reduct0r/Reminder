@@ -260,49 +260,24 @@
 /* =============================================== */
 void WelcomeScreen::InitWindow()
 {
-    std::ifstream ifs("Config/SFML SPECS.ini");
-    this->videoModes = sf::VideoMode::getFullscreenModes();
 
-    std::string title = "None";
-    //sf::VideoMode windowBounds(800, 600);
-    sf::VideoMode windowBounds = sf::VideoMode::getDesktopMode();
-    unsigned frameLimit = 120;
-    bool verticalSync = false;
-    unsigned antialiasing_level = 0;
-    bool fullsceen = false;
-
-    if (ifs.is_open())
+    if (this->gfxSettings.fullscreen)
     {
-        std::cout << "open" << "\n";
-        std::getline(ifs, title);
-        ifs >> windowBounds.width >> windowBounds.height;
-        ifs >> fullsceen;
-        ifs >> frameLimit;
-        ifs >> verticalSync;
-        ifs >> antialiasing_level;
-    }
-    ifs.close();
-
-    this->fullsceen = fullsceen;
-    this->windowSettings.antialiasingLevel = antialiasing_level;
-    if (this->fullsceen)
-    {
-        this->window = new sf::RenderWindow(windowBounds, title, sf::Style::Fullscreen, windowSettings);
+        this->window = new sf::RenderWindow(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Fullscreen, this->gfxSettings.contextSettings);
     }
     else
     {
-        this->window = new sf::RenderWindow(windowBounds, title, sf::Style::Titlebar | sf::Style::Close, windowSettings);
+        this->window = new sf::RenderWindow(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Titlebar | sf::Style::Close, this->gfxSettings.contextSettings);
     }
     
-    this->window->setFramerateLimit(frameLimit);
-    this->window->setVerticalSyncEnabled(verticalSync);
+    this->window->setFramerateLimit(this->gfxSettings.frameLimit);
+    this->window->setVerticalSyncEnabled(this->gfxSettings.VSync);
 }
 
 void WelcomeScreen::InitVars()
 {
     this->window = nullptr;
     this->dt = 0;
-    this->fullsceen = false;
 }
 
 void WelcomeScreen::InitStates()
@@ -310,8 +285,16 @@ void WelcomeScreen::InitStates()
     this->states.push(new WelcomeScreenState(this->window, &this->states));
 }
 
+void WelcomeScreen::InitSettings()
+{
+    this->gfxSettings.LoadFromFile("Config/SFML SPECS.ini");
+
+}
+
 WelcomeScreen::WelcomeScreen()
 {
+    this->InitVars();
+    this->InitSettings();
     this->InitWindow();
     this->InitStates();
 }

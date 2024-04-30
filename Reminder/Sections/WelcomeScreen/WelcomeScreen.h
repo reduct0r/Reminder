@@ -1,36 +1,80 @@
-﻿// H_Welcome_screen.h
-#pragma once
+﻿#pragma once
 #include "WelcomeScreenState.h"
 
-namespace sf
-{
-    class RenderWindow;
-}
-
-namespace Reminder
-{
-    class TextureManager;
-    class WindowSpecs;
-}
-
-// CLASS
 class WelcomeScreen
 {
 private:
+
+    class Settings
+    {
+    public:
+
+        std::string title;
+        sf::VideoMode resolution;
+        bool fullscreen;
+        bool VSync;
+        unsigned frameLimit;
+        sf::ContextSettings contextSettings;
+        std::vector<sf::VideoMode> videoModes;
+
+        Settings()
+        {
+            this->title = "DEFAULT";
+            this->resolution = sf::VideoMode::getDesktopMode();
+            this->fullscreen = 0;
+            this->VSync = 0;
+            this->frameLimit = 120;
+            this->contextSettings.antialiasingLevel = 0;
+            this->videoModes = sf::VideoMode::getFullscreenModes();
+        }
+
+        void SaveToFile(const std::string path)
+        {
+            std::ofstream ofs(path);
+            if (ofs.is_open())
+            {
+                ofs << this->title;
+                ofs << this->resolution.width << " " << this->resolution.height;
+                ofs << this->fullscreen;
+                ofs << this->frameLimit;
+                ofs << this->VSync;
+                ofs << this->contextSettings.antialiasingLevel;
+            }
+            ofs.close();
+        }
+
+        void LoadFromFile(const std::string path)
+        {
+            std::ifstream ifs(path);
+            if (ifs.is_open())
+            {
+                std::getline(ifs, this->title);
+                ifs >> this->resolution.width >> this->resolution.height;
+                ifs >> this->fullscreen;
+                ifs >> this->frameLimit;
+                ifs >> this->VSync;
+                ifs >> this->contextSettings.antialiasingLevel;
+            }
+            ifs.close();
+        }
+    };
+
+    Settings gfxSettings;
+
+
+
     sf::RenderWindow* window;
     sf::Event sfEvent;
     sf::Clock dtClock;
-    sf::ContextSettings windowSettings;
     float dt;
-    bool fullsceen;
 
     std::stack<State*> states;
-    std::vector<sf::VideoMode> videoModes;
 
     // Init
     void InitVars();
     void InitWindow();
     void InitStates();
+    void InitSettings();
     
 public:
     // Core
