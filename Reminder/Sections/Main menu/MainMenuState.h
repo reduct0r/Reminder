@@ -8,6 +8,8 @@ class MainMenuState :
 	public State
 {
 private:
+	Settings& gfxSettings;
+
 	sf::Sprite bg;
 	sf::Font font;
 	sf::Event sfEvent;
@@ -25,7 +27,7 @@ private:
 
 
 public:
-	MainMenuState(sf::RenderWindow* window, std::stack<State*>* states);
+	MainMenuState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings);
 	virtual ~MainMenuState();
 
 	void Update(const float& dt);

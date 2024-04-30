@@ -5,6 +5,8 @@ class SettingsState :
 	public State
 {
 private:
+	Settings& gfxSettings;
+
 	sf::Sprite bg;
 	sf::Font font;
 	sf::Event sfEvent;
@@ -25,7 +27,7 @@ private:
 
 
 public:
-	SettingsState(sf::RenderWindow* window, std::stack<State*>* states);
+	SettingsState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings);
 	virtual ~SettingsState();
 
 	void Update(const float& dt);

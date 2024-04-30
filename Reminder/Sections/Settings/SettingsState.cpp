@@ -1,7 +1,8 @@
 ﻿#include "SettingsState.h"
+#include <iostream>
 
-SettingsState::SettingsState(sf::RenderWindow* window, std::stack<State*>* states)
-	:State(window, states)
+SettingsState::SettingsState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings)
+	:State(window, states), gfxSettings(gfxSettings)
 {
 	this->InitTextures();
 	this->InitVars();
@@ -33,6 +34,7 @@ void SettingsState::InitVars()
 	this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_SETTINGS"].getSize().x;
 
 	this->videoModes = {
+		sf::VideoMode(960, 540),
 		sf::VideoMode(960, 540),
 		sf::VideoMode(1024, 576),
 		sf::VideoMode(1152, 648),
@@ -139,6 +141,7 @@ void  SettingsState::Update(const float& dt)
 	this->UpdateButtons();
 	this->UpdateEvents();
 	this->UpdateDropDownLists(dt);
+
 }
 
 void  SettingsState::UpdateButtons()
@@ -155,8 +158,18 @@ void  SettingsState::UpdateButtons()
 
 	if (this->buttons["APPLY_BTN"]->isPressed() and this->getKeyTime())
 	{
-		// TEST !!!
-		this->window->create(this->videoModes[this->dropDownLists["RESOLUTION"]->getActiveElementId()-1], "TEST", sf::Style::Default);
+		// !!!
+		this->gfxSettings.resolution = this->videoModes[this->dropDownLists["RESOLUTION"]->getActiveElementId()];
+		this->window->create(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Default);
+		this->gfxSettings.SaveToFile("Config/SFML SPECS.ini");
+
+		this->InitTextures();
+		this->InitVars();
+		this->InitSprites();
+		this->InitBG();
+		this->InitFonts();
+		this->InitButtons();
+		this->InitDropDownLists();
 	}
 
 	if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime())

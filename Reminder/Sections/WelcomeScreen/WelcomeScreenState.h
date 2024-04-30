@@ -7,6 +7,8 @@ class WelcomeScreenState :
 	public State
 {
 private:
+	Settings& gfxSettings;
+
 	sf::Sprite bg;
 	sf::Font font;
 	sf::Event sfEvent;
@@ -41,7 +43,7 @@ public:
 	void RenderTextBoxes(sf::RenderTarget* target = nullptr);
 	void EndState();
 
-	WelcomeScreenState(sf::RenderWindow* window, std::stack<State*>* states);
+	WelcomeScreenState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings);
 	virtual ~WelcomeScreenState();
 
 	void AnimOpenFields();

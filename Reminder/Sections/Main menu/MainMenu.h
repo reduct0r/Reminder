@@ -3,21 +3,11 @@
 #include "Settings.h"
 #include "MainMenuState.h"
 
-namespace sf 
-{
-    class RenderWindow;
-}
-
-namespace Reminder 
-{
-    class TextureManager;
-    class WindowSpecs;
-}
-
-// CLASS
 class MainMenu
 {
 private:
+    Settings gfxSettings;
+
     sf::RenderWindow* window;
     sf::Event sfEvent;
     sf::Clock dtClock;
@@ -25,9 +15,10 @@ private:
 
     std::stack<State*> states;
 
+    void InitVars();
     void InitWindow();
     void InitStates();
-
+    void InitSettings();
 
 public:
     // Core
@@ -48,9 +39,3 @@ public:
 
 
 };
-
-
-
-void ShowMainMenu(sf::RenderWindow& mainWindow);
-void ShowUI(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManager, Reminder::WindowSpecs& mainWindowSpecs);
-bool ExitShure(sf::RenderWindow& mainWindow);

@@ -14,6 +14,7 @@
 
 #include "../../UI/DropDownList.h"
 #include "../../UI/TextBox.h"
+#include"Settings.h"
 
 class State
 {

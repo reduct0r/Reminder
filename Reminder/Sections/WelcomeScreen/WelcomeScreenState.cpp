@@ -1,8 +1,8 @@
 #include "WelcomeScreenState.h"
 #include <iostream>
 
-WelcomeScreenState::WelcomeScreenState(sf::RenderWindow* window, std::stack<State*>* states)
-	:State(window, states)
+WelcomeScreenState::WelcomeScreenState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings)
+	:State(window, states), gfxSettings(gfxSettings)
 {
 	this->InitTextures();
 	this->InitVars();
@@ -384,7 +384,7 @@ void WelcomeScreenState::UpdateButtons()
 
 	if (this->buttons["LOGIN_BTN"]->isPressed())
 	{
-		this->states->push(new MainMenuState(this->window, this->states));
+		this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
 	}
 
 	if (flag1 and this->buttons["REGISTER_BTN"]->isPressed() and this->getKeyTime())

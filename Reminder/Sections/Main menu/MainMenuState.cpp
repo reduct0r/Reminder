@@ -1,8 +1,8 @@
 #include "MainMenuState.h"
 #include <iostream>
 
-MainMenuState::MainMenuState(sf::RenderWindow* window, std::stack<State*>* states)
-	:State(window, states)
+MainMenuState::MainMenuState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings)
+	:State(window, states), gfxSettings(gfxSettings)
 {
 	this->InitTextures();
 	this->InitVars();
@@ -95,6 +95,16 @@ void MainMenuState::Update(const float& dt)
 	this->UpdateKeyTime(dt);
 	this->UpdateButtons();
 	this->UpdateEvents();
+
+	if (this->bg.getTexture()->getSize().x * this->scale != this->gfxSettings.resolution.width)
+	{
+		this->InitTextures();
+		this->InitVars();
+		this->InitSprites();
+		this->InitBG();
+		this->InitFonts();
+		this->InitButtons();
+	}
 }
 
 void MainMenuState::UpdateButtons()
@@ -107,7 +117,7 @@ void MainMenuState::UpdateButtons()
 	/* Обработка кнопок */
 	if (this->buttons["SETTINGS_BTN"]->isPressed())
 	{
-		this->states->push(new SettingsState(this->window, this->states));
+		this->states->push(new SettingsState(this->window, this->states, this->gfxSettings));
 	}
 }
 

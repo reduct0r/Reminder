@@ -1,60 +1,21 @@
-#include <string>
-#include <fstream>
-#include <iostream>
-#include <map>
+#pragma once
+#include "../../State.h"
 
-namespace Reminder
+class Settings
 {
-	class WindowSpecs
-	{
-	private:
-		std::string Title;
-		unsigned int Width;
-		unsigned int Height;
-        unsigned int FPS;
+public:
 
-    public:
-        WindowSpecs():
-            Title("Reminder"),
-            Width(960),
-            Height(570),
-            FPS(120){}
+    std::string title;
+    sf::VideoMode resolution;
+    bool fullscreen;
+    bool VSync;
+    unsigned frameLimit;
+    sf::ContextSettings contextSettings;
+    std::vector<sf::VideoMode> videoModes;
 
-        void setTitle(const std::string& title) 
-        {
-            Title = title;
-        }
+    Settings();
 
-        void setSize(unsigned int width, unsigned int height) 
-        {
-            Width = width;
-            Height = height;
-        }
+    void SaveToFile(const std::string path);
+    void LoadFromFile(const std::string path);
 
-        void setFPS(unsigned int fps)
-        {
-            FPS = fps;
-        }
-
-        const std::string& getTitle() const 
-        {
-            return Title;
-        }
-
-        unsigned int getWidth() const 
-        {
-            return Width;
-        }
-
-        unsigned int getHeight() const 
-        {
-            return Height;
-        }
-
-        unsigned int getFPS() const
-        {
-            return FPS;
-        }
-	};
-
-}
+};
