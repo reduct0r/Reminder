@@ -15,7 +15,7 @@ private:
 	std::map<std::string, UI::Button*> buttons;
 	std::map<std::string, UI::TextBox*> textboxes;
 	float scale = 1;
-
+	float scaleT = 1;
 	//Inits
 	void InitVars();
 	void InitBG();

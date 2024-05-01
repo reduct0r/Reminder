@@ -71,29 +71,29 @@ void SettingsState::InitButtons()
 	float scale = this->scale;
 
 	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 1.05 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.05 - this->textures["GITHUB_ICON"].getSize().y * scale, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
-	this->buttons["BACK_BTN"] = new UI::Button(30, 30, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
+	this->buttons["BACK_BTN"] = new UI::Button(winX / 80, winY / 50, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
 	this->buttons["APPLY_BTN"] = new UI::Button(winX / 2 - this->textures["APPLY_IDL"].getSize().x * scale / 2.0, winY / 1.2, scale, scale, &this->font, sf::String(""), this->textures["APPLY_IDL"], this->textures["APPLY_HVR"], this->textures["APPLY_HVR"]);
 	
 	if (!this->gfxSettings.fullscreen)
 	{
-		this->buttons["FULLSCREEN_BTN"] = new UI::Button(0, 0, winX / 2 - this->textures["FULLSCREEN_MODE"].getSize().x * scale / 2.0, winY / 2, scale, scale, &this->font,
-			sf::String(""), this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE"]);
+		this->buttons["FULLSCREEN_BTN"] = new UI::Button(winX / 2 - this->textures["FULLSCREEN_MODE"].getSize().x * scale / 2.0, winY / 2, scale, scale, &this->font,
+			sf::String(""), this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE2"], this->textures["FULLSCREEN_MODE2"]);
 	}
 	else
 	{
-		this->buttons["FULLSCREEN_BTN"] = new UI::Button(0, 0, winX / 2 - this->textures["WINDOW_MODE"].getSize().x * scale / 2.0, winY / 2, scale, scale, &this->font,
-			sf::String(""), this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE"]);
+		this->buttons["FULLSCREEN_BTN"] = new UI::Button(winX / 2 - this->textures["WINDOW_MODE"].getSize().x * scale / 2.0, winY / 2, scale, scale, &this->font,
+			sf::String(""), this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE2"], this->textures["WINDOW_MODE2"]);
 	}
 
-	if (this->gfxSettings.sound)
+	if (!this->gfxSettings.sound)
 	{
-		this->buttons["SOUND_BTN"] = new UI::Button(0, 0, winX / 2 - this->textures["SOUND_ON"].getSize().x * scale / 2.0, winY / 3, scale, scale, &this->font,
-			sf::String(""), this->textures["SOUND_ON"], this->textures["SOUND_ON"], this->textures["SOUND_ON"]);
+		this->buttons["SOUND_BTN"] = new UI::Button(winX / 2 - this->textures["SOUND_ON"].getSize().x * scale / 2.0, winY / 3, scale, scale, &this->font,
+			sf::String(""), this->textures["SOUND_ON"], this->textures["SOUND_ON2"], this->textures["SOUND_ON2"]);
 	}
 	else
 	{
-		this->buttons["SOUND_BTN"] = new UI::Button(0, 0, winX / 2 - this->textures["SOUND_OFF"].getSize().x * scale / 2.0, winY / 3, scale, scale, &this->font,
-			sf::String(""), this->textures["SOUND_OFF"], this->textures["SOUND_OFF"], this->textures["SOUND_OFF"]);
+		this->buttons["SOUND_BTN"] = new UI::Button(winX / 2 - this->textures["SOUND_OFF"].getSize().x * scale / 2.0, winY / 3, scale, scale, &this->font,
+			sf::String(""), this->textures["SOUND_OFF"], this->textures["SOUND_OFF2"], this->textures["SOUND_OFF2"]);
 	}
 }
 
@@ -132,14 +132,26 @@ void SettingsState::InitTextures()
 	texture.loadFromFile("Resources/Textures/UI/Settings/fullscreen.png");
 	this->textures["FULLSCREEN_MODE"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/to_window .png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/fullscreen2.png");
+	this->textures["FULLSCREEN_MODE2"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Settings/to_window.png");
 	this->textures["WINDOW_MODE"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Settings/to_window2.png");
+	this->textures["WINDOW_MODE2"] = texture;
 
 	texture.loadFromFile("Resources/Textures/UI/Settings/Volume on.png");
 	this->textures["SOUND_ON"] = texture;
 
+	texture.loadFromFile("Resources/Textures/UI/Settings/Volume on2.png");
+	this->textures["SOUND_ON2"] = texture;
+
 	texture.loadFromFile("Resources/Textures/UI/Settings/Volume_off.png");
 	this->textures["SOUND_OFF"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Settings/Volume_off2.png");
+	this->textures["SOUND_OFF2"] = texture;
 }
 
 void SettingsState::InitSprites()
@@ -193,17 +205,31 @@ void  SettingsState::UpdateButtons()
 		this->ToQuit = 1;
 	}
 
+	if (this->buttons["SOUND_BTN"]->isPressed() and this->getKeyTime())
+	{
+		if (this->gfxSettings.sound == 0)
+		{
+			this->gfxSettings.sound = 1;
+			this->buttons["SOUND_BTN"]->setNewTextures(this->textures["SOUND_OFF"], this->textures["SOUND_OFF2"], this->textures["SOUND_OFF2"]);
+		}
+		else
+		{
+			this->gfxSettings.sound = 0;
+			this->buttons["SOUND_BTN"]->setNewTextures(this->textures["SOUND_ON"], this->textures["SOUND_ON2"], this->textures["SOUND_ON2"]);
+		}
+	}
+
 	if (this->buttons["FULLSCREEN_BTN"]->isPressed() and this->getKeyTime())
 	{
 		if (this->gfxSettings.fullscreen == 0)
 		{
 			this->gfxSettings.fullscreen = 1;
-			this->buttons["FULLSCREEN_BTN"]->setNewTextures(this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE"]);
+			this->buttons["FULLSCREEN_BTN"]->setNewTextures(this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE2"], this->textures["WINDOW_MODE2"]);
 		}
 		else
 		{
 			this->gfxSettings.fullscreen = 0;
-			this->buttons["FULLSCREEN_BTN"]->setNewTextures(this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE"]);
+			this->buttons["FULLSCREEN_BTN"]->setNewTextures(this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE2"], this->textures["FULLSCREEN_MODE2"]);
 		}
 	}
 
@@ -221,6 +247,10 @@ void  SettingsState::UpdateButtons()
 		{
 			this->window->create(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Titlebar | sf::Style::Close, this->gfxSettings.contextSettings);
 		}
+
+		this->window->setFramerateLimit(this->gfxSettings.frameLimit);
+		this->window->setVerticalSyncEnabled(this->gfxSettings.VSync);
+
 		this->gfxSettings.SaveToFile("Config/SFML SPECS.ini");
 		
 		this->InitTextures();
@@ -230,6 +260,8 @@ void  SettingsState::UpdateButtons()
 		this->InitFonts();
 		this->InitButtons();
 		this->InitDropDownLists();
+
+		
 	}
 
 	if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime())

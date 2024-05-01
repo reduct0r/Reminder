@@ -46,8 +46,8 @@ void WelcomeScreenState::AnimOpenFields()
 		speed1 = this->scale;
 		speed2 = this->scale * 1.4;
 		speed3 = this->scale * 1.6;
-		this->buttons["LOGIN_BTN"]->Hide(1);
-		this->buttons["BACK_BTN"]->Hide(0);
+		this->buttons["LOGIN_BTN"]->Hide(1, this->scale);
+		this->buttons["BACK_BTN"]->Hide(0, this->scale);
 		isLoginBtnHidden = true;
 	}
 
@@ -150,8 +150,8 @@ void WelcomeScreenState::AnimCloseFields()
 		speed1 = this->scale;
 		speed2 = this->scale * 1.4;
 		speed3 = this->scale * 1.6;
-		this->buttons["LOGIN_BTN"]->Hide(0);
-		this->buttons["BACK_BTN"]->Hide(1);
+		this->buttons["LOGIN_BTN"]->Hide(0, this->scale);
+		this->buttons["BACK_BTN"]->Hide(1, this->scale);
 		isLoginBtnHidden = true;
 	}
 	sf::Vector2f posB = this->buttons["REGISTER_BTN"]->getPos();
@@ -219,7 +219,6 @@ void WelcomeScreenState::AnimCloseFields()
 	{
 		this->animTransitReverse = 0;
 		isLoginBtnHidden = 0;
-
 	}
 }
 
@@ -238,6 +237,7 @@ void WelcomeScreenState::EndState()
 void WelcomeScreenState::InitVars()
 {
 	this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_WELCOME"].getSize().x;
+	this->scaleT = std::trunc(scale * 100) / 100;
 }
 
 void WelcomeScreenState::InitBG()
@@ -269,10 +269,10 @@ void WelcomeScreenState::InitButtons()
 
 	this->buttons["REGISTER_BTN"] = new UI::Button(mid, yaw + winY / 30.0f , scale, scale, &this->font, sf::String(""), this->textures["REG_BT_IDLE"], this->textures["REG_BT_HOVER"], this->textures["REG_BT_HOVER"]);
 
-	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, yaw + winY / 2.8, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
+	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.25, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
 	
 	this->buttons["BACK_BTN"] = new UI::Button(30, 30, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
-	this->buttons["BACK_BTN"]->Hide(1);
+	this->buttons["BACK_BTN"]->Hide(1, this->scale);
 
 }
 
@@ -362,6 +362,31 @@ void WelcomeScreenState::Update(const float& dt)
 	if (this->animTransitReverse and !this->animTransit)
 	{
 		AnimCloseFields();
+	}
+
+	if (this->bg.getTexture()->getSize().x * this->scale != this->window->getSize().x)
+	{
+		this->window->clear();
+		if (this->gfxSettings.fullscreen)
+		{
+
+			this->window->create(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Fullscreen, this->gfxSettings.contextSettings);
+		}
+		else
+		{
+			this->window->create(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Titlebar | sf::Style::Close, this->gfxSettings.contextSettings);
+		}
+
+		this->window->setFramerateLimit(this->gfxSettings.frameLimit);
+		this->window->setVerticalSyncEnabled(this->gfxSettings.VSync);
+
+		this->InitTextures();
+		this->InitVars();
+		this->InitSprites();
+		this->InitBG();
+		this->InitFonts();
+		this->InitButtons();
+		this->InitTextBoxes();
 	}
 }
 

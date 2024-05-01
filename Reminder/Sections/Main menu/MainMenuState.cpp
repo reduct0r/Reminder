@@ -1,6 +1,6 @@
 #include "MainMenuState.h"
 #include <iostream>
-
+#include "../WelcomeScreen/WelcomeScreen.h"
 MainMenuState::MainMenuState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings)
 	:State(window, states), gfxSettings(gfxSettings)
 {
@@ -52,12 +52,22 @@ void MainMenuState::InitButtons()
 	float winY = float(this->window->getSize().y);
 
 	float scale = this->scale;
-	float mid = 100;			//winX / 2.0 - this->textures["LOGIN_BT_IDLE"].getSize().x * scale / 2.0;
-	float yaw = 100;			// winY / 2.0 - this->textures["LOGIN_BT_IDLE"].getSize().y * scale / 2.0;
 
-	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, yaw + winY / 2.8, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
+	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0,  winY / 1.25, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
 	this->buttons["SETTINGS_BTN"] = new UI::Button(winX - winX / 15, winY / 50, scale, scale, &this->font, sf::String(""), this->textures["SETTINGS_ICON"], this->textures["SETTINGS_ICON"], this->textures["SETTINGS_ICON"]);
+	
+	this->buttons["LOGOUT_BTN"] = new UI::Button(winX / 10 - this->textures["LOG_OUT"].getSize().x * scale / 2.0, winY * 0.05, scale, scale, &this->font, sf::String(""), this->textures["LOG_OUT"],
+		this->textures["LOG_OUT2"], this->textures["LOG_OUT2"]);
 
+
+	float mid = winX / 2.0 - this->textures["STARTGAME"].getSize().x * scale / 2.0;
+	float yaw = winY / 2.0 - this->textures["STARTGAME"].getSize().y * scale / 2.0;
+
+	this->buttons["GAME_BTN"] = new UI::Button(mid, yaw - winY * 0.05, scale, scale, &this->font, sf::String(""), this->textures["STARTGAME"], this->textures["STARTGAME2"], this->textures["STARTGAME2"]);
+
+	this->buttons["PRESETS_BTN"] = new UI::Button(mid, yaw + winY / 14.0, scale, scale, &this->font, sf::String(""), this->textures["PRESETS"], this->textures["PRESETS2"], this->textures["PRESETS2"]);
+
+	this->buttons["SETTINGS_BTN1"] = new UI::Button(mid, yaw + winY / 5.2, scale, scale, &this->font, sf::String(""), this->textures["SETTINGS"], this->textures["SETTINGS2"], this->textures["SETTINGS2"]);
 }
 
 void MainMenuState::InitTextures()
@@ -73,6 +83,34 @@ void MainMenuState::InitTextures()
 
 	texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button.png");
 	this->textures["SETTINGS_ICON"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Main Menu/Log_out1.png");
+	this->textures["LOG_OUT"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Main Menu/Log_out2.png");
+	this->textures["LOG_OUT2"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Main Menu/start_game_button.png");
+	this->textures["STARTGAME"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Main Menu/start_game_button.png");
+	this->textures["STARTGAME2"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Main Menu/choose_preset_button.png");
+	this->textures["PRESETS"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Main Menu/choose_preset_button.png");
+	this->textures["PRESETS2"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button1.png");
+	this->textures["SETTINGS"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button1.png");
+	this->textures["SETTINGS2"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/Main Menu/Logo reminder.png");
+	this->textures["LOGO"] = texture;
+
 }
 
 void MainMenuState::InitSprites()
@@ -81,11 +119,11 @@ void MainMenuState::InitSprites()
 	float winY = float(this->window->getSize().y);
 	float scale = this->scale;
 
-	//sf::Sprite sprite1;
-	//sprite1.setScale(0, 0);
-	//sprite1.setTexture(this->textures["LOGIN_FIELD"]);
-	//sprite1.setPosition(winX / 2.0 - this->textures["LOGIN_FIELD"].getSize().x * scale / 2.0, winY / 4.0);
-	//this->sprites["LOG_FIELD"] = sprite1;
+	sf::Sprite sprite;
+	sprite.setScale(scale, scale);
+	sprite.setTexture(this->textures["LOGO"]);
+	sprite.setPosition(winX / 2.0 - this->textures["LOGO"].getSize().x * scale / 2.05, winY / 2.2 - this->textures["LOGO"].getSize().y * scale / 2.0 - winY / 5.0);
+	this->sprites["LOGO"] = sprite;
 
 }
 
@@ -117,9 +155,20 @@ void MainMenuState::UpdateButtons()
 	}
 
 	/* Îáðàáîòêà êíîïîê */
-	if (this->buttons["SETTINGS_BTN"]->isPressed())
+	if (this->buttons["SETTINGS_BTN"]->isPressed() and this->getKeyTime())
 	{
 		this->states->push(new SettingsState(this->window, this->states, this->gfxSettings));
+	}
+
+	if (this->buttons["LOGOUT_BTN"]->isPressed() and this->getKeyTime())
+	{
+		this->states->pop();
+		//this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
+		this->window->close();
+		/*WelcomeScreen welcomeScreen1;
+		welcomeScreen1.Run();*/
+		/* ÐÀÇËÎÃÈÍÈÒÜ !!!!*/
+		//this->ToQuit = 1;
 	}
 }
 

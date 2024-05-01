@@ -212,10 +212,10 @@ void UI::Button::SmoothAnim_black(float& animSpeed)
     }
 }
 
- void UI::Button::Hide(bool flag)
+ void UI::Button::Hide(bool flag, float CurrScale)
  {
      static float scaleX = this->sprite.getScale().x;
-     float scale = scaleX * !flag;
+	 float scale = CurrScale * !flag ;
      this->sprite.setScale(scale, scale);
  }
 

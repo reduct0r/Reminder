@@ -1,5 +1,4 @@
 #include <SFML/Graphics.hpp>
-
 namespace UI 
 {
 	enum ButtonStates 
@@ -47,7 +46,7 @@ namespace UI
 		void SmoothAnim_black(float& animSpeed);
 		void SmoothAnim_light(float& animSpeed);
 
-		void Hide(bool flag);
+		void Hide(bool flag, float scale);
 		void setPos(sf::Vector2f& vector);
 		void setPos(float x, float y);
 		void setId(const short unsigned id);
