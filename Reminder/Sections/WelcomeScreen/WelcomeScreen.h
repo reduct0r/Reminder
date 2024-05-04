@@ -35,6 +35,7 @@ public:
 
     // Functions
     void EndApplication();
+
 };
 
 

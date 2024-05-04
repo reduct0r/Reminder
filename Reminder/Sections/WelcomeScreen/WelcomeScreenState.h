@@ -14,8 +14,14 @@ private:
 	sf::Event sfEvent;
 	std::map<std::string, UI::Button*> buttons;
 	std::map<std::string, UI::TextBox*> textboxes;
+	std::unordered_map<std::string, sf::Vector2f> targetPositions;
+	std::map<std::string, float> distances;
+	std::map<std::string, sf::Vector2f> startPositions;
+
+	sf::Clock dtClock;
+	float dt;
 	float scale = 1;
-	float scaleT = 1;
+
 	//Inits
 	void InitVars();
 	void InitBG();
@@ -31,6 +37,7 @@ private:
 
 public:
 	void Update(const float& dt);
+	void UpdateDT();
 	void UpdateKeyBoardBinds(const float& dt);
 	void UpdateButtons();
 	void UpdateSprites();
@@ -46,8 +53,13 @@ public:
 	WelcomeScreenState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings);
 	virtual ~WelcomeScreenState();
 
+
 	void AnimOpenFields();
 	void AnimCloseFields();
+	bool moveA(sf::Sprite& sprite, float VelX, float VelY, float distance) const;
+	void MoveSprites();
 };
+
+
 
 #endif

@@ -18,7 +18,7 @@ namespace UI
 		bool changedButton = 0;
 		bool procAnim = 0;
 		bool needAnim = 1;
-		//float dt;
+		float dt;
 
 		sf::Font* font;
 		sf::Text text;
@@ -28,7 +28,7 @@ namespace UI
 		sf::Texture pressedTexture;
 
 		sf::Sprite sprite;
-		//sf::Clock dtClock;
+		sf::Clock dtClock;
 
 	public:
 		float animSpeed = 8.5;
@@ -53,6 +53,8 @@ namespace UI
 		void setText(const sf::String text);
 		void setNewTextures(sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture);
 		
+		bool move(float VelX, float VelY, float distance);
+
 		sf::Vector2f getPos();
 		const bool isPressed() const;
 		const std::string getText() const;

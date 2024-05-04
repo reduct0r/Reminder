@@ -93,19 +93,19 @@ void MainMenuState::InitTextures()
 	texture.loadFromFile("Resources/Textures/UI/Main Menu/start_game_button.png");
 	this->textures["STARTGAME"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/start_game_button.png");
+	texture.loadFromFile("Resources/Textures/UI/Main Menu/start_game_button2.png");
 	this->textures["STARTGAME2"] = texture;
 
 	texture.loadFromFile("Resources/Textures/UI/Main Menu/choose_preset_button.png");
 	this->textures["PRESETS"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/choose_preset_button.png");
+	texture.loadFromFile("Resources/Textures/UI/Main Menu/choose_preset_button2.png");
 	this->textures["PRESETS2"] = texture;
 
 	texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button1.png");
 	this->textures["SETTINGS"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button1.png");
+	texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button2.png");
 	this->textures["SETTINGS2"] = texture;
 
 	texture.loadFromFile("Resources/Textures/UI/Main Menu/Logo reminder.png");
@@ -162,9 +162,17 @@ void MainMenuState::UpdateButtons()
 
 	if (this->buttons["LOGOUT_BTN"]->isPressed() and this->getKeyTime())
 	{
-		this->states->pop();
+		this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
+
+		//if (!this->states->empty()) {
+		//	delete this->states->top();
+		//	this->states->pop();
+		//}
+
+
+		//this->states->pop();
 		//this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
-		this->window->close();
+		//this->window->close();
 		/*WelcomeScreen welcomeScreen1;
 		welcomeScreen1.Run();*/
 		/* –¿«ÀŒ√»Õ»“‹ !!!!*/

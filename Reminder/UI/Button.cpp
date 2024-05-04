@@ -113,8 +113,7 @@ void UI::Button::Update(const sf::Vector2f mousePosition)
 
 void UI::Button::UpdateDT()
 {
-    //this->dt = this->dtClock.restart().asSeconds();
-    //std::cout << this->dt << "\n";
+    this->dt = this->dtClock.restart().asSeconds();
 }
 
 
@@ -132,6 +131,43 @@ void UI::Button::setNewTextures(sf::Texture idleTexture, sf::Texture hoveredText
 	this->idleTexture = idleTexture;
 	this->hoveredTexture = hoveredTexture;
 	this->pressedTexture = pressedTexture;
+}
+
+bool UI::Button::move(float VelX, float VelY, float distance)
+{
+	static float accumulatedDistance = 0.0f; // Аккумулированное расстояние перемещения
+	static bool init = true; // Переменная для инициализации или перезапуска анимации
+	static sf::Vector2f initialPos; // Начальная позиция кнопки
+
+	// Сохраняем начальное состояние и расположение
+	if (init)
+	{
+		initialPos = sprite.getPosition();
+		accumulatedDistance = 0.0f;
+		init = false;
+	}
+
+	// Вычисляем необходимое смещение за текущий кадр
+	float moveX = VelX * this->dt;
+	float moveY = VelY * this->dt;
+	float frameDistance = std::sqrt(moveX * moveX + moveY * moveY); // Расстояние, пройденное за фрейм
+
+	// Проверяем, не превысили ли мы общее расстояние
+	if (accumulatedDistance + frameDistance >= distance)
+	{
+		// Дополнительный шаг, если мы переходим предел
+		float lastStep = distance - accumulatedDistance; // Оставшееся расстояние для перемещения
+		float factor = lastStep / frameDistance; // Фактор сокращения последнего шага
+		sprite.move(moveX * factor, moveY * factor); // Перемещаем кнопку на оставшееся расстояние
+		accumulatedDistance = distance; // Обновляем накопленное расстояние
+		init = true; // Сбрасываем статус для новых вызовов анимации
+		return 1;
+	}
+	else
+	{
+		sprite.move(moveX, moveY); // Перемещаем кнопку
+		accumulatedDistance += frameDistance; // Обновляем накопленное расстояние
+	}
 }
 
 const bool UI::Button::isPressed() const
