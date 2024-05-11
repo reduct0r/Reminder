@@ -2,7 +2,7 @@
 #ifndef SDX_TEXTBOX
 #define SDX_TEXTBOX
 
-namespace UI
+namespace ReminderUI
 {
     class TextBox 
     {

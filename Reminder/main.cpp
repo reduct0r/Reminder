@@ -3,6 +3,7 @@
 #include "Sections/Main menu/MainMenu.h"
 #include "Sections/WelcomeScreen/WelcomeScreen.h"
 
+
 int main()
 {
 	//ShowWelcomeScreen();
@@ -11,6 +12,8 @@ int main()
 	//mainMenu.Run();
 
 	WelcomeScreen welcomeScreen;
+
+
 	welcomeScreen.Run();
 
 	return 0;

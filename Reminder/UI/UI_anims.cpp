@@ -99,7 +99,7 @@ void Reminder::BoneReturn()
     sf::RenderWindow window(sf::VideoMode(800, 600), "Drag and Drop Demo with Animation");
     sf::Texture texture;
     window.setFramerateLimit(120);
-    if (!texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Github icon.png")) {
+    if (!texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Github icon.png")) {
         return;
     }
 

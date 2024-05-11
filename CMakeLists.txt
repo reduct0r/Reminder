@@ -24,7 +24,10 @@ set(SOURCES
         "Reminder/Sections/Main menu/MainMenuState.cpp"
         "Reminder/Sections/WelcomeScreen/WelcomeScreenState.cpp"
         "Reminder/Sections/Settings/SettingsState.cpp"
-        "Reminder/Database/Database.cpp")
+        "Reminder/Auth/Database.cpp"
+        "Reminder/Auth/Model/UserDAO.cpp"
+        "Reminder/Auth/Service/SessionIdService.cpp"
+)
 
 set(HEADERS
         "Reminder/Init/H_Init.h"
@@ -38,7 +41,10 @@ set(HEADERS
         "Reminder/Sections/Main menu/MainMenuState.h"
         "Reminder/Sections/WelcomeScreen/WelcomeScreenState.h"
         "Reminder/Sections/Settings/SettingsState.h"
-        "Reminder/Database/Database.h")
+        "Reminder/Auth/Database.h"
+        "Reminder/Auth/Model/UserDAO.h"
+        "Reminder/Auth/Service/SessionIdService.h"
+)
 
 # Файлы для копирования
 if (WIN32)

@@ -10,8 +10,8 @@ private:
 	sf::Sprite bg;
 	sf::Font font;
 	sf::Event sfEvent;
-	std::map<std::string, UI::Button*> buttons;
-	std::map<std::string, UI::DropDownList*> dropDownLists;
+	std::map<std::string, ReminderUI::Button*> buttons;
+	std::map<std::string, ReminderUI::DropDownList*> dropDownLists;
 	std::vector<sf::VideoMode> videoModes;
 	
 	float scale = 1;

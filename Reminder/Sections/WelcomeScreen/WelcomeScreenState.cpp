@@ -406,85 +406,85 @@ void WelcomeScreenState::InitButtons() {
   float mid = winX / 2.0 - this->textures["LOGIN_BT_IDLE"].getSize().x * scale / 2.0;
   float yaw = winY / 2.0 - this->textures["LOGIN_BT_IDLE"].getSize().y * scale / 2.0;
 
-  this->buttons["LOGIN_BTN"] = new UI::Button(mid,
-                                              yaw + winY / 6.0,
-                                              scale,
-                                              scale,
-                                              &this->font,
-                                              sf::String(""),
-                                              this->textures["LOGIN_BT_IDLE"],
-                                              this->textures["LOGIN_BT_HOVER"],
-                                              this->textures["LOGIN_BT_HOVER"]);
+  this->buttons["LOGIN_BTN"] = new ReminderUI::Button(mid,
+                                                      yaw + winY / 6.0,
+                                                      scale,
+                                                      scale,
+                                                      &this->font,
+                                                      sf::String(""),
+                                                      this->textures["LOGIN_BT_IDLE"],
+                                                      this->textures["LOGIN_BT_HOVER"],
+                                                      this->textures["LOGIN_BT_HOVER"]);
 
-  this->buttons["REGISTER_BTN"] = new UI::Button(mid,
-                                                 yaw + winY / 30.0f,
-                                                 scale,
-                                                 scale,
-                                                 &this->font,
-                                                 sf::String(""),
-                                                 this->textures["REG_BT_IDLE"],
-                                                 this->textures["REG_BT_HOVER"],
-                                                 this->textures["REG_BT_HOVER"]);
+  this->buttons["REGISTER_BTN"] = new ReminderUI::Button(mid,
+                                                         yaw + winY / 30.0f,
+                                                         scale,
+                                                         scale,
+                                                         &this->font,
+                                                         sf::String(""),
+                                                         this->textures["REG_BT_IDLE"],
+                                                         this->textures["REG_BT_HOVER"],
+                                                         this->textures["REG_BT_HOVER"]);
 
-  this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0,
-                                               winY / 1.25,
-                                               scale,
-                                               scale,
-                                               &this->font,
-                                               sf::String(""),
-                                               this->textures["GITHUB_ICON"],
-                                               this->textures["GITHUB_ICON"],
-                                               this->textures["GITHUB_ICON"]);
+  this->buttons["GITHUB_BTN"] = new ReminderUI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0,
+                                                       winY / 1.25,
+                                                       scale,
+                                                       scale,
+                                                       &this->font,
+                                                       sf::String(""),
+                                                       this->textures["GITHUB_ICON"],
+                                                       this->textures["GITHUB_ICON"],
+                                                       this->textures["GITHUB_ICON"]);
 
-  this->buttons["BACK_BTN"] = new UI::Button(30,
-                                             30,
-                                             scale,
-                                             scale,
-                                             &this->font,
-                                             sf::String(""),
-                                             this->textures["BACK"],
-                                             this->textures["BACK"],
-                                             this->textures["BACK"]);
+  this->buttons["BACK_BTN"] = new ReminderUI::Button(30,
+                                                     30,
+                                                     scale,
+                                                     scale,
+                                                     &this->font,
+                                                     sf::String(""),
+                                                     this->textures["BACK"],
+                                                     this->textures["BACK"],
+                                                     this->textures["BACK"]);
   this->buttons["BACK_BTN"]->Hide(1, this->scale);
 
 }
 
 void WelcomeScreenState::InitTextBoxes() {
-  this->textboxes["LOGIN"] = new UI::TextBox(0, 0, 0, 0, 0);
-  this->textboxes["PASSWORD"] = new UI::TextBox(0, 0, 0, 0, 0);
+  this->textboxes["LOGIN"] = new ReminderUI::TextBox(0, 0, 0, 0, 0);
+  this->textboxes["PASSWORD"] = new ReminderUI::TextBox(0, 0, 0, 0, 0);
 }
 
 void WelcomeScreenState::InitTextures() {
   sf::Texture texture;
   texture.setSmooth(1);
-  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Background.png");
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Background.png");
   this->textures["BG_WELCOME"] = texture;
 
-  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Login button first.png");
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Login button first.png");
   this->textures["LOGIN_BT_IDLE"] = texture;
 
-  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Login button second.png");
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Login button second.png");
   this->textures["LOGIN_BT_HOVER"] = texture;
 
-  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Reg button first.png");
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Reg button first.png");
   this->textures["REG_BT_IDLE"] = texture;
 
-  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Reg button second.png");
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Reg button second.png");
   this->textures["REG_BT_HOVER"] = texture;
 
-  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Github icon.png");
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Github icon.png");
   this->textures["GITHUB_ICON"] = texture;
 
-  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Logo reminder.png");
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Logo reminder.png");
   this->textures["LOGO"] = texture;
 
-  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/login.png");
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/login.png");
   this->textures["LOGIN_FIELD"] = texture;
 
-  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/password.png");
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/password.png");
   this->textures["PASSWORD_FIELD"] = texture;
 
-  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/back2.png");
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/back2.png");
   this->textures["BACK"] = texture;
 
 }
@@ -588,17 +588,19 @@ void WelcomeScreenState::UpdateButtons() {
   static bool flag2 = true;
   static bool flag3 = true;
 
+
+  // Логин
   if (this->buttons["LOGIN_BTN"]->isPressed()) {
     // TODO
     // Осуществление логики работы с бд (Логин)
 
+
+
+
     // Переход на следующую страницу
     this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
   }
-
   if (flag1 and this->buttons["REGISTER_BTN"]->isPressed() and this->getKeyTime()) {
-
-
 
     //flag1 = 0;
     //flag2 = 1;
@@ -611,34 +613,38 @@ void WelcomeScreenState::UpdateButtons() {
       and this->textboxes["LOGIN"]->getCurrentText() != "" and this->textboxes["PASSWORD"]->getCurrentText() != "") {
     flag3 = 0;
 
-    // TODO
-    // Осуществление логики работы с бд (Регистрация)
+    UserDAO user(this->textboxes["LOGIN"]->getCurrentText(),
+                 this->textboxes["PASSWORD"]->getCurrentText());
 
-    std::cout << std::string(this->textboxes["LOGIN"]->getCurrentText()) << "\n";
-    std::cout << std::string(this->textboxes["PASSWORD"]->getCurrentText());
-    flag3 = 0;
+    Reminder::Database database;
+    UserDAO existingUser = database.createUser(user.GetUsername(), user.GetPassword());
+
+    if (existingUser.isEmpty()) {
+      // TODO
+      // Рамка в красный цвет или открытие окна логина
+    } else {
+      SessionIdService::saveStringToLocal(existingUser.GetSessionId());
+      this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
+    }
+
   }
-
   if (flag2 and this->buttons["BACK_BTN"]->isPressed() and !this->animTransit and !this->animTransitReverse) {
     this->animTransitReverse = 1;
     flag2 = 0;
   }
-
   if (!flag2 and !this->animTransitReverse) {
     flag1 = 1;
     flag3 = 1;
   }
-
   if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime()) {
     std::string url = "https://github.com/reduct0r/Reminder";
 
 #ifdef _WIN32
     std::string command = "start " + url + ""; // ��� Windows
 #elif __APPLE__
-    std::string command = "open " + url + ""; // ��� macOS
+    std::string command = "open " + url + "";
 #endif
 
-    // �������� ��������� ������ �������������� �������
     system(command.c_str());
   }
 }

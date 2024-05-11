@@ -129,12 +129,12 @@
 //    Reminder::ButtonState button1st;
 //    Reminder::ButtonState button2st;
 //
-//    UI::TextBox Login_textBox;
+//    ReminderUI::TextBox Login_textBox;
 //    Login_textBox.setSize(mainWindow.getSize().y / 2.1, mainWindow.getSize().x / 40.0);
 //    Login_textBox.setPosition(ButttonPosX + mainWindow.getSize().x / 20.0, ButttonPosY - mainWindow.getSize().y / 23.0);
 //    Login_textBox.setBorder(0);
 //    
-//    UI::TextBox Password_textBox;
+//    ReminderUI::TextBox Password_textBox;
 //    Password_textBox.setSize(mainWindow.getSize().y / 2.1, mainWindow.getSize().x / 40.0);
 //    Password_textBox.setPosition(ButttonPosX + mainWindow.getSize().x / 20.0, ButttonPosY + mainWindow.getSize().y / 13.0);;
 //    Password_textBox.setBorder(0);

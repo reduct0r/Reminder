@@ -1,6 +1,6 @@
 ﻿#include "TextBox.h"
 
-namespace UI 
+namespace ReminderUI
 {
     TextBox::Text::Text(sf::String string, float x, float y) 
     {

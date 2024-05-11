@@ -70,30 +70,30 @@ void SettingsState::InitButtons()
 	float winY = float(this->window->getSize().y);
 	float scale = this->scale;
 
-	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 1.05 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.05 - this->textures["GITHUB_ICON"].getSize().y * scale, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
-	this->buttons["BACK_BTN"] = new UI::Button(winX / 80, winY / 50, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
-	this->buttons["APPLY_BTN"] = new UI::Button(winX / 2 - this->textures["APPLY_IDL"].getSize().x * scale / 2.0, winY / 1.2, scale, scale, &this->font, sf::String(""), this->textures["APPLY_IDL"], this->textures["APPLY_HVR"], this->textures["APPLY_HVR"]);
+	this->buttons["GITHUB_BTN"] = new ReminderUI::Button(winX / 1.05 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.05 - this->textures["GITHUB_ICON"].getSize().y * scale, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
+	this->buttons["BACK_BTN"] = new ReminderUI::Button(winX / 80, winY / 50, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
+	this->buttons["APPLY_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["APPLY_IDL"].getSize().x * scale / 2.0, winY / 1.2, scale, scale, &this->font, sf::String(""), this->textures["APPLY_IDL"], this->textures["APPLY_HVR"], this->textures["APPLY_HVR"]);
 	
 	if (!this->gfxSettings.fullscreen)
 	{
-		this->buttons["FULLSCREEN_BTN"] = new UI::Button(winX / 2 - this->textures["FULLSCREEN_MODE"].getSize().x * scale / 2.0, winY / 2, scale, scale, &this->font,
-			sf::String(""), this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE2"], this->textures["FULLSCREEN_MODE2"]);
+		this->buttons["FULLSCREEN_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["FULLSCREEN_MODE"].getSize().x * scale / 2.0, winY / 2, scale, scale, &this->font,
+                                                                 sf::String(""), this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE2"], this->textures["FULLSCREEN_MODE2"]);
 	}
 	else
 	{
-		this->buttons["FULLSCREEN_BTN"] = new UI::Button(winX / 2 - this->textures["WINDOW_MODE"].getSize().x * scale / 2.0, winY / 2, scale, scale, &this->font,
-			sf::String(""), this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE2"], this->textures["WINDOW_MODE2"]);
+		this->buttons["FULLSCREEN_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["WINDOW_MODE"].getSize().x * scale / 2.0, winY / 2, scale, scale, &this->font,
+                                                                 sf::String(""), this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE2"], this->textures["WINDOW_MODE2"]);
 	}
 
 	if (!this->gfxSettings.sound)
 	{
-		this->buttons["SOUND_BTN"] = new UI::Button(winX / 2 - this->textures["SOUND_ON"].getSize().x * scale / 2.0, winY / 3, scale, scale, &this->font,
-			sf::String(""), this->textures["SOUND_ON"], this->textures["SOUND_ON2"], this->textures["SOUND_ON2"]);
+		this->buttons["SOUND_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["SOUND_ON"].getSize().x * scale / 2.0, winY / 3, scale, scale, &this->font,
+                                                            sf::String(""), this->textures["SOUND_ON"], this->textures["SOUND_ON2"], this->textures["SOUND_ON2"]);
 	}
 	else
 	{
-		this->buttons["SOUND_BTN"] = new UI::Button(winX / 2 - this->textures["SOUND_OFF"].getSize().x * scale / 2.0, winY / 3, scale, scale, &this->font,
-			sf::String(""), this->textures["SOUND_OFF"], this->textures["SOUND_OFF2"], this->textures["SOUND_OFF2"]);
+		this->buttons["SOUND_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["SOUND_OFF"].getSize().x * scale / 2.0, winY / 3, scale, scale, &this->font,
+                                                            sf::String(""), this->textures["SOUND_OFF"], this->textures["SOUND_OFF2"], this->textures["SOUND_OFF2"]);
 	}
 }
 
@@ -102,55 +102,55 @@ void SettingsState::InitTextures()
 	sf::Texture texture;
 	texture.setSmooth(1);
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/Background.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Background.png");
 	this->textures["BG_SETTINGS"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Github icon.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Github icon.png");
 	this->textures["GITHUB_ICON"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Logo reminder.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Logo reminder.png");
 	this->textures["LOGO"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/Resolution.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Resolution.png");
 	this->textures["DDL_MAIN"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/Rectangle_20.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Rectangle_20.png");
 	this->textures["DDL_SECOND"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/Rectangle_21.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Rectangle_21.png");
 	this->textures["DDL_SECOND_HOVER"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/Apply1.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Apply1.png");
 	this->textures["APPLY_IDL"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/Apply2.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Apply2.png");
 	this->textures["APPLY_HVR"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/back2.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/back2.png");
 	this->textures["BACK"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/fullscreen.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/fullscreen.png");
 	this->textures["FULLSCREEN_MODE"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/fullscreen2.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/fullscreen2.png");
 	this->textures["FULLSCREEN_MODE2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/to_window.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/to_window.png");
 	this->textures["WINDOW_MODE"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/to_window2.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/to_window2.png");
 	this->textures["WINDOW_MODE2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/Volume on.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Volume on.png");
 	this->textures["SOUND_ON"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/Volume on2.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Volume on2.png");
 	this->textures["SOUND_ON2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/Volume_off.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Volume_off.png");
 	this->textures["SOUND_OFF"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Settings/Volume_off2.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Volume_off2.png");
 	this->textures["SOUND_OFF2"] = texture;
 }
 
@@ -177,8 +177,8 @@ void SettingsState::InitDropDownLists()
 		modes_str.push_back(std::to_string(i.width) + "x" + std::to_string(i.height));
 	}*/
 
-	this->dropDownLists["RESOLUTION"] = new UI::DropDownList(this->scale / 1.5, 0, winX / 3.2 - this->textures["DDL_MAIN"].getSize().x * scale / 2 , 0, &this->font, 25, l, this->textures["DDL_SECOND"],
-		this->textures["DDL_SECOND_HOVER"], this->textures["DDL_MAIN"]);
+	this->dropDownLists["RESOLUTION"] = new ReminderUI::DropDownList(this->scale / 1.5, 0, winX / 3.2 - this->textures["DDL_MAIN"].getSize().x * scale / 2 , 0, &this->font, 25, l, this->textures["DDL_SECOND"],
+                                                                     this->textures["DDL_SECOND_HOVER"], this->textures["DDL_MAIN"]);
 }
 
 

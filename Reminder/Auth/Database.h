@@ -1,14 +1,13 @@
 #ifndef REMINDER_REMINDER_DATABASE_DATABASE_H_
 #define REMINDER_REMINDER_DATABASE_DATABASE_H_
 
-#include <string>
 #include "pqxx/pqxx"
-#include <iostream>
 #include <json/json.h>
 #include <fstream>
-#include <openssl/evp.h>
 #include <openssl/sha.h>
 #include <algorithm>
+#include "Model/UserDAO.h"
+#include "Service/SessionIdService.h"
 
 namespace Reminder {
 class Database {
@@ -17,6 +16,7 @@ class Database {
   std::string connectionString;
   std::string usersTableName;
  public:
+
   Database() {
     parseConfigFile();
     this->connection = pqxx::connection(connectionString);
@@ -26,15 +26,17 @@ class Database {
     connection.close();
   }
 
-  static std::string hashPassword(const std::string &password);
+  std::string hashPassword(const std::string &password);
 
-  static bool comparePasswords(const std::string &password, const std::string &hashedPassword);
+  bool comparePasswords(const std::string &password, const std::string &hashedPassword);
 
   void parseConfigFile();
 
-  std::string addUser(const std::string &username, const std::string &password);
+  UserDAO createUser(const std::string &username, const std::string &password);
 
-  std::string getPassword(const std::string &username);
+  UserDAO getUser(UserDAO &user);
+
+  UserDAO containsSessionId(const std::string &sessionIdToken);
 };
 }
 

@@ -13,7 +13,7 @@ private:
 	sf::Sprite bg;
 	sf::Font font;
 	sf::Event sfEvent;
-	std::map<std::string, UI::Button*> buttons;
+	std::map<std::string, ReminderUI::Button*> buttons;
 
 	float scale = 1;
 	bool startFullScreen = 0;
