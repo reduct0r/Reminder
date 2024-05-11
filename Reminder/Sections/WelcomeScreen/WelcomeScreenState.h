@@ -60,7 +60,7 @@ public:
 	void AnimOpenFields();
 	void AnimCloseFields();
 	bool moveA(sf::Sprite& sprite, float VelX, float VelY, float distance) const;
-	void MoveSprites();
+	void MoveSprites(float dir);
 };
 
 

@@ -55,6 +55,8 @@ namespace ReminderUI
 		
 		bool move(float VelX, float VelY, float distance);
 
+		bool moveA(float scale, sf::Vector2f targetPosition, float distances, sf::Vector2f startPositions, float dir);
+
 		sf::Vector2f getPos();
 		const bool isPressed() const;
 		const std::string getText() const;
