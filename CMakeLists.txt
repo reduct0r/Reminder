@@ -5,34 +5,53 @@ project(Reminder)
 
 # Установка переменных среды
 include_directories(${CMAKE_SOURCE_DIR}/Reminder/Sections/Settings)
+
 set(SOURCES
         "Reminder/main.cpp"
         "Reminder/Init/init.cpp"
-        "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp"
-        "Reminder/UI Animations/UI_anims.cpp"
-)
+        "Reminder/Sections/WelcomeScreen/WelcomeScreen.cpp"
+        "Reminder/UI/UI_anims.cpp"
+        "Reminder/UI/TextBox.cpp"
+        "Reminder/Sections/Main menu/MainMenu.cpp" 
+        "Reminder/Sections/Settings/Settings.cpp"
+        "Reminder/UI/Button.cpp"
+        "Reminder/UI/DropDownList.cpp"
+        "Reminder/State.cpp"
+        "Reminder/Sections/Main menu/MainMenuState.cpp"
+        "Reminder/Sections/WelcomeScreen/WelcomeScreenState.cpp"
+ "Reminder/Sections/Settings/SettingsState.cpp")
+
 set(HEADERS
         "Reminder/Init/H_Init.h"
-        "Reminder/Sections/Settings/H_settings.h"
-        "Reminder/Reminder.h"
-)
+        "Reminder/Sections/Settings/Settings.h"
+        "Reminder/UI/TextBox.h"
+        "Reminder/Sections/WelcomeScreen/WelcomeScreen.h"
+        "Reminder/Sections/Main menu/MainMenu.h" 
+        "Reminder/UI/DropDownList.h"
+        "Reminder/UI/Button.h" 
+        "Reminder/State.h"
+        "Reminder/Sections/Main menu/MainMenuState.h" 
+        "Reminder/Sections/WelcomeScreen/WelcomeScreenState.h"
+ "Reminder/Sections/Settings/SettingsState.h")
 
 # Добавление источников в исполняемый файл проекта
 set(project Reminder)
 
-# Файлы для копирования
-# TEST
 if(WIN32)
     add_executable (Reminder ${SOURCES} ${HEADERS})
 
     # Копируем папку с ресурсами в out
+
     set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/out/build/x64-debug")
     file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Resources DESTINATION ${RESOURCES_DIR})
+
+    set(CONFIG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/out/build/x64-debug")
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Reminder/Config DESTINATION ${CONFIG_DIR})
 
     # Подключение SFML для работы "из коробки"
     set(SFML_DIR "${CMAKE_CURRENT_SOURCE_DIR}/third-party/sfml")            # Директория для хранения SFML
     set(SFML_URL https://github.com/reduct0r/Compiled-version-of-sfml.git)  # Репозиторий со стабильной динамической версией SFML
-    set(BRANCH_NAME "master")                        # Ветка
+    set(BRANCH_NAME "master")                                               # Ветка
 
     # Создать папку назначения, если она не существует
     file(MAKE_DIRECTORY ${SFML_DIR})
@@ -73,7 +92,19 @@ if(WIN32)
     # Заголовочные файлы библиотеки
     include_directories(${SFML_DIR}/SFML-2.6.1/include)
 
+    find_package(PostgreSQL REQUIRED)
+    find_package(libpqxx CONFIG REQUIRED)
+    find_package(jsoncpp CONFIG REQUIRED)
+    find_package(tinyfiledialogs CONFIG REQUIRED)
+
+    target_link_libraries(Reminder PostgreSQL::PostgreSQL)
+    target_link_libraries(Reminder libpqxx::pqxx)
+    target_link_libraries(Reminder JsonCpp::JsonCpp)
+    target_link_libraries(Reminder tinyfiledialogs::tinyfiledialogs)
+
 elseif (APPLE)
+
+    #!!! ДОБАВИТЬ КОПИРОВАНИЕ ПАПКИ CONFIG КАК У WIN32 !!!
     find_package(SFML COMPONENTS graphics audio REQUIRED)
 
     set(RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake-build-debug")
