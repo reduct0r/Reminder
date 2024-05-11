@@ -16,47 +16,33 @@ set(SOURCES
         "Reminder/Sections/WelcomeScreen/WelcomeScreen.cpp"
         "Reminder/UI/UI_anims.cpp"
         "Reminder/UI/TextBox.cpp"
-        "Reminder/Sections/Main menu/MainMenu.cpp" 
+        "Reminder/Sections/Main menu/MainMenu.cpp"
         "Reminder/Sections/Settings/Settings.cpp"
         "Reminder/UI/Button.cpp"
         "Reminder/UI/DropDownList.cpp"
         "Reminder/State.cpp"
         "Reminder/Sections/Main menu/MainMenuState.cpp"
         "Reminder/Sections/WelcomeScreen/WelcomeScreenState.cpp"
- "Reminder/Sections/Settings/SettingsState.cpp")
+        "Reminder/Sections/Settings/SettingsState.cpp"
+        "Reminder/Database/Database.cpp")
 
 set(HEADERS
         "Reminder/Init/H_Init.h"
         "Reminder/Sections/Settings/Settings.h"
         "Reminder/UI/TextBox.h"
         "Reminder/Sections/WelcomeScreen/WelcomeScreen.h"
-        "Reminder/Sections/Main menu/MainMenu.h" 
+        "Reminder/Sections/Main menu/MainMenu.h"
         "Reminder/UI/DropDownList.h"
-        "Reminder/UI/Button.h" 
+        "Reminder/UI/Button.h"
         "Reminder/State.h"
-        "Reminder/Sections/Main menu/MainMenuState.h" 
+        "Reminder/Sections/Main menu/MainMenuState.h"
         "Reminder/Sections/WelcomeScreen/WelcomeScreenState.h"
- "Reminder/Sections/Settings/SettingsState.h")
-
-# Добавление источников в исполняемый файл проекта
-set(project Reminder)
-
-        "Reminder/Sections/WelcomeScreen/Welcome_screen.cpp"
-        "Reminder/UI Animations/UI_anims.cpp"
-        "Reminder/Database/Database.cpp"
-)
-
-set(HEADERS
-        "Reminder/Init/H_Init.h"
-        "Reminder/Sections/Settings/H_settings.h"
-        "Reminder/Reminder.h"
-        "Reminder/Database/Database.cpp"
-        "Reminder/Database/Database.h"
-)
+        "Reminder/Sections/Settings/SettingsState.h"
+        "Reminder/Database/Database.h")
 
 # Файлы для копирования
-if(WIN32)
-    add_executable (Reminder ${SOURCES} ${HEADERS})
+if (WIN32)
+    add_executable(Reminder ${SOURCES} ${HEADERS})
 
     # Копируем папку с ресурсами в out
 
@@ -128,7 +114,9 @@ if(WIN32)
 
 elseif (APPLE)
 
-    #!!! ДОБАВИТЬ КОПИРОВАНИЕ ПАПКИ CONFIG КАК У WIN32 !!!
+    set(CONFIG_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake-build-debug")
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/Reminder/Config DESTINATION ${CONFIG_DIR})
+
     find_package(SFML COMPONENTS graphics audio REQUIRED)
     # Setting sources lists
     set(${project}_SOURCE_LIST ${${project}_SOURCES})
