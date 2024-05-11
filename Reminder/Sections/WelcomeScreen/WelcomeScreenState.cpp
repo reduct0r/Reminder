@@ -29,21 +29,34 @@ WelcomeScreenState::~WelcomeScreenState()
 	}
 }
 
-void WelcomeScreenState::MoveSprites()
+void WelcomeScreenState::MoveSprites(float dir)
 {
 	bool allSpritesAtTarget = true;
 
 	for (auto& kv : this->targetPositions)
 	{
 		std::string key = kv.first;
-		sf::Vector2f vector = kv.second;
+		sf::Vector2f vector = kv.second * dir;
 	
 		sf::Vector2f startPos = this->startPositions[key];
 		sf::Sprite& sprite = this->sprites[key];
 
+		if (dir == -1)
+		{
+			startPos = sf::Vector2f(this->startPositions[key].x,
+				this->startPositions[key].y + this->distances[key] * this->targetPositions[key].y / abs(this->targetPositions[key].y));
+
+			this->textboxes["LOGIN"]->setSize(0, 0);
+
+			this->textboxes["PASSWORD"]->setSize(0, 0);
+
+			this->buttons["BACK_BTN"]->Hide(1, this->scale);
+		
+		}
+
 		sf::Vector2f vectorBetweenPoints = sprite.getPosition() - startPos;
 		float distanceS = std::hypot(vectorBetweenPoints.x, vectorBetweenPoints.y);
-		std::cout << distanceS << "\n";
+		std::cout << "SPRITES " << distanceS << "\n";
 		
 		if (distanceS <= this->distances[key])
 		{
@@ -74,8 +87,38 @@ void WelcomeScreenState::MoveSprites()
 
 	if (allSpritesAtTarget)
 	{
-		std::cout << "DONE";
+		std::cout << "DONE SPRITE";
 		this->animTransit = 0;
+		this->animTransitReverse = 0;
+
+		if (dir == 1)
+		{
+			this->textboxes["LOGIN"]->setPosition(this->sprites["LOG_FIELD"].getPosition().x + this->window->getSize().x / 20.0f,
+				this->sprites["LOG_FIELD"].getPosition().y + this->window->getSize().y / 34.0f);
+			this->textboxes["LOGIN"]->setSize(this->window->getSize().y / 2.1f, this->window->getSize().x / 40.0f);
+			this->textboxes["LOGIN"]->SetColor(sf::Color::Color(231, 240, 254, 255));
+
+			this->textboxes["PASSWORD"]->setPosition(this->sprites["PASS_FIELD"].getPosition().x + this->window->getSize().x / 20.0f,
+				this->sprites["PASS_FIELD"].getPosition().y + this->window->getSize().y / 34.0f);
+			this->textboxes["PASSWORD"]->setSize(this->window->getSize().y / 2.1f, this->window->getSize().x / 40.0f);
+			this->textboxes["PASSWORD"]->SetColor(sf::Color::Color(231, 240, 254, 255));
+
+			this->buttons["BACK_BTN"]->Hide(0, this->scale);
+		}
+
+		else if (dir == -1) 
+		{
+			for (auto& kv : this->startPositions) // избавляемся от погрешности
+			{
+				std::string key = kv.first;
+				sf::Vector2f backP = kv.second;
+
+				this->sprites[key].setPosition(backP);
+			}
+
+			this->buttons["LOGIN_BTN"]->Hide(0, this->scale);
+		}
+					
 	}
 }
 
@@ -269,11 +312,6 @@ void WelcomeScreenState::MoveSprites()
 
 
 
-
-
-
-
-
 //
 //
 //
@@ -429,6 +467,7 @@ void WelcomeScreenState::InitButtons()
 	this->buttons["LOGIN_BTN"] = new UI::Button(mid, yaw + winY / 6.0, scale, scale, &this->font, sf::String(""), this->textures["LOGIN_BT_IDLE"], this->textures["LOGIN_BT_HOVER"], this->textures["LOGIN_BT_HOVER"]);
 
 	this->buttons["REGISTER_BTN"] = new UI::Button(mid, yaw + winY / 30.0f , scale, scale, &this->font, sf::String(""), this->textures["REG_BT_IDLE"], this->textures["REG_BT_HOVER"], this->textures["REG_BT_HOVER"]);
+	this->startPositions["REGISTER_BTN"] = this->buttons["REGISTER_BTN"]->getPos();
 
 	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.25, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
 	
@@ -442,7 +481,6 @@ void WelcomeScreenState::InitTextBoxes()
 	this->textboxes["LOGIN"] = new UI::TextBox(0,0,0,0,0);
 	this->textboxes["PASSWORD"] = new UI::TextBox(0,0,0,0,0);
 }
-
 
 void WelcomeScreenState::InitTextures()
 {
@@ -491,23 +529,26 @@ void WelcomeScreenState::InitSprites()
 	sprite1.setTexture(this->textures["LOGIN_FIELD"]);
 	sprite1.setPosition(winX / 2.0 - this->textures["LOGIN_FIELD"].getSize().x * scale / 2.0, winY / 4.0);
 	this->sprites["LOG_FIELD"] = sprite1;
-	this->targetPositions["LOG_FIELD"] = sf::Vector2f(0, -100);
-	this->distances["LOG_FIELD"] = 50;
+	this->targetPositions["LOG_FIELD"] = sf::Vector2f(0, 80);
+	this->distances["LOG_FIELD"] = 70;
 	this->startPositions["LOG_FIELD"] = sprite1.getPosition();
 
 	sf::Sprite sprite3;
-	sprite3.setScale(0, 0);
+	sprite3.setScale(0.5, 0.5);
 	sprite3.setTexture(this->textures["PASSWORD_FIELD"]);
 	sprite3.setPosition(winX / 2.0 - this->textures["PASSWORD_FIELD"].getSize().x * scale / 2.0, winY / 4.0);
 	this->sprites["PASS_FIELD"] = sprite3;
+		this->targetPositions["PASS_FIELD"] = sf::Vector2f(0, 100);
+	this->distances["PASS_FIELD"] = 130;
+	this->startPositions["PASS_FIELD"] = sprite3.getPosition();
 
 	sf::Sprite sprite;
 	sprite.setScale(scale, scale);
 	sprite.setTexture(this->textures["LOGO"]);
 	sprite.setPosition(winX / 2.0 - this->textures["LOGO"].getSize().x * scale / 2.05, winY / 2.0 - this->textures["LOGO"].getSize().y * scale / 2.0 - winY / 5.0);
 	this->sprites["LOGO"] = sprite;
-	this->targetPositions["LOGO"] = sf::Vector2f(0, 100);
-	this->distances["LOGO"] = 100;
+	this->targetPositions["LOGO"] = sf::Vector2f(0, -50);
+	this->distances["LOGO"] = 35;
 	this->startPositions["LOGO"] = sprite.getPosition();
 
 
@@ -524,8 +565,17 @@ void WelcomeScreenState::Update(const float& dt)
 
 	if (this->animTransit)
 	{
-		MoveSprites();
+		MoveSprites(1);
+		this->buttons["REGISTER_BTN"]->moveA(this->scale, sf::Vector2f(0, 80), 80, this->startPositions["REGISTER_BTN"], 1);
+
 		//AnimOpenFields();
+	}
+
+	if (this->animTransitReverse)
+	{
+		MoveSprites(-1);
+		this->buttons["REGISTER_BTN"]->moveA(this->scale, sf::Vector2f(0, 80), 80, this->startPositions["REGISTER_BTN"], -1);
+
 	}
 	//if (this->animTransitReverse and !this->animTransit)
 	//{
@@ -591,10 +641,10 @@ void WelcomeScreenState::UpdateButtons()
 
 	if (flag1 and this->buttons["REGISTER_BTN"]->isPressed() and this->getKeyTime())
 	{
+		this->buttons["LOGIN_BTN"]->Hide(1, this->scale);
 
 
-
-		//flag1 = 0;
+		flag1 = 0;
 		//flag2 = 1;
 		//if (!this->animTransit and !this->animTransitReverse)
 		//{
@@ -610,10 +660,11 @@ void WelcomeScreenState::UpdateButtons()
 		flag3 = 0;
 	}
 
-	if (flag2 and this->buttons["BACK_BTN"]->isPressed() and !this->animTransit and !this->animTransitReverse)
+	if (this->buttons["BACK_BTN"]->isPressed() and !this->animTransit and !this->animTransitReverse)
 	{
 		this->animTransitReverse = 1;
-		flag2 = 0;
+		flag1 = 1;
+
 	}
 
 	if (!flag2 and !this->animTransitReverse)

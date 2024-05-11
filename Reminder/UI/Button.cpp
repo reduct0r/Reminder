@@ -1,5 +1,6 @@
 #include "Button.h"
 #include <iostream>
+#include <unordered_map>
 
 UI::Button::Button(float x, float y, float width, float height, sf::Font* font, sf::String text, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture)
 {
@@ -169,6 +170,57 @@ bool UI::Button::move(float VelX, float VelY, float distance)
 		accumulatedDistance += frameDistance; // Обновляем накопленное расстояние
 	}
 }
+	// NEW
+	bool UI::Button::moveA(float scale, sf::Vector2f targetPosition, float distances, sf::Vector2f startPositions, float dir)
+	{
+		bool allButtonsAtTarget = true;
+		//targetPosition *= dir;
+
+		if (dir == -1)
+		{
+			startPositions = sf::Vector2f(startPositions.x, startPositions.y + distances * targetPosition.y / abs(targetPosition.y));
+		}
+
+
+		sf::Vector2f vectorBetweenPoints = this->sprite.getPosition() - startPositions;
+		float distanceS = std::hypot(vectorBetweenPoints.x, vectorBetweenPoints.y);
+		std::cout << "BYN -> " << distanceS << " BTN \n";
+
+
+		if (distanceS <= distances)
+		{
+			allButtonsAtTarget = false;
+
+			sf::Vector2f direction = targetPosition;
+			// Ускорение и замедление при движении
+			float acceleration = 16 * scale * abs(distances - distanceS);
+			if (acceleration < 5)
+			{
+				acceleration = 5;
+			}
+			float speed = acceleration * this->dt;
+
+			if (distances > speed)
+			{
+				direction /= distances;
+				this->sprite.move(direction * speed * dir);
+			}
+			else
+			{
+				this->sprite.setPosition(targetPosition);
+			}
+		}
+
+		if (allButtonsAtTarget)
+		{
+			std::cout << "DONE BTN";
+		}
+
+		return 1;
+
+	}
+
+
 
 const bool UI::Button::isPressed() const
 {

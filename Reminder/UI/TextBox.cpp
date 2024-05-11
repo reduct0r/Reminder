@@ -30,7 +30,7 @@ namespace UI
         outerRect.setPosition(sf::Vector2f(0, 0));
         innerRect.setPosition(sf::Vector2f(2, 2));
         outerRect.setFillColor(sf::Color::Black);
-        innerRect.setFillColor(sf::Color::Color(231, 240, 254, 255));
+        innerRect.setFillColor(sf::Color(231, 240, 254, 255));
 
         blinker.setSize(sf::Vector2f(1, 26));
         blinker.setPosition(sf::Vector2f(4, 3));
@@ -57,7 +57,7 @@ namespace UI
         outerRect.setPosition(sf::Vector2f(y1, y2));
         innerRect.setPosition(sf::Vector2f(y1 + z, y2 + z));
         outerRect.setFillColor(sf::Color::Black);
-        innerRect.setFillColor(sf::Color::Color(231, 240, 254, 255));
+        innerRect.setFillColor(sf::Color(231, 240, 254, 255));
 
         blinker.setSize(sf::Vector2f(1, x2 - 2 * z - 2));
         blinker.setPosition(sf::Vector2f(y1 + z + 2, y2 + z + 1));
@@ -265,12 +265,12 @@ namespace UI
             }
             else if (time.asSeconds() > 0.5)
             {
-                blinker.setFillColor(sf::Color::Color(231, 240, 254, 255));
+                blinker.setFillColor(sf::Color(231, 240, 254, 255));
             }
         }
         else
         {
-            blinker.setFillColor(sf::Color::Color(231, 240, 254, 255));
+            blinker.setFillColor(sf::Color(231, 240, 254, 255));
             if (time.asSeconds() > 300)
             {
                 time = sf::Time::Zero;
