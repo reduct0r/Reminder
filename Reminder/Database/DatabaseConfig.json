@@ -1,4 +1,4 @@
 {
-  "connectionString": "postgres://postgres@51.250.121.230:5432/postgres",
+  "connectionString": "postgres://exist@localhost:5432/reminder",
   "usersTableName": "users"
 }
