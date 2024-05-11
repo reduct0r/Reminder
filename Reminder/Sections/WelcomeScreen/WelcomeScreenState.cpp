@@ -2,91 +2,79 @@
 #include <iostream>
 #include "WelcomeScreen.h"
 
-WelcomeScreenState::WelcomeScreenState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings)
-	:State(window, states), gfxSettings(gfxSettings)
-{
-	this->InitTextures();
-	this->InitVars();
-	this->InitSprites();
-	this->InitBG();
-	this->InitFonts();
-	this->InitButtons();
-	this->InitTextBoxes();
+WelcomeScreenState::WelcomeScreenState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings)
+    : State(window, states), gfxSettings(gfxSettings) {
+  this->InitTextures();
+  this->InitVars();
+  this->InitSprites();
+  this->InitBG();
+  this->InitFonts();
+  this->InitButtons();
+  this->InitTextBoxes();
 }
 
-WelcomeScreenState::~WelcomeScreenState()
-{
-	auto it = this->buttons.begin();
-	for (auto it = this->buttons.begin(); it != this->buttons.end(); ++it)
-	{
-		delete it->second;
-	}
+WelcomeScreenState::~WelcomeScreenState() {
+  auto it = this->buttons.begin();
+  for (auto it = this->buttons.begin(); it != this->buttons.end(); ++it) {
+    delete it->second;
+  }
 
-	auto it2 = this->textboxes.begin();
-	for (auto it2 = this->textboxes.begin(); it2 != this->textboxes.end(); ++it2)
-	{
-		delete it2->second;
-	}
+  auto it2 = this->textboxes.begin();
+  for (auto it2 = this->textboxes.begin(); it2 != this->textboxes.end(); ++it2) {
+    delete it2->second;
+  }
 }
 
-void WelcomeScreenState::MoveSprites()
-{
-	bool allSpritesAtTarget = true;
+void WelcomeScreenState::MoveSprites() {
+  bool allSpritesAtTarget = true;
 
-	for (auto& kv : this->targetPositions)
-	{
-		std::string key = kv.first;
-		sf::Vector2f vector = kv.second;
-	
-		sf::Vector2f startPos = this->startPositions[key];
-		sf::Sprite& sprite = this->sprites[key];
+  for (auto &kv : this->targetPositions) {
+    std::string key = kv.first;
+    sf::Vector2f vector = kv.second;
 
-		sf::Vector2f vectorBetweenPoints = sprite.getPosition() - startPos;
-		float distanceS = std::hypot(vectorBetweenPoints.x, vectorBetweenPoints.y);
-		std::cout << distanceS << "\n";
-		
-		if (distanceS <= this->distances[key])
-		{
-			allSpritesAtTarget = false;
+    sf::Vector2f startPos = this->startPositions[key];
+    sf::Sprite &sprite = this->sprites[key];
 
-			sf::Vector2f direction = vector;
-			float distance = this->distances[key];
+    sf::Vector2f vectorBetweenPoints = sprite.getPosition() - startPos;
+    float distanceS = std::hypot(vectorBetweenPoints.x, vectorBetweenPoints.y);
+    std::cout << distanceS << "\n";
 
-			// Ускорение и замедление при движении
-			float acceleration = 16 * this->scale * abs(distance - distanceS);
-			if (acceleration < 5)
-			{
-				acceleration = 5;
-			}
-			float speed = acceleration * this->dt;
+    if (distanceS <= this->distances[key]) {
+      allSpritesAtTarget = false;
 
-			if (distance > speed)
-			{
-				direction /= distance;
-				sprite.move(direction * speed);
-			}
-			else
-			{
-				sprite.setPosition(vector);
-			}
-		}
-	}
+      sf::Vector2f direction = vector;
+      float distance = this->distances[key];
 
-	if (allSpritesAtTarget)
-	{
-		std::cout << "DONE";
-		this->animTransit = 0;
-	}
+      // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+      float acceleration = 16 * this->scale * abs(distance - distanceS);
+      if (acceleration < 5) {
+        acceleration = 5;
+      }
+      float speed = acceleration * this->dt;
+
+      if (distance > speed) {
+        direction /= distance;
+        sprite.move(direction * speed);
+      } else {
+        sprite.setPosition(vector);
+      }
+    }
+  }
+
+  if (allSpritesAtTarget) {
+    std::cout << "DONE";
+    this->animTransit = 0;
+  }
 }
 
 //bool WelcomeScreenState::moveA(sf::Sprite& sprite, float VelX, float VelY, float distance) const
 //{
-//	static float accumulatedDistance = 0.0f; // Аккумулированное расстояние перемещения
-//	static bool init = true; // Переменная для инициализации или перезапуска анимации
-//	static bool init2 = 0; // Переменная для инициализации или перезапуска анимации
-//	static sf::Vector2f initialPos; // Начальная позиция кнопки
+//	static float accumulatedDistance = 0.0f; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+//	static bool init = true; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+//	static bool init2 = 0; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+//	static sf::Vector2f initialPos; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 //
-//	// Сохраняем начальное состояние и расположение
+//	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //	if (init and VelY > 0)
 //	{
 //		initialPos = sprite.getPosition();
@@ -101,28 +89,28 @@ void WelcomeScreenState::MoveSprites()
 //		init2 = false;
 //	}
 //
-//	// Вычисляем необходимое смещение за текущий кадр
+//	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 //	float moveX = VelX * this->dt;
 //	float moveY = VelY * this->dt;
-//	float frameDistance = std::sqrt(moveX * moveX + moveY * moveY); // Расстояние, пройденное за фрейм
+//	float frameDistance = std::sqrt(moveX * moveX + moveY * moveY); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 //
-//	// Проверяем, не превысили ли мы общее расстояние
+//	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //	if (accumulatedDistance + frameDistance >= distance and distance > 0)
 //	{
-//		init2 = true; // Сбрасываем статус для новых вызовов анимации
+//		init2 = true; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //		return 1;
 //	}
 //
 //	else if (accumulatedDistance + frameDistance <= distance and distance < 0)
 //	{
-//		init = true; // Сбрасываем статус для новых вызовов анимации
+//		init = true; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //		return 1;
 //	}
 //
 //	else
 //	{
-//		sprite.move(moveX, moveY); // Перемещаем кнопку
-//		accumulatedDistance += frameDistance; // Обновляем накопленное расстояние
+//		sprite.move(moveX, moveY); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+//		accumulatedDistance += frameDistance; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 //	}
 //	return 0;
 //}
@@ -151,7 +139,7 @@ void WelcomeScreenState::MoveSprites()
 //	}
 //
 //
-//	/* кнопка регистрации */
+//	/* пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 //
 //	//if (this->buttons["REGISTER_BTN"]->move(0, 1000, 4*this->scale))
 //	//{
@@ -384,321 +372,322 @@ void WelcomeScreenState::MoveSprites()
 //}
 
 
-void WelcomeScreenState::UpdateKeyBoardBinds(const float& dt)
-{
-	this->CheckForQuit();
+void WelcomeScreenState::UpdateKeyBoardBinds(const float &dt) {
+  this->CheckForQuit();
 }
 
-void WelcomeScreenState::EndState()
-{
-	std::cout << "Welcome Screen ENDING...";
+void WelcomeScreenState::EndState() {
+  std::cout << "Welcome Screen ENDING...";
 }
 
-
-void WelcomeScreenState::InitVars()
-{
-	this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_WELCOME"].getSize().x;
-	std::cout << this->scale << "\n";
+void WelcomeScreenState::InitVars() {
+  this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_WELCOME"].getSize().x;
+  std::cout << this->scale << "\n";
 }
 
-void WelcomeScreenState::InitBG()
-{
-	float scale = this->scale;
+void WelcomeScreenState::InitBG() {
+  float scale = this->scale;
 
-	this->bg.setScale(sf::Vector2f(scale, scale));
-	this->bg.setTexture(this->textures["BG_WELCOME"]);
+  this->bg.setScale(sf::Vector2f(scale, scale));
+  this->bg.setTexture(this->textures["BG_WELCOME"]);
 }
 
-void WelcomeScreenState::InitFonts()
-{
-	if (!this->font.loadFromFile("Resources/Fonts/ARIAL.ttf"))
-	{
-		throw("WelcomeScreenState: COULD NOT LOAD FONT");
-	}
+void WelcomeScreenState::InitFonts() {
+  if (!this->font.loadFromFile("Resources/Fonts/ARIAL.ttf")) {
+    throw ("WelcomeScreenState: COULD NOT LOAD FONT");
+  }
 }
 
-void WelcomeScreenState::InitButtons()
-{
-	float winX = float(this->window->getSize().x);
-	float winY = float(this->window->getSize().y);
+void WelcomeScreenState::InitButtons() {
+  float winX = float(this->window->getSize().x);
+  float winY = float(this->window->getSize().y);
 
-	float scale = this->scale;
-	float mid = winX / 2.0 - this->textures["LOGIN_BT_IDLE"].getSize().x * scale / 2.0;
-	float yaw = winY / 2.0 - this->textures["LOGIN_BT_IDLE"].getSize().y * scale / 2.0;
+  float scale = this->scale;
+  float mid = winX / 2.0 - this->textures["LOGIN_BT_IDLE"].getSize().x * scale / 2.0;
+  float yaw = winY / 2.0 - this->textures["LOGIN_BT_IDLE"].getSize().y * scale / 2.0;
 
-	this->buttons["LOGIN_BTN"] = new UI::Button(mid, yaw + winY / 6.0, scale, scale, &this->font, sf::String(""), this->textures["LOGIN_BT_IDLE"], this->textures["LOGIN_BT_HOVER"], this->textures["LOGIN_BT_HOVER"]);
+  this->buttons["LOGIN_BTN"] = new UI::Button(mid,
+                                              yaw + winY / 6.0,
+                                              scale,
+                                              scale,
+                                              &this->font,
+                                              sf::String(""),
+                                              this->textures["LOGIN_BT_IDLE"],
+                                              this->textures["LOGIN_BT_HOVER"],
+                                              this->textures["LOGIN_BT_HOVER"]);
 
-	this->buttons["REGISTER_BTN"] = new UI::Button(mid, yaw + winY / 30.0f , scale, scale, &this->font, sf::String(""), this->textures["REG_BT_IDLE"], this->textures["REG_BT_HOVER"], this->textures["REG_BT_HOVER"]);
+  this->buttons["REGISTER_BTN"] = new UI::Button(mid,
+                                                 yaw + winY / 30.0f,
+                                                 scale,
+                                                 scale,
+                                                 &this->font,
+                                                 sf::String(""),
+                                                 this->textures["REG_BT_IDLE"],
+                                                 this->textures["REG_BT_HOVER"],
+                                                 this->textures["REG_BT_HOVER"]);
 
-	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.25, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
-	
-	this->buttons["BACK_BTN"] = new UI::Button(30, 30, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
-	this->buttons["BACK_BTN"]->Hide(1, this->scale);
+  this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0,
+                                               winY / 1.25,
+                                               scale,
+                                               scale,
+                                               &this->font,
+                                               sf::String(""),
+                                               this->textures["GITHUB_ICON"],
+                                               this->textures["GITHUB_ICON"],
+                                               this->textures["GITHUB_ICON"]);
 
-}
-
-void WelcomeScreenState::InitTextBoxes()
-{
-	this->textboxes["LOGIN"] = new UI::TextBox(0,0,0,0,0);
-	this->textboxes["PASSWORD"] = new UI::TextBox(0,0,0,0,0);
-}
-
-
-void WelcomeScreenState::InitTextures()
-{
-	sf::Texture texture;
-	texture.setSmooth(1);
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Background.png");
-	this->textures["BG_WELCOME"] = texture;
-
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Login button first.png");
-	this->textures["LOGIN_BT_IDLE"] = texture;
-	
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Login button second.png");
-	this->textures["LOGIN_BT_HOVER"] = texture;
-
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Reg button first.png");
-	this->textures["REG_BT_IDLE"] = texture;
-
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Reg button second.png");
-	this->textures["REG_BT_HOVER"] = texture;
-
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Github icon.png");
-	this->textures["GITHUB_ICON"] = texture;
-
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Logo reminder.png");
-	this->textures["LOGO"] = texture;
-
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/login.png");
-	this->textures["LOGIN_FIELD"] = texture;
-
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/password.png");
-	this->textures["PASSWORD_FIELD"] = texture;
-
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/back2.png");
-	this->textures["BACK"] = texture;
+  this->buttons["BACK_BTN"] = new UI::Button(30,
+                                             30,
+                                             scale,
+                                             scale,
+                                             &this->font,
+                                             sf::String(""),
+                                             this->textures["BACK"],
+                                             this->textures["BACK"],
+                                             this->textures["BACK"]);
+  this->buttons["BACK_BTN"]->Hide(1, this->scale);
 
 }
 
-void WelcomeScreenState::InitSprites()
-{
-	float winX = float(this->window->getSize().x);
-	float winY = float(this->window->getSize().y);
-	float scale = this->scale;
+void WelcomeScreenState::InitTextBoxes() {
+  this->textboxes["LOGIN"] = new UI::TextBox(0, 0, 0, 0, 0);
+  this->textboxes["PASSWORD"] = new UI::TextBox(0, 0, 0, 0, 0);
+}
 
-	sf::Sprite sprite1;
-	sprite1.setScale(0.5, 0.5);
-	sprite1.setTexture(this->textures["LOGIN_FIELD"]);
-	sprite1.setPosition(winX / 2.0 - this->textures["LOGIN_FIELD"].getSize().x * scale / 2.0, winY / 4.0);
-	this->sprites["LOG_FIELD"] = sprite1;
-	this->targetPositions["LOG_FIELD"] = sf::Vector2f(0, -100);
-	this->distances["LOG_FIELD"] = 50;
-	this->startPositions["LOG_FIELD"] = sprite1.getPosition();
+void WelcomeScreenState::InitTextures() {
+  sf::Texture texture;
+  texture.setSmooth(1);
+  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Background.png");
+  this->textures["BG_WELCOME"] = texture;
 
-	sf::Sprite sprite3;
-	sprite3.setScale(0, 0);
-	sprite3.setTexture(this->textures["PASSWORD_FIELD"]);
-	sprite3.setPosition(winX / 2.0 - this->textures["PASSWORD_FIELD"].getSize().x * scale / 2.0, winY / 4.0);
-	this->sprites["PASS_FIELD"] = sprite3;
+  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Login button first.png");
+  this->textures["LOGIN_BT_IDLE"] = texture;
 
-	sf::Sprite sprite;
-	sprite.setScale(scale, scale);
-	sprite.setTexture(this->textures["LOGO"]);
-	sprite.setPosition(winX / 2.0 - this->textures["LOGO"].getSize().x * scale / 2.05, winY / 2.0 - this->textures["LOGO"].getSize().y * scale / 2.0 - winY / 5.0);
-	this->sprites["LOGO"] = sprite;
-	this->targetPositions["LOGO"] = sf::Vector2f(0, 100);
-	this->distances["LOGO"] = 100;
-	this->startPositions["LOGO"] = sprite.getPosition();
+  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Login button second.png");
+  this->textures["LOGIN_BT_HOVER"] = texture;
 
+  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Reg button first.png");
+  this->textures["REG_BT_IDLE"] = texture;
+
+  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Reg button second.png");
+  this->textures["REG_BT_HOVER"] = texture;
+
+  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Github icon.png");
+  this->textures["GITHUB_ICON"] = texture;
+
+  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Logo reminder.png");
+  this->textures["LOGO"] = texture;
+
+  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/login.png");
+  this->textures["LOGIN_FIELD"] = texture;
+
+  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/password.png");
+  this->textures["PASSWORD_FIELD"] = texture;
+
+  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/back2.png");
+  this->textures["BACK"] = texture;
+
+}
+
+void WelcomeScreenState::InitSprites() {
+  float winX = float(this->window->getSize().x);
+  float winY = float(this->window->getSize().y);
+  float scale = this->scale;
+
+  sf::Sprite sprite1;
+  sprite1.setScale(0.5, 0.5);
+  sprite1.setTexture(this->textures["LOGIN_FIELD"]);
+  sprite1.setPosition(winX / 2.0 - this->textures["LOGIN_FIELD"].getSize().x * scale / 2.0, winY / 4.0);
+  this->sprites["LOG_FIELD"] = sprite1;
+  this->targetPositions["LOG_FIELD"] = sf::Vector2f(0, -100);
+  this->distances["LOG_FIELD"] = 50;
+  this->startPositions["LOG_FIELD"] = sprite1.getPosition();
+
+  sf::Sprite sprite3;
+  sprite3.setScale(0, 0);
+  sprite3.setTexture(this->textures["PASSWORD_FIELD"]);
+  sprite3.setPosition(winX / 2.0 - this->textures["PASSWORD_FIELD"].getSize().x * scale / 2.0, winY / 4.0);
+  this->sprites["PASS_FIELD"] = sprite3;
+
+  sf::Sprite sprite;
+  sprite.setScale(scale, scale);
+  sprite.setTexture(this->textures["LOGO"]);
+  sprite.setPosition(winX / 2.0 - this->textures["LOGO"].getSize().x * scale / 2.05,
+                     winY / 2.0 - this->textures["LOGO"].getSize().y * scale / 2.0 - winY / 5.0);
+  this->sprites["LOGO"] = sprite;
+  this->targetPositions["LOGO"] = sf::Vector2f(0, 100);
+  this->distances["LOGO"] = 100;
+  this->startPositions["LOGO"] = sprite.getPosition();
 
 }
 
 // UPDATE 
-void WelcomeScreenState::Update(const float& dt)
-{
-	this->UpdateDT();
-	this->UpdateMousePos();
-	this->UpdateKeyTime(dt);
-	this->UpdateButtons();
-	this->UpdateEvents();
+void WelcomeScreenState::Update(const float &dt) {
+  this->UpdateDT();
+  this->UpdateMousePos();
+  this->UpdateKeyTime(dt);
+  this->UpdateButtons();
+  this->UpdateEvents();
 
-	if (this->animTransit)
-	{
-		MoveSprites();
-		//AnimOpenFields();
-	}
-	//if (this->animTransitReverse and !this->animTransit)
-	//{
-	//	AnimCloseFields();
-	//}
+  if (this->animTransit) {
+    MoveSprites();
+    //AnimOpenFields();
+  }
+  //if (this->animTransitReverse and !this->animTransit)
+  //{
+  //	AnimCloseFields();
+  //}
 
-	if (this->bg.getTexture()->getSize().x * this->scale != this->window->getSize().x)
-	{
-		this->window->clear();
-		if (this->gfxSettings.fullscreen)
-		{
+  if (this->bg.getTexture()->getSize().x * this->scale != this->window->getSize().x) {
+    this->window->clear();
+    if (this->gfxSettings.fullscreen) {
 
-			this->window->create(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Fullscreen, this->gfxSettings.contextSettings);
-		}
-		else
-		{
-			this->window->create(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Titlebar | sf::Style::Close, this->gfxSettings.contextSettings);
-		}
+      this->window->create(this->gfxSettings.resolution,
+                           this->gfxSettings.title,
+                           sf::Style::Fullscreen,
+                           this->gfxSettings.contextSettings);
+    } else {
+      this->window->create(this->gfxSettings.resolution,
+                           this->gfxSettings.title,
+                           sf::Style::Titlebar | sf::Style::Close,
+                           this->gfxSettings.contextSettings);
+    }
 
-		this->window->setFramerateLimit(this->gfxSettings.frameLimit);
-		this->window->setVerticalSyncEnabled(this->gfxSettings.VSync);
+    this->window->setFramerateLimit(this->gfxSettings.frameLimit);
+    this->window->setVerticalSyncEnabled(this->gfxSettings.VSync);
 
-		this->buttons.clear();
-		this->textboxes.clear();
+    this->buttons.clear();
+    this->textboxes.clear();
 
-
-		this->InitTextures();
-		this->InitVars();
-		this->InitSprites();
-		this->InitBG();
-		this->InitFonts();
-		this->InitButtons();
-		this->InitTextBoxes();
-	}
+    this->InitTextures();
+    this->InitVars();
+    this->InitSprites();
+    this->InitBG();
+    this->InitFonts();
+    this->InitButtons();
+    this->InitTextBoxes();
+  }
 }
 
-void WelcomeScreenState::UpdateDT()
-{
-	this->dt = this->dtClock.restart().asSeconds();
+void WelcomeScreenState::UpdateDT() {
+  this->dt = this->dtClock.restart().asSeconds();
 }
 
-void WelcomeScreenState::UpdateButtons()
-{
-	for (auto& it : this->buttons)
-	{
-		it.second->Update(this->MousePosView);
-	}
+void WelcomeScreenState::UpdateButtons() {
+  for (auto &it : this->buttons) {
+    it.second->Update(this->MousePosView);
+  }
 
-	//if (this->buttons["REGISTER_BTN"]->isPressed())
-	//{
-	//	this->ToQuit = 1;
-	//}
+  //if (this->buttons["REGISTER_BTN"]->isPressed())
+  //{
+  //	this->ToQuit = 1;
+  //}
 
-	/* Обработка кнопок */
-	static bool flag1 = true;
-	static bool flag2 = true;
-	static bool flag3 = true;
+  /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
+  static bool flag1 = true;
+  static bool flag2 = true;
+  static bool flag3 = true;
 
-	if (this->buttons["LOGIN_BTN"]->isPressed())
-	{
-		this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
-	}
+  if (this->buttons["LOGIN_BTN"]->isPressed()) {
+    // TODO
+    // РћСЃСѓС‰РµСЃС‚РІР»РµРЅРёРµ Р»РѕРіРёРєРё СЂР°Р±РѕС‚С‹ СЃ Р±Рґ (Р›РѕРіРёРЅ)
 
-	if (flag1 and this->buttons["REGISTER_BTN"]->isPressed() and this->getKeyTime())
-	{
+    // РџРµСЂРµС…РѕРґ РЅР° СЃР»РµРґСѓСЋС‰СѓСЋ СЃС‚СЂР°РЅРёС†Сѓ
+    this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
+  }
 
-
-
-		//flag1 = 0;
-		//flag2 = 1;
-		//if (!this->animTransit and !this->animTransitReverse)
-		//{
-			this->animTransit = 1;
-		//	std::cout << this->animTransit;
-		//}
-	}
-
-	else if (flag3 and this->buttons["REGISTER_BTN"]->isPressed() and !this->animTransitReverse and !this->animTransit and this->textboxes["LOGIN"]->getCurrentText() != "" and this->textboxes["PASSWORD"]->getCurrentText() != "")
-	{
-		std::cout << std::string(this->textboxes["LOGIN"]->getCurrentText()) << "\n";
-		std::cout << std::string(this->textboxes["PASSWORD"]->getCurrentText());
-		flag3 = 0;
-	}
-
-	if (flag2 and this->buttons["BACK_BTN"]->isPressed() and !this->animTransit and !this->animTransitReverse)
-	{
-		this->animTransitReverse = 1;
-		flag2 = 0;
-	}
-
-	if (!flag2 and !this->animTransitReverse)
-	{
-		flag1 = 1;
-		flag3 = 1;
-	}
+  if (flag1 and this->buttons["REGISTER_BTN"]->isPressed() and this->getKeyTime()) {
 
 
 
+    //flag1 = 0;
+    //flag2 = 1;
+    //if (!this->animTransit and !this->animTransitReverse)
+    //{
+    this->animTransit = 1;
+    //	std::cout << this->animTransit;
+    //}
+  } else if (flag3 and this->buttons["REGISTER_BTN"]->isPressed() and !this->animTransitReverse and !this->animTransit
+      and this->textboxes["LOGIN"]->getCurrentText() != "" and this->textboxes["PASSWORD"]->getCurrentText() != "") {
+    flag3 = 0;
 
-	if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime())
-	{
-		std::string url = "https://github.com/reduct0r/Reminder";
-		
-		#ifdef _WIN32
-		    std::string command = "start " + url + ""; // Для Windows
-		#elif __APPLE__
-		    std::string command = "open " + url + ""; // Для macOS
-		#endif
-		
-		// Вызываем командную строку сформированной команды
-		system(command.c_str());
-	}
+    // TODO
+    // РћСЃСѓС‰РµСЃС‚РІР»РµРЅРёРµ Р»РѕРіРёРєРё СЂР°Р±РѕС‚С‹ СЃ Р±Рґ (Р РµРіРёСЃС‚СЂР°С†РёСЏ)
+
+    std::cout << std::string(this->textboxes["LOGIN"]->getCurrentText()) << "\n";
+    std::cout << std::string(this->textboxes["PASSWORD"]->getCurrentText());
+    flag3 = 0;
+  }
+
+  if (flag2 and this->buttons["BACK_BTN"]->isPressed() and !this->animTransit and !this->animTransitReverse) {
+    this->animTransitReverse = 1;
+    flag2 = 0;
+  }
+
+  if (!flag2 and !this->animTransitReverse) {
+    flag1 = 1;
+    flag3 = 1;
+  }
+
+  if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime()) {
+    std::string url = "https://github.com/reduct0r/Reminder";
+
+#ifdef _WIN32
+    std::string command = "start " + url + ""; // пїЅпїЅпїЅ Windows
+#elif __APPLE__
+    std::string command = "open " + url + ""; // пїЅпїЅпїЅ macOS
+#endif
+
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+    system(command.c_str());
+  }
 }
 
-void WelcomeScreenState::UpdateSprites()
-{
+void WelcomeScreenState::UpdateSprites() {
 
 }
 
-void WelcomeScreenState::UpdateEvents()
-{
-	while (this->window->pollEvent(this->sfEvent))
-	{
-		if (this->sfEvent.type == sf::Event::Closed)
-		{
-			this->window->close();
-		}	
-		UpdateTextBoxesEvent();
-	}
+void WelcomeScreenState::UpdateEvents() {
+  while (this->window->pollEvent(this->sfEvent)) {
+    if (this->sfEvent.type == sf::Event::Closed) {
+      this->window->close();
+    }
+    UpdateTextBoxesEvent();
+  }
 }
 
-void WelcomeScreenState::UpdateTextBoxesEvent()
-{
-	for (auto& it : this->textboxes)
-	{
-		it.second->handleEvent(this->sfEvent);
-	}
+void WelcomeScreenState::UpdateTextBoxesEvent() {
+  for (auto &it : this->textboxes) {
+    it.second->handleEvent(this->sfEvent);
+  }
 }
 
 //RENDER
-void WelcomeScreenState::Render(sf::RenderTarget* target)
-{
-	if (!target)
-	{
-		target = this->window;
-	}
+void WelcomeScreenState::Render(sf::RenderTarget *target) {
+  if (!target) {
+    target = this->window;
+  }
 
-	target->draw(this->bg);
-	this->RenderButtons(target);
-	this->RenderSprites(target);
-	this->RenderTextBoxes(target);
+  target->draw(this->bg);
+  this->RenderButtons(target);
+  this->RenderSprites(target);
+  this->RenderTextBoxes(target);
 }
 
-void WelcomeScreenState::RenderTextBoxes(sf::RenderTarget* target)
-{
-	for (auto& it : this->textboxes)
-	{
-		it.second->Render(target);
-	}
+void WelcomeScreenState::RenderTextBoxes(sf::RenderTarget *target) {
+  for (auto &it : this->textboxes) {
+    it.second->Render(target);
+  }
 }
 
-void WelcomeScreenState::RenderButtons(sf::RenderTarget* target)
-{
-	for (auto& it : this->buttons)
-	{
-		it.second->Render(target);
-	}
+void WelcomeScreenState::RenderButtons(sf::RenderTarget *target) {
+  for (auto &it : this->buttons) {
+    it.second->Render(target);
+  }
 }
 
-void WelcomeScreenState::RenderSprites(sf::RenderTarget* target)
-{
-	for (auto& it : this->sprites)
-	{
-		target->draw(it.second);
-	}
+void WelcomeScreenState::RenderSprites(sf::RenderTarget *target) {
+  for (auto &it : this->sprites) {
+    target->draw(it.second);
+  }
 }
