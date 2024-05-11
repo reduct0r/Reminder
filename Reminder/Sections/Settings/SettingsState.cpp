@@ -102,58 +102,57 @@ void SettingsState::InitTextures()
 	sf::Texture texture;
 	texture.setSmooth(1);
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Background.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/Background.png");
 	this->textures["BG_SETTINGS"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Github icon.png");
+	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Github icon.png");
 	this->textures["GITHUB_ICON"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Logo reminder.png");
+	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Logo reminder.png");
 	this->textures["LOGO"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Resolution.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/Resolution.png");
 	this->textures["DDL_MAIN"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Rectangle_20.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/Rectangle_20.png");
 	this->textures["DDL_SECOND"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Rectangle_21.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/Rectangle_21.png");
 	this->textures["DDL_SECOND_HOVER"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Apply1.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/Apply1.png");
 	this->textures["APPLY_IDL"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Apply2.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/Apply2.png");
 	this->textures["APPLY_HVR"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/back2.png");
+	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/back2.png");
 	this->textures["BACK"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/fullscreen.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/fullscreen.png");
 	this->textures["FULLSCREEN_MODE"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/fullscreen2.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/fullscreen2.png");
 	this->textures["FULLSCREEN_MODE2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/to_window.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/to_window.png");
 	this->textures["WINDOW_MODE"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/to_window2.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/to_window2.png");
 	this->textures["WINDOW_MODE2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Volume on.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/Volume on.png");
 	this->textures["SOUND_ON"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Volume on2.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/Volume on2.png");
 	this->textures["SOUND_ON2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Volume_off.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/Volume_off.png");
 	this->textures["SOUND_OFF"] = texture;
 
-	texture.loadFromFile("Resources/Textures/ReminderUI/Settings/Volume_off2.png");
+	texture.loadFromFile("Resources/Textures/UI/Settings/Volume_off2.png");
 	this->textures["SOUND_OFF2"] = texture;
 }
-
 void SettingsState::InitSprites()
 {
 	float winX = float(this->window->getSize().x);
