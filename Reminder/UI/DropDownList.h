@@ -3,13 +3,13 @@
 #include <string>
 #include "Button.h"
 
-namespace UI
+namespace ReminderUI
 {
 	class DropDownList
 	{
 	private:
-		UI::Button* activeElement;
-		std::vector<UI::Button*> list;
+		ReminderUI::Button* activeElement;
+		std::vector<ReminderUI::Button*> list;
 		sf::Font* font;
 
 		bool showList;

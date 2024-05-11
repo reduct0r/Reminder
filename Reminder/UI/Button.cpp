@@ -2,7 +2,7 @@
 #include <iostream>
 #include <unordered_map>
 
-UI::Button::Button(float x, float y, float width, float height, sf::Font* font, sf::String text, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture)
+ReminderUI::Button::Button(float x, float y, float width, float height, sf::Font* font, sf::String text, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture)
 {
 	this->id = 0;
 	this->needAnim = 1;
@@ -26,8 +26,8 @@ UI::Button::Button(float x, float y, float width, float height, sf::Font* font, 
 	);
 }
 
-UI::Button::Button(bool needAnim, float fontSize, float x, float y, float width, float height, sf::Font* font, sf::String text,
-	sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture, short unsigned id)
+ReminderUI::Button::Button(bool needAnim, float fontSize, float x, float y, float width, float height, sf::Font* font, sf::String text,
+                           sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture, short unsigned id)
 {
 	this->id = id;
 	this->needAnim = needAnim;
@@ -52,11 +52,11 @@ UI::Button::Button(bool needAnim, float fontSize, float x, float y, float width,
 
 }
 
-UI::Button::~Button()
+ReminderUI::Button::~Button()
 {
 }
 
-void UI::Button::Update(const sf::Vector2f mousePosition)
+void ReminderUI::Button::Update(const sf::Vector2f mousePosition)
 {
     UpdateDT();
 	/* IDLE */
@@ -78,7 +78,7 @@ void UI::Button::Update(const sf::Vector2f mousePosition)
 	case BTN_IDLE:
 		if (this->needAnim)
 		{
-			UI::Button::SmoothAnim_light(this->animSpeed);
+			ReminderUI::Button::SmoothAnim_light(this->animSpeed);
 		}
 		else
 		{
@@ -89,7 +89,7 @@ void UI::Button::Update(const sf::Vector2f mousePosition)
 	case BTN_HOVER:
 		if (this->needAnim)
 		{
-			UI::Button::SmoothAnim_black(this->animSpeed);
+			ReminderUI::Button::SmoothAnim_black(this->animSpeed);
 		}
 		else
 		{
@@ -112,13 +112,13 @@ void UI::Button::Update(const sf::Vector2f mousePosition)
 	}
 }
 
-void UI::Button::UpdateDT()
+void ReminderUI::Button::UpdateDT()
 {
     this->dt = this->dtClock.restart().asSeconds();
 }
 
 
-void UI::Button::setText(const sf::String text)
+void ReminderUI::Button::setText(const sf::String text)
 {
     this->text.setString(text);
 		this->text.setPosition(
@@ -127,20 +127,20 @@ void UI::Button::setText(const sf::String text)
 	);
 }
 
-void UI::Button::setNewTextures(sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture)
+void ReminderUI::Button::setNewTextures(sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture)
 {
 	this->idleTexture = idleTexture;
 	this->hoveredTexture = hoveredTexture;
 	this->pressedTexture = pressedTexture;
 }
 
-bool UI::Button::move(float VelX, float VelY, float distance)
+bool ReminderUI::Button::move(float VelX, float VelY, float distance)
 {
-	static float accumulatedDistance = 0.0f; // Аккумулированное расстояние перемещения
-	static bool init = true; // Переменная для инициализации или перезапуска анимации
-	static sf::Vector2f initialPos; // Начальная позиция кнопки
+	static float accumulatedDistance = 0.0f; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	static bool init = true; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+	static sf::Vector2f initialPos; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
-	// Сохраняем начальное состояние и расположение
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	if (init)
 	{
 		initialPos = sprite.getPosition();
@@ -148,26 +148,26 @@ bool UI::Button::move(float VelX, float VelY, float distance)
 		init = false;
 	}
 
-	// Вычисляем необходимое смещение за текущий кадр
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 	float moveX = VelX * this->dt;
 	float moveY = VelY * this->dt;
-	float frameDistance = std::sqrt(moveX * moveX + moveY * moveY); // Расстояние, пройденное за фрейм
+	float frameDistance = std::sqrt(moveX * moveX + moveY * moveY); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 
-	// Проверяем, не превысили ли мы общее расстояние
+	// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	if (accumulatedDistance + frameDistance >= distance)
 	{
-		// Дополнительный шаг, если мы переходим предел
-		float lastStep = distance - accumulatedDistance; // Оставшееся расстояние для перемещения
-		float factor = lastStep / frameDistance; // Фактор сокращения последнего шага
-		sprite.move(moveX * factor, moveY * factor); // Перемещаем кнопку на оставшееся расстояние
-		accumulatedDistance = distance; // Обновляем накопленное расстояние
-		init = true; // Сбрасываем статус для новых вызовов анимации
+		// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+		float lastStep = distance - accumulatedDistance; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		float factor = lastStep / frameDistance; // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+		sprite.move(moveX * factor, moveY * factor); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		accumulatedDistance = distance; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+		init = true; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 		return 1;
 	}
 	else
 	{
-		sprite.move(moveX, moveY); // Перемещаем кнопку
-		accumulatedDistance += frameDistance; // Обновляем накопленное расстояние
+		sprite.move(moveX, moveY); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+		accumulatedDistance += frameDistance; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 	}
 }
 	// NEW
@@ -222,7 +222,7 @@ bool UI::Button::move(float VelX, float VelY, float distance)
 
 
 
-const bool UI::Button::isPressed() const
+const bool ReminderUI::Button::isPressed() const
 {
 	if (this->ButtonState == BTN_ACTIVE)
 	{
@@ -231,29 +231,29 @@ const bool UI::Button::isPressed() const
 	return false;
 }
 
-const std::string UI::Button::getText() const
+const std::string ReminderUI::Button::getText() const
 {
     return this->text.getString();
 }
 
-const short unsigned& UI::Button::getId() const
+const short unsigned& ReminderUI::Button::getId() const
 {
 	return this->id;
 }
 
-void UI::Button::Render(sf::RenderTarget* target) const
+void ReminderUI::Button::Render(sf::RenderTarget* target) const
 {
 	target->draw(this->sprite);
 	target->draw(this->text);
 }
 
-void UI::Button::SmoothAnim_black(float& animSpeed)
+void ReminderUI::Button::SmoothAnim_black(float& animSpeed)
 {
 
     if (this->alpha > 0 and !this->changedButton)
     {
-        this->alpha -= animSpeed; // Изменение затемнения спрайта со временем
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
+        this->alpha -= animSpeed; // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         this->procAnim = 1;
         this->changedButton = 0;
     }
@@ -268,22 +268,22 @@ void UI::Button::SmoothAnim_black(float& animSpeed)
     if (this->procAnim and this->changedButton and this->alpha < 255)
     {
         this->alpha += animSpeed;
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
+        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (this->alpha == 255) { this->procAnim = 0; }
     }
 
 }
 
- void UI::Button::SmoothAnim_light(float& animSpeed)
+ void ReminderUI::Button::SmoothAnim_light(float& animSpeed)
  {
-    if (this->procAnim and !this->changedButton) // Плавная отмена анимации затемнения
+    if (this->procAnim and !this->changedButton) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     {
         this->alpha += animSpeed;
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
+        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         if (this->alpha == 255) { this->procAnim = 0; }
     }
 
-    if (this->alpha > 0 and this->changedButton) // Затемняем нажатую
+    if (this->alpha > 0 and this->changedButton) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     {
         this->alpha -= animSpeed;
         this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
@@ -291,7 +291,7 @@ void UI::Button::SmoothAnim_black(float& animSpeed)
         if (this->alpha == 0) { this->procAnim = 0; }
     }
 
-    else if (this->alpha < 255 and !this->procAnim) // Возвращаем зеленую плавно
+    else if (this->alpha < 255 and !this->procAnim) // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     {
         this->alpha += animSpeed;
         this->sprite.setTexture(this->idleTexture);
@@ -300,29 +300,29 @@ void UI::Button::SmoothAnim_black(float& animSpeed)
     }
 }
 
- void UI::Button::Hide(bool flag, float CurrScale)
+ void ReminderUI::Button::Hide(bool flag, float CurrScale)
  {
      static float scaleX = this->sprite.getScale().x;
 	 float scale = CurrScale * !flag ;
      this->sprite.setScale(scale, scale);
  }
 
- void UI::Button::setPos(sf::Vector2f& vector)
+ void ReminderUI::Button::setPos(sf::Vector2f& vector)
  {
      this->sprite.setPosition(vector);
  }
 
- void UI::Button::setPos(float x, float y)
+ void ReminderUI::Button::setPos(float x, float y)
  {
      this->sprite.setPosition(x, y);
  }
 
- void UI::Button::setId(const short unsigned id)
+ void ReminderUI::Button::setId(const short unsigned id)
  {
 	 this->id = id;
  }
  
- sf::Vector2f UI::Button::getPos()
+ sf::Vector2f ReminderUI::Button::getPos()
  {
      sf::Vector2f vector = this->sprite.getPosition();
      return vector;

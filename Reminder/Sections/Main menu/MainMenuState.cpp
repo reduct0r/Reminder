@@ -53,21 +53,21 @@ void MainMenuState::InitButtons()
 
 	float scale = this->scale;
 
-	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0,  winY / 1.25, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
-	this->buttons["SETTINGS_BTN"] = new UI::Button(winX - winX / 15, winY / 50, scale, scale, &this->font, sf::String(""), this->textures["SETTINGS_ICON"], this->textures["SETTINGS_ICON"], this->textures["SETTINGS_ICON"]);
+	this->buttons["GITHUB_BTN"] = new ReminderUI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.25, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
+	this->buttons["SETTINGS_BTN"] = new ReminderUI::Button(winX - winX / 15, winY / 50, scale, scale, &this->font, sf::String(""), this->textures["SETTINGS_ICON"], this->textures["SETTINGS_ICON"], this->textures["SETTINGS_ICON"]);
 	
-	this->buttons["LOGOUT_BTN"] = new UI::Button(winX / 10 - this->textures["LOG_OUT"].getSize().x * scale / 2.0, winY * 0.05, scale, scale, &this->font, sf::String(""), this->textures["LOG_OUT"],
-		this->textures["LOG_OUT2"], this->textures["LOG_OUT2"]);
+	this->buttons["LOGOUT_BTN"] = new ReminderUI::Button(winX / 10 - this->textures["LOG_OUT"].getSize().x * scale / 2.0, winY * 0.05, scale, scale, &this->font, sf::String(""), this->textures["LOG_OUT"],
+                                                         this->textures["LOG_OUT2"], this->textures["LOG_OUT2"]);
 
 
 	float mid = winX / 2.0 - this->textures["STARTGAME"].getSize().x * scale / 2.0;
 	float yaw = winY / 2.0 - this->textures["STARTGAME"].getSize().y * scale / 2.0;
 
-	this->buttons["GAME_BTN"] = new UI::Button(mid, yaw - winY * 0.05, scale, scale, &this->font, sf::String(""), this->textures["STARTGAME"], this->textures["STARTGAME2"], this->textures["STARTGAME2"]);
+	this->buttons["GAME_BTN"] = new ReminderUI::Button(mid, yaw - winY * 0.05, scale, scale, &this->font, sf::String(""), this->textures["STARTGAME"], this->textures["STARTGAME2"], this->textures["STARTGAME2"]);
 
-	this->buttons["PRESETS_BTN"] = new UI::Button(mid, yaw + winY / 14.0, scale, scale, &this->font, sf::String(""), this->textures["PRESETS"], this->textures["PRESETS2"], this->textures["PRESETS2"]);
+	this->buttons["PRESETS_BTN"] = new ReminderUI::Button(mid, yaw + winY / 14.0, scale, scale, &this->font, sf::String(""), this->textures["PRESETS"], this->textures["PRESETS2"], this->textures["PRESETS2"]);
 
-	this->buttons["SETTINGS_BTN1"] = new UI::Button(mid, yaw + winY / 5.2, scale, scale, &this->font, sf::String(""), this->textures["SETTINGS"], this->textures["SETTINGS2"], this->textures["SETTINGS2"]);
+	this->buttons["SETTINGS_BTN1"] = new ReminderUI::Button(mid, yaw + winY / 5.2, scale, scale, &this->font, sf::String(""), this->textures["SETTINGS"], this->textures["SETTINGS2"], this->textures["SETTINGS2"]);
 }
 
 void MainMenuState::InitTextures()
@@ -75,40 +75,40 @@ void MainMenuState::InitTextures()
 	sf::Texture texture;
 	texture.setSmooth(1);
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/Background.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Main Menu/Background.png");
 	this->textures["BG_MAIN"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Github icon.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Github icon.png");
 	this->textures["GITHUB_ICON"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Main Menu/settings_button.png");
 	this->textures["SETTINGS_ICON"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/Log_out1.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Main Menu/Log_out1.png");
 	this->textures["LOG_OUT"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/Log_out2.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Main Menu/Log_out2.png");
 	this->textures["LOG_OUT2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/start_game_button.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Main Menu/start_game_button.png");
 	this->textures["STARTGAME"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/start_game_button2.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Main Menu/start_game_button2.png");
 	this->textures["STARTGAME2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/choose_preset_button.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Main Menu/choose_preset_button.png");
 	this->textures["PRESETS"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/choose_preset_button2.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Main Menu/choose_preset_button2.png");
 	this->textures["PRESETS2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button1.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Main Menu/settings_button1.png");
 	this->textures["SETTINGS"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button2.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Main Menu/settings_button2.png");
 	this->textures["SETTINGS2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/Logo reminder.png");
+	texture.loadFromFile("Resources/Textures/ReminderUI/Main Menu/Logo reminder.png");
 	this->textures["LOGO"] = texture;
 
 }
@@ -154,7 +154,7 @@ void MainMenuState::UpdateButtons()
 		it.second->Update(this->MousePosView);
 	}
 
-	/* Îáðàáîòêà êíîïîê */
+	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	if (this->buttons["SETTINGS_BTN"]->isPressed() and this->getKeyTime())
 	{
 		this->states->push(new SettingsState(this->window, this->states, this->gfxSettings));
@@ -175,7 +175,7 @@ void MainMenuState::UpdateButtons()
 		//this->window->close();
 		/*WelcomeScreen welcomeScreen1;
 		welcomeScreen1.Run();*/
-		/* ÐÀÇËÎÃÈÍÈÒÜ !!!!*/
+		/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ !!!!*/
 		//this->ToQuit = 1;
 	}
 }

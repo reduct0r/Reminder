@@ -33,7 +33,7 @@ bool Database::comparePasswords(const std::string &loginUsedPassword, const std:
   return Database::hashPassword(loginUsedPassword) == databaseHashedPassword;
 }
 
-std::string Database::addUser(const std::string &username, const std::string &password) {
+UserDAO Database::createUser(const std::string &username, const std::string &password) {
   try {
     std::string usernameToLowerCase = username;
     std::transform(usernameToLowerCase.begin(),
@@ -43,40 +43,50 @@ std::string Database::addUser(const std::string &username, const std::string &pa
 
     std::string hashedPassword = hashPassword(password);
     pqxx::work tunnel(connection);
+    std::string sessionId = SessionIdService::generateRandomKey();
     std::string query =
-        "INSERT INTO " + usersTableName + " (username, password) VALUES ('" + usernameToLowerCase + "', '" +
-            hashedPassword + "');";
+        "INSERT INTO " + usersTableName + " (username, password, session_id) VALUES ('" + usernameToLowerCase + "', '" +
+            hashedPassword + "', '" + sessionId + "');";
     tunnel.exec(query);
     tunnel.commit();
 
-    std::string returnString =
-        "Новая запись в таблице:\n{\n'username':'" + usernameToLowerCase + "',\n'encryptedPassword':'" + hashedPassword
-            +
-                "'\n}";
-    return returnString;
+    UserDAO newUser(usernameToLowerCase, password, sessionId);
+
+    return newUser;
   } catch (const pqxx::unique_violation &e) {
-    return "Такой никнейм уже занят! Придумайте что-то другое :)\n";
+    return {};
   }
 }
 
-std::string Database::getPassword(const std::string &username) {
-  std::string usernameToLowerCase = username;
+UserDAO Database::getUser(UserDAO &user) {
+  std::string usernameToLowerCase = user.GetUsername();
   std::transform(usernameToLowerCase.begin(),
                  usernameToLowerCase.end(),
                  usernameToLowerCase.begin(),
                  [](unsigned char c) { return std::tolower(c); });
+
   pqxx::work tunnel(connection);
-  std::string query = "SELECT password FROM " + usersTableName + " WHERE username = '" + usernameToLowerCase + "';";
-  pqxx::result result = tunnel.exec(query);
-  tunnel.commit();
-  if (result.empty()) {
-    return "Пользователя с такими никнеймом не существует! Проверьте правильность введенных данных\n";
+  std::string
+      queryPassword = "SELECT password FROM " + usersTableName + " WHERE username = '" + usernameToLowerCase + "';";
+  std::string
+      querySessionId = "SELECT session_id FROM " + usersTableName + " WHERE username = '" + usernameToLowerCase + "';";
+  pqxx::result password = tunnel.exec(queryPassword);
+  pqxx::result sessionId = tunnel.exec(querySessionId);
+
+  if (SessionIdService::compareTo(sessionId[0][0].as<std::string>(), user.GetSessionId())) {
+    return {};
   }
-  return result[0][0].as<std::string>();
+
+  tunnel.commit();
+  if (password.empty() && sessionId.empty()) {
+    return {};
+  }
+  UserDAO existingUser(usernameToLowerCase, password[0][0].as<std::string>(), sessionId[0][0].as<std::string>());
+  return existingUser;
 }
 
 void Database::parseConfigFile() {
-  std::ifstream file("/Users/exist/CLionProjects/Reminder/Reminder/Database/DatabaseConfig.json");
+  std::ifstream file("/Users/exist/CLionProjects/Reminder/Reminder/Auth/DatabaseConfig.json");
   if (!file.is_open()) {
     std::cerr << "Невозможно открыть JSON файл" << std::endl;
     exit(1);
@@ -95,4 +105,27 @@ void Database::parseConfigFile() {
 
   connectionString = root["connectionString"].asString();
   usersTableName = root["usersTableName"].asString();
+}
+
+UserDAO Database::containsSessionId(const std::string &sessionIdToken) {
+  pqxx::work tunnel(connection);
+  std::string
+      queryPassword = "SELECT username FROM " + usersTableName + " WHERE session_id = '" + sessionIdToken + "';";
+  std::string
+      querySessionId = "SELECT password FROM " + usersTableName + " WHERE session_id = '" + sessionIdToken + "';";
+  pqxx::result username = tunnel.exec(queryPassword);
+  pqxx::result password = tunnel.exec(querySessionId);
+
+  auto usernameToLowerCase = username[0][0].as<std::string>();
+  std::transform(usernameToLowerCase.begin(),
+                 usernameToLowerCase.end(),
+                 usernameToLowerCase.begin(),
+                 [](unsigned char c) { return std::tolower(c); });
+
+  tunnel.commit();
+  if (username.empty() && password.empty()) {
+    return {};
+  }
+  UserDAO existingUser(usernameToLowerCase, password[0][0].as<std::string>(), sessionIdToken);
+  return existingUser;
 }

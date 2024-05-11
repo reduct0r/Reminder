@@ -2,32 +2,29 @@
 #include <iostream>
 #include "WelcomeScreen.h"
 
-WelcomeScreenState::WelcomeScreenState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings)
-	:State(window, states), gfxSettings(gfxSettings)
-{
-	this->InitTextures();
-	this->InitVars();
-	this->InitSprites();
-	this->InitBG();
-	this->InitFonts();
-	this->InitButtons();
-	this->InitTextBoxes();
+WelcomeScreenState::WelcomeScreenState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings)
+    : State(window, states), gfxSettings(gfxSettings) {
+  this->InitTextures();
+  this->InitVars();
+  this->InitSprites();
+  this->InitBG();
+  this->InitFonts();
+  this->InitButtons();
+  this->InitTextBoxes();
 }
 
-WelcomeScreenState::~WelcomeScreenState()
-{
-	auto it = this->buttons.begin();
-	for (auto it = this->buttons.begin(); it != this->buttons.end(); ++it)
-	{
-		delete it->second;
-	}
+WelcomeScreenState::~WelcomeScreenState() {
+  auto it = this->buttons.begin();
+  for (auto it = this->buttons.begin(); it != this->buttons.end(); ++it) {
+    delete it->second;
+  }
 
-	auto it2 = this->textboxes.begin();
-	for (auto it2 = this->textboxes.begin(); it2 != this->textboxes.end(); ++it2)
-	{
-		delete it2->second;
-	}
+  auto it2 = this->textboxes.begin();
+  for (auto it2 = this->textboxes.begin(); it2 != this->textboxes.end(); ++it2) {
+    delete it2->second;
+  }
 }
+
 
 void WelcomeScreenState::MoveSprites(float dir)
 {
@@ -65,7 +62,7 @@ void WelcomeScreenState::MoveSprites(float dir)
 			sf::Vector2f direction = vector;
 			float distance = this->distances[key];
 
-			// ��������� � ���������� ��� ��������
+			// Óñêîðåíèå è çàìåäëåíèå ïðè äâèæåíèè
 			float acceleration = 16 * this->scale * abs(distance - distanceS);
 			if (acceleration < 5)
 			{
@@ -108,7 +105,7 @@ void WelcomeScreenState::MoveSprites(float dir)
 
 		else if (dir == -1) 
 		{
-			for (auto& kv : this->startPositions) // ����������� �� �����������
+			for (auto& kv : this->startPositions) // èçáàâëÿåìñÿ îò ïîãðåøíîñòè
 			{
 				std::string key = kv.first;
 				sf::Vector2f backP = kv.second;
@@ -124,12 +121,12 @@ void WelcomeScreenState::MoveSprites(float dir)
 
 //bool WelcomeScreenState::moveA(sf::Sprite& sprite, float VelX, float VelY, float distance) const
 //{
-//	static float accumulatedDistance = 0.0f; // ���������������� ���������� �����������
-//	static bool init = true; // ���������� ��� ������������� ��� ����������� ��������
-//	static bool init2 = 0; // ���������� ��� ������������� ��� ����������� ��������
-//	static sf::Vector2f initialPos; // ��������� ������� ������
+//	static float accumulatedDistance = 0.0f; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	static bool init = true; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	static bool init2 = 0; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//	static sf::Vector2f initialPos; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //
-//	// ��������� ��������� ��������� � ������������
+//	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	if (init and VelY > 0)
 //	{
 //		initialPos = sprite.getPosition();
@@ -144,28 +141,28 @@ void WelcomeScreenState::MoveSprites(float dir)
 //		init2 = false;
 //	}
 //
-//	// ��������� ����������� �������� �� ������� ����
+//	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 //	float moveX = VelX * this->dt;
 //	float moveY = VelY * this->dt;
-//	float frameDistance = std::sqrt(moveX * moveX + moveY * moveY); // ����������, ���������� �� �����
+//	float frameDistance = std::sqrt(moveX * moveX + moveY * moveY); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
 //
-//	// ���������, �� ��������� �� �� ����� ����������
+//	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	if (accumulatedDistance + frameDistance >= distance and distance > 0)
 //	{
-//		init2 = true; // ���������� ������ ��� ����� ������� ��������
+//		init2 = true; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //		return 1;
 //	}
 //
 //	else if (accumulatedDistance + frameDistance <= distance and distance < 0)
 //	{
-//		init = true; // ���������� ������ ��� ����� ������� ��������
+//		init = true; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //		return 1;
 //	}
 //
 //	else
 //	{
-//		sprite.move(moveX, moveY); // ���������� ������
-//		accumulatedDistance += frameDistance; // ��������� ����������� ����������
+//		sprite.move(moveX, moveY); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//		accumulatedDistance += frameDistance; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 //	}
 //	return 0;
 //}
@@ -194,7 +191,7 @@ void WelcomeScreenState::MoveSprites(float dir)
 //	}
 //
 //
-//	/* ������ ����������� */
+//	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 //
 //	//if (this->buttons["REGISTER_BTN"]->move(0, 1000, 4*this->scale))
 //	//{
@@ -422,37 +419,30 @@ void WelcomeScreenState::MoveSprites(float dir)
 //}
 
 
-void WelcomeScreenState::UpdateKeyBoardBinds(const float& dt)
-{
-	this->CheckForQuit();
+void WelcomeScreenState::UpdateKeyBoardBinds(const float &dt) {
+  this->CheckForQuit();
 }
 
-void WelcomeScreenState::EndState()
-{
-	std::cout << "Welcome Screen ENDING...";
+void WelcomeScreenState::EndState() {
+  std::cout << "Welcome Screen ENDING...";
 }
 
-
-void WelcomeScreenState::InitVars()
-{
-	this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_WELCOME"].getSize().x;
-	std::cout << this->scale << "\n";
+void WelcomeScreenState::InitVars() {
+  this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_WELCOME"].getSize().x;
+  std::cout << this->scale << "\n";
 }
 
-void WelcomeScreenState::InitBG()
-{
-	float scale = this->scale;
+void WelcomeScreenState::InitBG() {
+  float scale = this->scale;
 
-	this->bg.setScale(sf::Vector2f(scale, scale));
-	this->bg.setTexture(this->textures["BG_WELCOME"]);
+  this->bg.setScale(sf::Vector2f(scale, scale));
+  this->bg.setTexture(this->textures["BG_WELCOME"]);
 }
 
-void WelcomeScreenState::InitFonts()
-{
-	if (!this->font.loadFromFile("Resources/Fonts/ARIAL.ttf"))
-	{
-		throw("WelcomeScreenState: COULD NOT LOAD FONT");
-	}
+void WelcomeScreenState::InitFonts() {
+  if (!this->font.loadFromFile("Resources/Fonts/ARIAL.ttf")) {
+    throw ("WelcomeScreenState: COULD NOT LOAD FONT");
+  }
 }
 
 void WelcomeScreenState::InitButtons()
@@ -476,10 +466,9 @@ void WelcomeScreenState::InitButtons()
 
 }
 
-void WelcomeScreenState::InitTextBoxes()
-{
-	this->textboxes["LOGIN"] = new UI::TextBox(0,0,0,0,0);
-	this->textboxes["PASSWORD"] = new UI::TextBox(0,0,0,0,0);
+void WelcomeScreenState::InitTextBoxes() {
+  this->textboxes["LOGIN"] = new ReminderUI::TextBox(0, 0, 0, 0, 0);
+  this->textboxes["PASSWORD"] = new ReminderUI::TextBox(0, 0, 0, 0, 0);
 }
 
 void WelcomeScreenState::InitTextures()
@@ -489,32 +478,29 @@ void WelcomeScreenState::InitTextures()
 	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Background.png");
 	this->textures["BG_WELCOME"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Login button first.png");
-	this->textures["LOGIN_BT_IDLE"] = texture;
-	
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Login button second.png");
-	this->textures["LOGIN_BT_HOVER"] = texture;
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Login button second.png");
+  this->textures["LOGIN_BT_HOVER"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Reg button first.png");
-	this->textures["REG_BT_IDLE"] = texture;
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Reg button first.png");
+  this->textures["REG_BT_IDLE"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Reg button second.png");
-	this->textures["REG_BT_HOVER"] = texture;
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Reg button second.png");
+  this->textures["REG_BT_HOVER"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Github icon.png");
-	this->textures["GITHUB_ICON"] = texture;
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Github icon.png");
+  this->textures["GITHUB_ICON"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Logo reminder.png");
-	this->textures["LOGO"] = texture;
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Logo reminder.png");
+  this->textures["LOGO"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/login.png");
-	this->textures["LOGIN_FIELD"] = texture;
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/login.png");
+  this->textures["LOGIN_FIELD"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/password.png");
-	this->textures["PASSWORD_FIELD"] = texture;
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/password.png");
+  this->textures["PASSWORD_FIELD"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/back2.png");
-	this->textures["BACK"] = texture;
+  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/back2.png");
+  this->textures["BACK"] = texture;
 
 }
 
@@ -550,7 +536,6 @@ void WelcomeScreenState::InitSprites()
 	this->targetPositions["LOGO"] = sf::Vector2f(0, -50);
 	this->distances["LOGO"] = 35;
 	this->startPositions["LOGO"] = sprite.getPosition();
-
 
 }
 
@@ -612,9 +597,8 @@ void WelcomeScreenState::Update(const float& dt)
 	}
 }
 
-void WelcomeScreenState::UpdateDT()
-{
-	this->dt = this->dtClock.restart().asSeconds();
+void WelcomeScreenState::UpdateDT() {
+  this->dt = this->dtClock.restart().asSeconds();
 }
 
 void WelcomeScreenState::UpdateButtons()
@@ -629,7 +613,7 @@ void WelcomeScreenState::UpdateButtons()
 	//	this->ToQuit = 1;
 	//}
 
-	/* ��������� ������ */
+	/* Îáðàáîòêà êíîïîê */
 	static bool flag1 = true;
 	static bool flag2 = true;
 	static bool flag3 = true;
@@ -655,9 +639,22 @@ void WelcomeScreenState::UpdateButtons()
 
 	else if (flag3 and this->buttons["REGISTER_BTN"]->isPressed() and !this->animTransitReverse and !this->animTransit and this->textboxes["LOGIN"]->getCurrentText() != "" and this->textboxes["PASSWORD"]->getCurrentText() != "")
 	{
-		std::cout << std::string(this->textboxes["LOGIN"]->getCurrentText()) << "\n";
-		std::cout << std::string(this->textboxes["PASSWORD"]->getCurrentText());
-		flag3 = 0;
+    flag3 = 0;
+
+    UserDAO user(this->textboxes["LOGIN"]->getCurrentText(),
+                 this->textboxes["PASSWORD"]->getCurrentText());
+
+    Reminder::Database database;
+    UserDAO existingUser = database.createUser(user.GetUsername(), user.GetPassword());
+
+    if (existingUser.isEmpty()) {
+      // TODO
+      // Ð Ð°Ð¼ÐºÐ° Ð² ÐºÑÐ°ÑÐ½ÑÐ¹ ÑÐ²ÐµÑ Ð¸Ð»Ð¸ Ð¾ÑÐºÑÑÑÐ¸Ðµ Ð¾ÐºÐ½Ð° Ð»Ð¾Ð³Ð¸Ð½Ð°
+    } else {
+      SessionIdService::saveStringToLocal(existingUser.GetSessionId());
+      this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
+    }
+    
 	}
 
 	if (this->buttons["BACK_BTN"]->isPressed() and !this->animTransit and !this->animTransitReverse)
@@ -681,75 +678,62 @@ void WelcomeScreenState::UpdateButtons()
 		std::string url = "https://github.com/reduct0r/Reminder";
 		
 		#ifdef _WIN32
-		    std::string command = "start " + url + ""; // ��� Windows
+		    std::string command = "start " + url + ""; // Äëÿ Windows
 		#elif __APPLE__
-		    std::string command = "open " + url + ""; // ��� macOS
+		    std::string command = "open " + url + ""; // Äëÿ macOS
 		#endif
 		
-		// �������� ��������� ������ �������������� �������
+		// Âûçûâàåì êîìàíäíóþ ñòðîêó ñôîðìèðîâàííîé êîìàíäû
 		system(command.c_str());
 	}
-}
-
-void WelcomeScreenState::UpdateSprites()
-{
 
 }
 
-void WelcomeScreenState::UpdateEvents()
-{
-	while (this->window->pollEvent(this->sfEvent))
-	{
-		if (this->sfEvent.type == sf::Event::Closed)
-		{
-			this->window->close();
-		}	
-		UpdateTextBoxesEvent();
-	}
+void WelcomeScreenState::UpdateSprites() {
+
 }
 
-void WelcomeScreenState::UpdateTextBoxesEvent()
-{
-	for (auto& it : this->textboxes)
-	{
-		it.second->handleEvent(this->sfEvent);
-	}
+void WelcomeScreenState::UpdateEvents() {
+  while (this->window->pollEvent(this->sfEvent)) {
+    if (this->sfEvent.type == sf::Event::Closed) {
+      this->window->close();
+    }
+    UpdateTextBoxesEvent();
+  }
+}
+
+void WelcomeScreenState::UpdateTextBoxesEvent() {
+  for (auto &it : this->textboxes) {
+    it.second->handleEvent(this->sfEvent);
+  }
 }
 
 //RENDER
-void WelcomeScreenState::Render(sf::RenderTarget* target)
-{
-	if (!target)
-	{
-		target = this->window;
-	}
+void WelcomeScreenState::Render(sf::RenderTarget *target) {
+  if (!target) {
+    target = this->window;
+  }
 
-	target->draw(this->bg);
-	this->RenderButtons(target);
-	this->RenderSprites(target);
-	this->RenderTextBoxes(target);
+  target->draw(this->bg);
+  this->RenderButtons(target);
+  this->RenderSprites(target);
+  this->RenderTextBoxes(target);
 }
 
-void WelcomeScreenState::RenderTextBoxes(sf::RenderTarget* target)
-{
-	for (auto& it : this->textboxes)
-	{
-		it.second->Render(target);
-	}
+void WelcomeScreenState::RenderTextBoxes(sf::RenderTarget *target) {
+  for (auto &it : this->textboxes) {
+    it.second->Render(target);
+  }
 }
 
-void WelcomeScreenState::RenderButtons(sf::RenderTarget* target)
-{
-	for (auto& it : this->buttons)
-	{
-		it.second->Render(target);
-	}
+void WelcomeScreenState::RenderButtons(sf::RenderTarget *target) {
+  for (auto &it : this->buttons) {
+    it.second->Render(target);
+  }
 }
 
-void WelcomeScreenState::RenderSprites(sf::RenderTarget* target)
-{
-	for (auto& it : this->sprites)
-	{
-		target->draw(it.second);
-	}
+void WelcomeScreenState::RenderSprites(sf::RenderTarget *target) {
+  for (auto &it : this->sprites) {
+    target->draw(it.second);
+  }
 }

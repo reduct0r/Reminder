@@ -1,5 +1,5 @@
 #include <SFML/Graphics.hpp>
-namespace UI 
+namespace ReminderUI
 {
 	enum ButtonStates 
 	{

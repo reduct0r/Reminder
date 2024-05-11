@@ -1,25 +1,25 @@
 #include "DropDownList.h"
 #include <iterator>
 
-UI::DropDownList::DropDownList(float scale, unsigned def_index, float x, float y, sf::Font* font, float fontSize,
-	std::vector<std::string> list, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture chooseTexture)
+ReminderUI::DropDownList::DropDownList(float scale, unsigned def_index, float x, float y, sf::Font* font, float fontSize,
+                                       std::vector<std::string> list, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture chooseTexture)
 	:font(font), showList(false), keyTimeMax(1.0), keyTime(0), idleTexture(idleTexture), hoveredTexture(hoveredTexture),
 	chooseTexture(chooseTexture)
 {
 	unsigned nrOfElement = list.size();
 
-	this->activeElement = new UI::Button(0, fontSize * 2 * scale, x, y + idleTexture.getSize().y * scale, scale, scale, font, list[def_index],
-		chooseTexture, hoveredTexture, chooseTexture);
+	this->activeElement = new ReminderUI::Button(0, fontSize * 2 * scale, x, y + idleTexture.getSize().y * scale, scale, scale, font, list[def_index],
+                                                 chooseTexture, hoveredTexture, chooseTexture);
 
 	for (size_t i = 0; i < nrOfElement; i++)
 	{
-		this->list.push_back(new UI::Button(0, fontSize * 2 * scale,x, y + ((i+1) * idleTexture.getSize().y * scale),  scale, scale, font, list[i],
-			idleTexture, hoveredTexture, chooseTexture, i));
+		this->list.push_back(new ReminderUI::Button(0, fontSize * 2 * scale, x, y + ((i+1) * idleTexture.getSize().y * scale), scale, scale, font, list[i],
+                                                    idleTexture, hoveredTexture, chooseTexture, i));
 	}
 
 }
 
-UI::DropDownList::~DropDownList()
+ReminderUI::DropDownList::~DropDownList()
 {
 	delete this->activeElement;
 	for (auto*& it : this->list)
@@ -28,7 +28,7 @@ UI::DropDownList::~DropDownList()
 	}
 }
 
-void UI::DropDownList::Update(const sf::Vector2f mousePosition, const float& dt)
+void ReminderUI::DropDownList::Update(const sf::Vector2f mousePosition, const float& dt)
 {
 	this->UpdateKeyTime(dt);
 
@@ -61,7 +61,7 @@ void UI::DropDownList::Update(const sf::Vector2f mousePosition, const float& dt)
 	}
 }
 
-const bool UI::DropDownList::getKeyTime()
+const bool ReminderUI::DropDownList::getKeyTime()
 {
 	if (this->keyTime >= this->keyTimeMax)
 	{
@@ -71,12 +71,12 @@ const bool UI::DropDownList::getKeyTime()
 	return false;
 }
 
-const unsigned short& UI::DropDownList::getActiveElementId() const
+const unsigned short& ReminderUI::DropDownList::getActiveElementId() const
 {
 	return this->activeElement->getId();
 }
 
-void UI::DropDownList::UpdateKeyTime(const float& dt)
+void ReminderUI::DropDownList::UpdateKeyTime(const float& dt)
 {
 	if (this->keyTime < this->keyTimeMax)
 	{
@@ -84,7 +84,7 @@ void UI::DropDownList::UpdateKeyTime(const float& dt)
 	}
 }
 
-void UI::DropDownList::Render(sf::RenderTarget* target) const
+void ReminderUI::DropDownList::Render(sf::RenderTarget* target) const
 {
 	this->activeElement->Render(target);
 

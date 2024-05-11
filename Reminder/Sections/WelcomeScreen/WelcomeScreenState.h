@@ -2,6 +2,9 @@
 #define  WELCOMWSCREENSTATE_H
 
 #include "../Main menu/MainMenuState.h"
+#include "../../Auth/Database.h"
+#include "../../Auth/Model/UserDAO.h"
+#include "../../Auth/Service/SessionIdService.h"
 
 class WelcomeScreenState :
 	public State
@@ -12,8 +15,8 @@ private:
 	sf::Sprite bg;
 	sf::Font font;
 	sf::Event sfEvent;
-	std::map<std::string, UI::Button*> buttons;
-	std::map<std::string, UI::TextBox*> textboxes;
+	std::map<std::string, ReminderUI::Button*> buttons;
+	std::map<std::string, ReminderUI::TextBox*> textboxes;
 	std::unordered_map<std::string, sf::Vector2f> targetPositions;
 	std::map<std::string, float> distances;
 	std::map<std::string, sf::Vector2f> startPositions;
