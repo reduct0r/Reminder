@@ -96,12 +96,12 @@ void WelcomeScreenState::MoveSprites(float dir)
 			this->textboxes["LOGIN"]->setPosition(this->sprites["LOG_FIELD"].getPosition().x + this->window->getSize().x / 20.0f,
 				this->sprites["LOG_FIELD"].getPosition().y + this->window->getSize().y / 34.0f);
 			this->textboxes["LOGIN"]->setSize(this->window->getSize().y / 2.1f, this->window->getSize().x / 40.0f);
-			this->textboxes["LOGIN"]->SetColor(sf::Color::Color(231, 240, 254, 255));
+			this->textboxes["LOGIN"]->SetColor(sf::Color(231, 240, 254, 255));
 
 			this->textboxes["PASSWORD"]->setPosition(this->sprites["PASS_FIELD"].getPosition().x + this->window->getSize().x / 20.0f,
 				this->sprites["PASS_FIELD"].getPosition().y + this->window->getSize().y / 34.0f);
 			this->textboxes["PASSWORD"]->setSize(this->window->getSize().y / 2.1f, this->window->getSize().x / 40.0f);
-			this->textboxes["PASSWORD"]->SetColor(sf::Color::Color(231, 240, 254, 255));
+			this->textboxes["PASSWORD"]->SetColor(sf::Color(231, 240, 254, 255));
 
 			this->buttons["BACK_BTN"]->Hide(0, this->scale);
 		}
