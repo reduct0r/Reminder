@@ -478,29 +478,29 @@ void WelcomeScreenState::InitTextures()
 	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Background.png");
 	this->textures["BG_WELCOME"] = texture;
 
-  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Login button second.png");
-  this->textures["LOGIN_BT_HOVER"] = texture;
+	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Login button second.png");
+	this->textures["LOGIN_BT_HOVER"] = texture;
 
-  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Reg button first.png");
-  this->textures["REG_BT_IDLE"] = texture;
+	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Reg button first.png");
+	this->textures["REG_BT_IDLE"] = texture;
 
-  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Reg button second.png");
-  this->textures["REG_BT_HOVER"] = texture;
+	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Reg button second.png");
+	this->textures["REG_BT_HOVER"] = texture;
 
-  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Github icon.png");
-  this->textures["GITHUB_ICON"] = texture;
+	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Github icon.png");
+	this->textures["GITHUB_ICON"] = texture;
 
-  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Logo reminder.png");
-  this->textures["LOGO"] = texture;
+	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/Logo reminder.png");
+	this->textures["LOGO"] = texture;
 
-  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/login.png");
-  this->textures["LOGIN_FIELD"] = texture;
+	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/login.png");
+	this->textures["LOGIN_FIELD"] = texture;
 
-  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/password.png");
-  this->textures["PASSWORD_FIELD"] = texture;
+	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/password.png");
+	this->textures["PASSWORD_FIELD"] = texture;
 
-  texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/back2.png");
-  this->textures["BACK"] = texture;
+	texture.loadFromFile("Resources/Textures/ReminderUI/Welcome Screen/back2.png");
+	this->textures["BACK"] = texture;
 
 }
 
