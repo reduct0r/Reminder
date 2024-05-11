@@ -93,12 +93,12 @@ void WelcomeScreenState::MoveSprites(float dir)
 			this->textboxes["LOGIN"]->setPosition(this->sprites["LOG_FIELD"].getPosition().x + this->window->getSize().x / 20.0f,
 				this->sprites["LOG_FIELD"].getPosition().y + this->window->getSize().y / 34.0f);
 			this->textboxes["LOGIN"]->setSize(this->window->getSize().y / 2.1f, this->window->getSize().x / 40.0f);
-			this->textboxes["LOGIN"]->SetColor(sf::Color::Color(231, 240, 254, 255));
+			this->textboxes["LOGIN"]->SetColor(sf::Color(231, 240, 254, 255));
 
 			this->textboxes["PASSWORD"]->setPosition(this->sprites["PASS_FIELD"].getPosition().x + this->window->getSize().x / 20.0f,
 				this->sprites["PASS_FIELD"].getPosition().y + this->window->getSize().y / 34.0f);
 			this->textboxes["PASSWORD"]->setSize(this->window->getSize().y / 2.1f, this->window->getSize().x / 40.0f);
-			this->textboxes["PASSWORD"]->SetColor(sf::Color::Color(231, 240, 254, 255));
+			this->textboxes["PASSWORD"]->SetColor(sf::Color(231, 240, 254, 255));
 
 			this->buttons["BACK_BTN"]->Hide(0, this->scale);
 		}
@@ -454,14 +454,14 @@ void WelcomeScreenState::InitButtons()
 	float mid = winX / 2.0 - this->textures["LOGIN_BT_IDLE"].getSize().x * scale / 2.0;
 	float yaw = winY / 2.0 - this->textures["LOGIN_BT_IDLE"].getSize().y * scale / 2.0;
 
-	this->buttons["LOGIN_BTN"] = new UI::Button(mid, yaw + winY / 6.0, scale, scale, &this->font, sf::String(""), this->textures["LOGIN_BT_IDLE"], this->textures["LOGIN_BT_HOVER"], this->textures["LOGIN_BT_HOVER"]);
+	this->buttons["LOGIN_BTN"] = new ReminderUI::Button(mid, yaw + winY / 6.0, scale, scale, &this->font, sf::String(""), this->textures["LOGIN_BT_IDLE"], this->textures["LOGIN_BT_HOVER"], this->textures["LOGIN_BT_HOVER"]);
 
-	this->buttons["REGISTER_BTN"] = new UI::Button(mid, yaw + winY / 30.0f , scale, scale, &this->font, sf::String(""), this->textures["REG_BT_IDLE"], this->textures["REG_BT_HOVER"], this->textures["REG_BT_HOVER"]);
+	this->buttons["REGISTER_BTN"] = new ReminderUI::Button(mid, yaw + winY / 30.0f , scale, scale, &this->font, sf::String(""), this->textures["REG_BT_IDLE"], this->textures["REG_BT_HOVER"], this->textures["REG_BT_HOVER"]);
 	this->startPositions["REGISTER_BTN"] = this->buttons["REGISTER_BTN"]->getPos();
 
-	this->buttons["GITHUB_BTN"] = new UI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.25, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
+	this->buttons["GITHUB_BTN"] = new ReminderUI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.25, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
 	
-	this->buttons["BACK_BTN"] = new UI::Button(30, 30, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
+	this->buttons["BACK_BTN"] = new ReminderUI::Button(30, 30, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
 	this->buttons["BACK_BTN"]->Hide(1, this->scale);
 
 }

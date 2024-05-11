@@ -171,7 +171,7 @@ bool ReminderUI::Button::move(float VelX, float VelY, float distance)
 	}
 }
 	// NEW
-	bool UI::Button::moveA(float scale, sf::Vector2f targetPosition, float distances, sf::Vector2f startPositions, float dir)
+	bool ReminderUI::Button::moveA(float scale, sf::Vector2f targetPosition, float distances, sf::Vector2f startPositions, float dir)
 	{
 		bool allButtonsAtTarget = true;
 		//targetPosition *= dir;
@@ -192,7 +192,7 @@ bool ReminderUI::Button::move(float VelX, float VelY, float distance)
 			allButtonsAtTarget = false;
 
 			sf::Vector2f direction = targetPosition;
-			// Ускорение и замедление при движении
+			// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 			float acceleration = 16 * scale * abs(distances - distanceS);
 			if (acceleration < 5)
 			{
