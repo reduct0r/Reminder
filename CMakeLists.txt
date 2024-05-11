@@ -108,15 +108,15 @@ if (WIN32)
 
     message("Successful!")
 
-    #find_package(PostgreSQL REQUIRED)
-   # find_package(libpqxx CONFIG REQUIRED)
-    #find_package(jsoncpp CONFIG REQUIRED)
-    #find_package(tinyfiledialogs CONFIG REQUIRED)
+   find_package(PostgreSQL REQUIRED)
+   find_package(libpqxx CONFIG REQUIRED)
+   find_package(jsoncpp CONFIG REQUIRED)
+   find_package(tinyfiledialogs CONFIG REQUIRED)
 
-   # target_link_libraries(Reminder PostgreSQL::PostgreSQL)
-    #target_link_libraries(Reminder libpqxx::pqxx)
-    #target_link_libraries(Reminder JsonCpp::JsonCpp)
-    #target_link_libraries(Reminder tinyfiledialogs::tinyfiledialogs)
+   target_link_libraries(Reminder PostgreSQL::PostgreSQL)
+   target_link_libraries(Reminder libpqxx::pqxx)
+   target_link_libraries(Reminder JsonCpp::JsonCpp)
+   target_link_libraries(Reminder tinyfiledialogs::tinyfiledialogs)
 
 elseif (APPLE)
 
