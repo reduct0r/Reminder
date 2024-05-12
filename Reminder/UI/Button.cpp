@@ -134,47 +134,9 @@ void ReminderUI::Button::setNewTextures(sf::Texture idleTexture, sf::Texture hov
 	this->pressedTexture = pressedTexture;
 }
 
-bool ReminderUI::Button::move(float VelX, float VelY, float distance)
-{
-	static float accumulatedDistance = 0.0f; // ���������������� ���������� �����������
-	static bool init = true; // ���������� ��� ������������� ��� ����������� ��������
-	static sf::Vector2f initialPos; // ��������� ������� ������
-
-	// ��������� ��������� ��������� � ������������
-	if (init)
-	{
-		initialPos = sprite.getPosition();
-		accumulatedDistance = 0.0f;
-		init = false;
-	}
-
-	// ��������� ����������� �������� �� ������� ����
-	float moveX = VelX * this->dt;
-	float moveY = VelY * this->dt;
-	float frameDistance = std::sqrt(moveX * moveX + moveY * moveY); // ����������, ���������� �� �����
-
-	// ���������, �� ��������� �� �� ����� ����������
-	if (accumulatedDistance + frameDistance >= distance)
-	{
-		// �������������� ���, ���� �� ��������� ������
-		float lastStep = distance - accumulatedDistance; // ���������� ���������� ��� �����������
-		float factor = lastStep / frameDistance; // ������ ���������� ���������� ����
-		sprite.move(moveX * factor, moveY * factor); // ���������� ������ �� ���������� ����������
-		accumulatedDistance = distance; // ��������� ����������� ����������
-		init = true; // ���������� ������ ��� ����� ������� ��������
-		return 1;
-	}
-	else
-	{
-		sprite.move(moveX, moveY); // ���������� ������
-		accumulatedDistance += frameDistance; // ��������� ����������� ����������
-	}
-}
-	// NEW
 	bool ReminderUI::Button::moveA(float scale, sf::Vector2f targetPosition, float distances, sf::Vector2f startPositions, float dir)
 	{
 		bool allButtonsAtTarget = true;
-		//targetPosition *= dir;
 
 		if (dir == -1)
 		{
@@ -192,7 +154,6 @@ bool ReminderUI::Button::move(float VelX, float VelY, float distance)
 			allButtonsAtTarget = false;
 
 			sf::Vector2f direction = targetPosition;
-			// ��������� � ���������� ��� ��������
 			float acceleration = 16 * scale * abs(distances - distanceS);
 			if (acceleration < 5)
 			{
@@ -213,7 +174,7 @@ bool ReminderUI::Button::move(float VelX, float VelY, float distance)
 
 		if (allButtonsAtTarget)
 		{
-			std::cout << "DONE BTN";
+			// something return
 		}
 
 		return 1;

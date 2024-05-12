@@ -56,7 +56,6 @@ void WelcomeScreenState::MoveSprites(float dir)
 
 		sf::Vector2f vectorBetweenPoints = sprite.getPosition() - startPos;
 		float distanceS = std::hypot(vectorBetweenPoints.x, vectorBetweenPoints.y);
-		std::cout << "SPRITES " << distanceS << "\n";
 
 		if (distanceS <= this->distances[key])
 		{
@@ -87,7 +86,6 @@ void WelcomeScreenState::MoveSprites(float dir)
 
 	if (allSpritesAtTarget)
 	{
-		std::cout << "DONE SPRITE";
 		this->animTransit = 0;
 		this->animTransitReverse = 0;
 
@@ -622,22 +620,28 @@ void WelcomeScreenState::UpdateButtons()
 		it.second->Update(this->MousePosView);
 	}
 
-	//if (this->buttons["REGISTER_BTN"]->isPressed())
-	//{
-	//	this->ToQuit = 1;
-	//}
-
 	/* Обработка кнопок */
 	static bool flag1 = true;
 	static bool flag2 = true;
 	static bool flag3 = true;
 
-	if (this->buttons["LOGIN_BTN"]->isPressed())
+	if (flag1 and this->buttons["LOGIN_BTN"]->isPressed()) // первое нажатие на login
 	{
-		this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
+		flag1 = 0;
+		this->animTransit = 1;
+		this->buttons["REGISTER_BTN"]->Hide(1, this->scale);
+		//this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
 	}
 
-	if (flag1 and this->buttons["REGISTER_BTN"]->isPressed() and this->getKeyTime())
+	else if (flag3 and this->buttons["LOGIN_BTN"]->isPressed() and !this->animTransitReverse and !this->animTransit
+		and this->textboxes["LOGIN"]->getCurrentText() != "" and this->textboxes["PASSWORD"]->getCurrentText() != "") // второе нажатие на login, когда поля открыты
+	{
+		flag3 = 0;
+		this->animTransit = 1;
+		std::cout << "READY";
+	}
+
+	if (flag1 and this->buttons["REGISTER_BTN"]->isPressed() and this->getKeyTime()) // первое нажатие на register
 	{
 		this->buttons["LOGIN_BTN"]->Hide(1, this->scale);
 
@@ -646,8 +650,8 @@ void WelcomeScreenState::UpdateButtons()
 
 	}
 
-	else if (flag3 and this->buttons["REGISTER_BTN"]->isPressed() and !this->animTransitReverse and !this->animTransit and this->textboxes["LOGIN"]->getCurrentText() != "" and this->textboxes["PASSWORD"]->getCurrentText() != "")
-	{
+	else if (flag3 and this->buttons["REGISTER_BTN"]->isPressed() and !this->animTransitReverse and !this->animTransit // второе нажатие на register, когда поля открыты
+		and this->textboxes["LOGIN"]->getCurrentText() != "" and this->textboxes["PASSWORD"]->getCurrentText() != "") {
 		flag3 = 0;
 
 		UserDAO user(this->textboxes["LOGIN"]->getCurrentText(),
@@ -658,7 +662,7 @@ void WelcomeScreenState::UpdateButtons()
 
 		if (existingUser.isEmpty()) {
 			// TODO
-			// Ð Ð°Ð¼ÐºÐ° Ð² ÐºÑÐ°ÑÐ½ÑÐ¹ ÑÐ²ÐµÑ Ð¸Ð»Ð¸ Ð¾ÑÐºÑÑÑÐ¸Ðµ Ð¾ÐºÐ½Ð° Ð»Ð¾Ð³Ð¸Ð½Ð°
+			// Ð Ð°Ð¼ÐºÐ° Ð² ÐºÑÐ°ÑÐ½ÑÐ¹ ÑÐ²ÐµÑ Ð¸Ð»Ð¸ Ð¾ÑÐºÑÑÑÐ¸Ðµ Ð¾ÐºÐ½Ð° Ð»Ð¾Ð³Ð¸Ð½Ð° фикси кодировку
 		}
 		else {
 			SessionIdService::saveStringToLocal(existingUser.GetSessionId());
@@ -670,7 +674,9 @@ void WelcomeScreenState::UpdateButtons()
 	{
 		this->animTransitReverse = 1;
 		this->buttons["LOGIN_BTN"]->Hide(0, this->scale);
+		this->buttons["REGISTER_BTN"]->Hide(0, this->scale);
 		flag1 = 1;
+		flag3 = 1;
 
 	}
 
@@ -679,9 +685,6 @@ void WelcomeScreenState::UpdateButtons()
 		flag1 = 1;
 		flag3 = 1;
 	}
-
-
-
 
 	if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime())
 	{
