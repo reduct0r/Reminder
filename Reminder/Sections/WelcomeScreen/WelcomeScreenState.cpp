@@ -523,21 +523,21 @@ void WelcomeScreenState::InitSprites()
 	float scale = this->scale;
 
 	sf::Sprite sprite1;
-	sprite1.setScale(0.5, 0.5);
+	sprite1.setScale(scale, scale);
 	sprite1.setTexture(this->textures["LOGIN_FIELD"]);
 	sprite1.setPosition(winX / 2.0 - this->textures["LOGIN_FIELD"].getSize().x * scale / 2.0, winY / 4.0);
 	this->sprites["LOG_FIELD"] = sprite1;
-	this->targetPositions["LOG_FIELD"] = sf::Vector2f(0, 80);
-	this->distances["LOG_FIELD"] = 70;
+	this->targetPositions["LOG_FIELD"] = sf::Vector2f(0, this->window->getSize().y / 6.75);
+	this->distances["LOG_FIELD"] = this->window->getSize().y / 7.7;
 	this->startPositions["LOG_FIELD"] = sprite1.getPosition();
 
 	sf::Sprite sprite3;
-	sprite3.setScale(0.5, 0.5);
+	sprite3.setScale(scale, scale);
 	sprite3.setTexture(this->textures["PASSWORD_FIELD"]);
 	sprite3.setPosition(winX / 2.0 - this->textures["PASSWORD_FIELD"].getSize().x * scale / 2.0, winY / 4.0);
 	this->sprites["PASS_FIELD"] = sprite3;
-	this->targetPositions["PASS_FIELD"] = sf::Vector2f(0, 100);
-	this->distances["PASS_FIELD"] = 130;
+	this->targetPositions["PASS_FIELD"] = sf::Vector2f(0, this->window->getSize().y / 5.4);
+	this->distances["PASS_FIELD"] = this->window->getSize().y / 4.15;
 	this->startPositions["PASS_FIELD"] = sprite3.getPosition();
 
 	sf::Sprite sprite;
@@ -545,8 +545,8 @@ void WelcomeScreenState::InitSprites()
 	sprite.setTexture(this->textures["LOGO"]);
 	sprite.setPosition(winX / 2.0 - this->textures["LOGO"].getSize().x * scale / 2.05, winY / 2.0 - this->textures["LOGO"].getSize().y * scale / 2.0 - winY / 5.0);
 	this->sprites["LOGO"] = sprite;
-	this->targetPositions["LOGO"] = sf::Vector2f(0, -50);
-	this->distances["LOGO"] = 35;
+	this->targetPositions["LOGO"] = sf::Vector2f(0, this->window->getSize().y / -10.8);
+	this->distances["LOGO"] = this->window->getSize().y / 15.5;
 	this->startPositions["LOGO"] = sprite.getPosition();
 
 
@@ -564,7 +564,7 @@ void WelcomeScreenState::Update(const float& dt)
 	if (this->animTransit)
 	{
 		MoveSprites(1);
-		this->buttons["REGISTER_BTN"]->moveA(this->scale, sf::Vector2f(0, 80), 80, this->startPositions["REGISTER_BTN"], 1);
+		this->buttons["REGISTER_BTN"]->moveA(this->scale, sf::Vector2f(0, this->window->getSize().y / 6.75), this->window->getSize().y / 6.75, this->startPositions["REGISTER_BTN"], 1);
 
 		//AnimOpenFields();
 	}
@@ -572,7 +572,7 @@ void WelcomeScreenState::Update(const float& dt)
 	if (this->animTransitReverse)
 	{
 		MoveSprites(-1);
-		this->buttons["REGISTER_BTN"]->moveA(this->scale, sf::Vector2f(0, 80), 80, this->startPositions["REGISTER_BTN"], -1);
+		this->buttons["REGISTER_BTN"]->moveA(this->scale, sf::Vector2f(0, this->window->getSize().y / 6.75), this->window->getSize().y / 6.75, this->startPositions["REGISTER_BTN"], -1);
 
 	}
 	//if (this->animTransitReverse and !this->animTransit)

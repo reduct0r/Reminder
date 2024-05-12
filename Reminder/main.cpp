@@ -6,14 +6,10 @@
 
 int main()
 {
-	//ShowWelcomeScreen();
-
 	//MainMenu mainMenu;
 	//mainMenu.Run();
 
 	WelcomeScreen welcomeScreen;
-
-
 	welcomeScreen.Run();
 
 	return 0;
