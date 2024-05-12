@@ -167,7 +167,7 @@ void WelcomeScreenState::InitButtons()
 
 	this->buttons["GITHUB_BTN"] = new  ReminderUI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.25, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
 
-	this->buttons["BACK_BTN"] = new  ReminderUI::Button(30, 30, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
+	this->buttons["BACK_BTN"] = new  ReminderUI::Button(winY / 18, winY / 18, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
 	this->buttons["BACK_BTN"]->Hide(1, this->scale);
 
 }
