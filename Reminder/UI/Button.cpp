@@ -1,4 +1,4 @@
-#include "Button.h"
+﻿#include "Button.h"
 #include <iostream>
 #include <unordered_map>
 
@@ -211,54 +211,54 @@ void ReminderUI::Button::Render(sf::RenderTarget* target) const
 void ReminderUI::Button::SmoothAnim_black(float& animSpeed)
 {
 
-    if (this->alpha > 0 and !this->changedButton)
-    {
-        this->alpha -= animSpeed; // ��������� ���������� ������� �� ��������
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // ��������� ����� ������������ �������
-        this->procAnim = 1;
-        this->changedButton = 0;
-    }
-    else if (this->alpha == 0)
-    {
-        this->sprite.setTexture(this->hoveredTexture);
-        this->alpha = 255;
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
-        this->changedButton = 1;
-        this->procAnim = 0;
-    }
-    if (this->procAnim and this->changedButton and this->alpha < 255)
-    {
-        this->alpha += animSpeed;
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // ��������� ����� ������������ �������
-        if (this->alpha == 255) { this->procAnim = 0; }
-    }
+	if (this->alpha > 0 and !this->changedButton)
+	{
+		this->alpha -= animSpeed; // Изменение затемнения спрайта со временем
+		this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
+		this->procAnim = 1;
+		this->changedButton = 0;
+	}
+	else if (this->alpha == 0)
+	{
+		this->sprite.setTexture(this->hoveredTexture);
+		this->alpha = 255;
+		this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
+		this->changedButton = 1;
+		this->procAnim = 0;
+	}
+	if (this->procAnim and this->changedButton and this->alpha < 255)
+	{
+		this->alpha += animSpeed;
+		this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
+		if (this->alpha == 255) { this->procAnim = 0; }
+	}
 
 }
 
- void ReminderUI::Button::SmoothAnim_light(float& animSpeed)
- {
-    if (this->procAnim and !this->changedButton) // ������� ������ �������� ����������
-    {
-        this->alpha += animSpeed;
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // ��������� ����� ������������ �������
-        if (this->alpha == 255) { this->procAnim = 0; }
-    }
+void ReminderUI::Button::SmoothAnim_light(float& animSpeed)
+{
+	if (this->procAnim and !this->changedButton) // Плавная отмена анимации затемнения
+	{
+		this->alpha += animSpeed;
+		this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
+		if (this->alpha == 255) { this->procAnim = 0; }
+	}
 
-    if (this->alpha > 0 and this->changedButton) // ��������� �������
-    {
-        this->alpha -= animSpeed;
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
-        this->procAnim = 1;
-        if (this->alpha == 0) { this->procAnim = 0; }
-    }
+	if (this->alpha > 0 and this->changedButton) // Затемняем нажатую
+	{
+		this->alpha -= animSpeed;
+		this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
+		this->procAnim = 1;
+		if (this->alpha == 0) { this->procAnim = 0; }
+	}
 
-    else if (this->alpha < 255 and !this->procAnim) // ���������� ������� ������
-    {
-        this->alpha += animSpeed;
-        this->sprite.setTexture(this->idleTexture);
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
-        this->changedButton = 0;
-    }
+	else if (this->alpha < 255 and !this->procAnim) // Возвращаем зеленую плавно
+	{
+		this->alpha += animSpeed;
+		this->sprite.setTexture(this->idleTexture);
+		this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
+		this->changedButton = 0;
+	}
 }
 
  void ReminderUI::Button::Hide(bool flag, float CurrScale)
