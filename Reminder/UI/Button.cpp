@@ -143,11 +143,8 @@ void ReminderUI::Button::setNewTextures(sf::Texture idleTexture, sf::Texture hov
 			startPositions = sf::Vector2f(startPositions.x, startPositions.y + distances * targetPosition.y / abs(targetPosition.y));
 		}
 
-
 		sf::Vector2f vectorBetweenPoints = this->sprite.getPosition() - startPositions;
 		float distanceS = std::hypot(vectorBetweenPoints.x, vectorBetweenPoints.y);
-		std::cout << "BYN -> " << distanceS << " BTN \n";
-
 
 		if (distanceS <= distances)
 		{
@@ -180,8 +177,6 @@ void ReminderUI::Button::setNewTextures(sf::Texture idleTexture, sf::Texture hov
 		return 1;
 
 	}
-
-
 
 const bool ReminderUI::Button::isPressed() const
 {
