@@ -134,49 +134,50 @@ void ReminderUI::Button::setNewTextures(sf::Texture idleTexture, sf::Texture hov
 	this->pressedTexture = pressedTexture;
 }
 
-	bool ReminderUI::Button::moveA(float scale, sf::Vector2f targetPosition, float distances, sf::Vector2f startPositions, float dir)
+bool ReminderUI::Button::moveA(float scale, sf::Vector2f targetPosition, float distances, sf::Vector2f startPositions, float dir)
+{
+	bool allButtonsAtTarget = true;
+
+	if (dir == -1)
 	{
-		bool allButtonsAtTarget = true;
-
-		if (dir == -1)
-		{
-			startPositions = sf::Vector2f(startPositions.x, startPositions.y + distances * targetPosition.y / abs(targetPosition.y));
-		}
-
-		sf::Vector2f vectorBetweenPoints = this->sprite.getPosition() - startPositions;
-		float distanceS = std::hypot(vectorBetweenPoints.x, vectorBetweenPoints.y);
-
-		if (distanceS <= distances)
-		{
-			allButtonsAtTarget = false;
-
-			sf::Vector2f direction = targetPosition;
-			float acceleration = 16 * scale * abs(distances - distanceS);
-			if (acceleration < 5)
-			{
-				acceleration = 5;
-			}
-			float speed = acceleration * this->dt;
-
-			if (distances > speed)
-			{
-				direction /= distances;
-				this->sprite.move(direction * speed * dir);
-			}
-			else
-			{
-				this->sprite.setPosition(targetPosition);
-			}
-		}
-
-		if (allButtonsAtTarget)
-		{
-			// something return
-		}
-
-		return 1;
-
+		startPositions = sf::Vector2f(startPositions.x, startPositions.y + distances * targetPosition.y / abs(targetPosition.y));
 	}
+
+	sf::Vector2f vectorBetweenPoints = this->sprite.getPosition() - startPositions;
+	float distanceS = std::hypot(vectorBetweenPoints.x, vectorBetweenPoints.y);
+
+	if (distanceS <= distances)
+	{
+		allButtonsAtTarget = false;
+
+		sf::Vector2f direction = targetPosition;
+		float acceleration = 16 * scale * abs(distances - distanceS);
+		if (acceleration < 5)
+		{
+			acceleration = 5;
+		}
+		float speed = acceleration * this->dt;
+
+		if (distances > speed)
+		{
+			direction /= distances;
+			this->sprite.move(direction * speed * dir);
+		}
+		else
+		{
+			this->sprite.setPosition(targetPosition);
+		}
+	}
+
+	if (allButtonsAtTarget)
+	{
+		// return 1;
+		// something return
+	}
+
+	return 1;
+
+}
 
 const bool ReminderUI::Button::isPressed() const
 {
@@ -258,9 +259,17 @@ void ReminderUI::Button::SmoothAnim_light(float& animSpeed)
 
  void ReminderUI::Button::Hide(bool flag, float CurrScale)
  {
-     static float scaleX = this->sprite.getScale().x;
 	 float scale = CurrScale * !flag ;
      this->sprite.setScale(scale, scale);
+
+	 if (flag) 
+	 {
+		 this->text.move(8000, 8000);
+	 }
+	 else 
+	 {
+		 this->text.move(-8000, -8000);
+	 }
  }
 
  void ReminderUI::Button::setPos(sf::Vector2f& vector)

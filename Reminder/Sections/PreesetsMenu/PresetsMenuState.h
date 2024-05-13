@@ -12,6 +12,7 @@ private:
 	sf::Font font;
 	sf::Event sfEvent;
 	std::map<std::string, ReminderUI::Button*> buttons;
+	std::map<std::string, ReminderUI::DropDownList*> dropDownLists;
 
 	float scale = 1;
 	bool startFullScreen = 0;
@@ -23,6 +24,7 @@ private:
 	void InitButtons();
 	void InitTextures();
 	void InitSprites();
+	void InitDropDownLists();
 
 
 public:
@@ -34,9 +36,11 @@ public:
 	void UpdateSprites();
 	void UpdateEvents();
 	void UpdateKeyBoardBinds(const float& dt);
+	void UpdateDropDownLists(const float& dt);
 
 	void RenderButtons(sf::RenderTarget* target = nullptr);
 	void RenderSprites(sf::RenderTarget* target = nullptr);
+	void RenderDropDownLists(sf::RenderTarget* target = nullptr);
 	void Render(sf::RenderTarget* target = nullptr);
 	void EndState();
 };
