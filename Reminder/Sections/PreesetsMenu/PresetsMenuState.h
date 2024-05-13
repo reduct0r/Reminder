@@ -1,11 +1,8 @@
-#ifndef MAINMENUSTATE_H
-#define MAINMENUSTATE_H
-
+#pragma once
 #include "SettingsState.h"
-#include "../PreesetsMenu/PresetsMenuState.h"
 #include "../../State.h"
 
-class MainMenuState :
+class PresetsMenuState :
 	public State
 {
 private:
@@ -29,8 +26,8 @@ private:
 
 
 public:
-	MainMenuState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings);
-	virtual ~MainMenuState();
+	PresetsMenuState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings);
+	virtual ~PresetsMenuState();
 
 	void Update(const float& dt);
 	void UpdateButtons();
@@ -43,5 +40,3 @@ public:
 	void Render(sf::RenderTarget* target = nullptr);
 	void EndState();
 };
-
-#endif

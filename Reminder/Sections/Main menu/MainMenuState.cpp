@@ -159,25 +159,25 @@ void MainMenuState::UpdateButtons()
 	{
 		this->states->push(new SettingsState(this->window, this->states, this->gfxSettings));
 	}
+	if (this->buttons["SETTINGS_BTN1"]->isPressed() and this->getKeyTime())
+	{
+		this->states->push(new SettingsState(this->window, this->states, this->gfxSettings));
+	}
 
 	if (this->buttons["LOGOUT_BTN"]->isPressed() and this->getKeyTime())
 	{
+		// ВЫЙТИ ИХЗ АККА
+
 		this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
-
-		//if (!this->states->empty()) {
-		//	delete this->states->top();
-		//	this->states->pop();
-		//}
-
-
-		//this->states->pop();
-		//this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
-		//this->window->close();
-		/*WelcomeScreen welcomeScreen1;
-		welcomeScreen1.Run();*/
-		/* РАЗЛОГИНИТЬ !!!!*/
-		//this->ToQuit = 1;
 	}
+
+	if (this->buttons["PRESETS_BTN"]->isPressed() and this->getKeyTime())
+	{
+		// ВЫЙТИ ИХЗ АККА
+
+		this->states->push(new PresetsMenuState(this->window, this->states, this->gfxSettings));
+	}
+
 }
 
 void MainMenuState::UpdateSprites()

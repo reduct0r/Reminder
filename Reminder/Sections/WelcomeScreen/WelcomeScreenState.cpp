@@ -325,7 +325,7 @@ void WelcomeScreenState::UpdateButtons()
 		this->animTransit = 1;
 		this->buttons["REGISTER_BTN"]->Hide(1, this->scale);
 
-		//this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
+		this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings)); // для отладки переход
 	}
 
 	else if (flag3 and this->buttons["LOGIN_BTN"]->isPressed() and !this->animTransitReverse and !this->animTransit

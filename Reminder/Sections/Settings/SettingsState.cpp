@@ -70,8 +70,8 @@ void SettingsState::InitButtons()
 	float winY = float(this->window->getSize().y);
 	float scale = this->scale;
 
+	this->buttons["BACK_BTN"] = new  ReminderUI::Button(winY / 18, winY / 18, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
 	this->buttons["GITHUB_BTN"] = new ReminderUI::Button(winX / 1.05 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.05 - this->textures["GITHUB_ICON"].getSize().y * scale, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
-	this->buttons["BACK_BTN"] = new ReminderUI::Button(winX / 80, winY / 50, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
 	this->buttons["APPLY_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["APPLY_IDL"].getSize().x * scale / 2.0, winY / 1.2, scale, scale, &this->font, sf::String(""), this->textures["APPLY_IDL"], this->textures["APPLY_HVR"], this->textures["APPLY_HVR"]);
 	
 	if (!this->gfxSettings.fullscreen)
