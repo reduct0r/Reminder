@@ -51,7 +51,7 @@ UserDAO Database::createUser(const std::string &username, const std::string &pas
     tunnel.commit();
 
     UserDAO newUser(usernameToLowerCase, password, sessionId);
-
+    SessionIdService::saveNewSessionId(sessionId);
     return newUser;
   } catch (const pqxx::unique_violation &e) {
     return {};
@@ -69,20 +69,22 @@ UserDAO Database::getUser(UserDAO &user) {
   std::string
       queryPassword = "SELECT password FROM " + usersTableName + " WHERE username = '" + usernameToLowerCase + "';";
   std::string
-      querySessionId = "SELECT session_id FROM " + usersTableName + " WHERE username = '" + usernameToLowerCase + "';";
+      querySessionId = "SELECT username FROM " + usersTableName + " WHERE username = '" + usernameToLowerCase + "';";
   pqxx::result password = tunnel.exec(queryPassword);
   pqxx::result sessionId = tunnel.exec(querySessionId);
+  tunnel.commit();
 
-  if (SessionIdService::compareTo(sessionId[0][0].as<std::string>(), user.GetSessionId())) {
-    return {};
+  if (password[0][0].as<std::string>() == user.GetPassword()
+      && user.GetUsername() == sessionId[0][0].as<std::string>()) {
+    UserDAO existingUser(usernameToLowerCase, password[0][0].as<std::string>(), sessionId[0][0].as<std::string>());
+    SessionIdService::saveNewSessionId(sessionId[0][0].as<std::string>());
+    return existingUser;
   }
 
-  tunnel.commit();
   if (password.empty() && sessionId.empty()) {
     return {};
   }
-  UserDAO existingUser(usernameToLowerCase, password[0][0].as<std::string>(), sessionId[0][0].as<std::string>());
-  return existingUser;
+  return {};
 }
 
 void Database::parseConfigFile() {
@@ -108,6 +110,10 @@ void Database::parseConfigFile() {
 }
 
 UserDAO Database::containsSessionId(const std::string &sessionIdToken) {
+  if (sessionIdToken.empty()) {
+    return {};
+  }
+
   pqxx::work tunnel(connection);
   std::string
       queryPassword = "SELECT username FROM " + usersTableName + " WHERE session_id = '" + sessionIdToken + "';";
@@ -128,4 +134,98 @@ UserDAO Database::containsSessionId(const std::string &sessionIdToken) {
   }
   UserDAO existingUser(usernameToLowerCase, password[0][0].as<std::string>(), sessionIdToken);
   return existingUser;
+}
+
+int Database::countDatabasePresets(UserDAO &user) {
+  pqxx::work tunnel(connection); // Туннель для работы с бд
+  std::string query =
+      "SELECT count(*) FROM presets WHERE username = " + user.GetUsername() + ";"; // Запрос в бд для получения пресетов
+  pqxx::result result = tunnel.exec(query);
+  tunnel.commit();
+
+  if (result.empty()) {
+    return 0;
+  } else {
+    return result[0][0].as<int>();
+  }
+}
+
+std::vector<CardPreset> Database::getUserPresets(UserDAO &user) {
+  std::vector<Reminder::CardPreset> presets; // Вектор для хранения пресетов из бд
+  try {
+    pqxx::work tunnel(connection); // Туннель для работы с бд
+    std::string query = "SELECT presets_data FROM presets WHERE username = " + user.GetUsername()
+        + ";"; // Запрос в бд для получения пресетов
+    pqxx::result result = tunnel.exec(query); // Вызов запроса
+    tunnel.commit();
+
+    if (result.empty()) {
+      return {};
+    } else {
+      for (const auto &row : result) {
+        auto json_data = row[0].as<std::string>();
+        Json::CharReaderBuilder builder;
+        Json::CharReader *reader = builder.newCharReader();
+        Json::Value root;
+        std::string errors;
+        if (!reader->parse(json_data.c_str(), json_data.c_str() + json_data.length(), &root, &errors)) {
+          std::cerr << "Ошибка при разборе JSON: " << errors << std::endl;
+          delete reader;
+          continue;
+        }
+        delete reader;
+
+        CardPreset preset(root["preset_name"].asString());
+        preset.number = root["number"].asInt();
+
+        for (const auto &card_json : root["cards"]) {
+          Card card(card_json["card_name"].asString(), card_json["description"].asString());
+          card.setNumber(card_json["card_number"].asInt());
+          preset.preset.push_back(card);
+        }
+        presets.push_back(preset);
+      }
+      return presets;
+    }
+  } catch (const std::exception &e) {
+    std::cerr << "Ошибка при выполнении запроса: " << e.what() << std::endl;
+    return {};
+  }
+}
+
+bool Database::deletePreset(const std::string &presetName, UserDAO &user) {
+  try {
+    pqxx::work txn(connection);
+
+    std::string query =
+        "DELETE FROM presets WHERE username = '" + user.GetUsername() + "' AND presets @> '[{\"presetName\": \""
+            + presetName + "\"}]'";
+
+    pqxx::result result = txn.exec(query);
+
+    txn.commit();
+
+    return result.affected_rows() > 0;
+  } catch (const std::exception &e) {
+    std::cerr << "Ошибка при выполнении запроса: " << e.what() << std::endl;
+    return false;
+  }
+}
+
+bool Database::addUserPreset(CardPreset &cardPreset, UserDAO &user) {
+  try {
+    pqxx::work txn(connection);
+
+    std::string query =
+        "UPDATE presets SET presets = presets || '" + cardPreset.toJson() + "' WHERE username = '" + user.GetUsername() + "'";
+
+    pqxx::result result = txn.exec(query);
+
+    txn.commit();
+
+    return result.affected_rows() > 0;
+  } catch (const std::exception &e) {
+    std::cerr << "Ошибка при выполнении запроса: " << e.what() << std::endl;
+    return false;
+  }
 }

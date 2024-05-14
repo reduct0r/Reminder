@@ -13,10 +13,12 @@
 class SessionIdService {
  public:
 
+  // Working
   static bool compareTo(const std::string &dbToken, const std::string &userToken) {
     return dbToken == userToken;
   }
 
+  // Working
   static std::string generateRandomKey() {
     int const key_length = 16;
     unsigned char key[key_length];
@@ -34,16 +36,9 @@ class SessionIdService {
     return sessionIdToken.str();
   }
 
-  static bool saveStringToLocal(const std::string &data) {
-    if (!createDirectory("local")) {
-      return false;
-    }
-
-    return saveStringToFile("local/session.txt", data);
-  }
-
-  static std::string readStringFromLocal() {
-    std::ifstream file("local/session.txt");
+  // Working
+  static std::string readSessionId() {
+    std::ifstream file("/Users/exist/CLionProjects/Reminder/Reminder/Auth/sessionId.txt");
     std::string data;
 
     if (file.is_open()) {
@@ -54,24 +49,34 @@ class SessionIdService {
     return data;
   }
 
- private:
-  static bool createDirectory(const std::string &path) {
-    //int status = mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-    return 1;
-  }
+  // Working
+  static bool deleteSessionId() {
+    std::ofstream file
+        ("/Users/exist/CLionProjects/Reminder/Reminder/Auth/sessionId.txt", std::ofstream::out | std::ofstream::trunc);
 
-  static bool saveStringToFile(const std::string &filename, const std::string &data) {
-    std::ofstream file(filename);
     if (!file.is_open()) {
       return false;
     }
-
-    file << data;
     file.close();
 
     return true;
   }
 
+  // Working
+  static bool saveNewSessionId(const std::string &data) {
+    std::string filename = "/Users/exist/CLionProjects/Reminder/Reminder/Auth/sessionId.txt";
+    std::ofstream file(filename, std::ofstream::out | std::ofstream::trunc);
+
+    if (!file.is_open()) {
+      return false;
+    }
+
+    file.clear();
+    file << data;
+    file.close();
+
+    return true;
+  }
 };
 
 #endif //REMINDER_REMINDER_SERVICE_SESSIONIDSERVICE_H_
