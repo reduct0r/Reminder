@@ -12,6 +12,7 @@ PresetsMenuState::PresetsMenuState(sf::RenderWindow* window, std::stack<State*>*
 	this->InitFonts();
 	this->InitButtons();
 	this->InitDropDownLists();
+	this->InitTextes();
 
 	this->startFullScreen = this->gfxSettings.fullscreen;
 }
@@ -29,6 +30,8 @@ PresetsMenuState::~PresetsMenuState()
 void PresetsMenuState::InitVars()
 {
 	this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_PRESETS"].getSize().x;
+
+	this->presets = { "Choose preset", "PRESET1", "PRESET2", "PRESET3", "PRESET4" };
 }
 
 void PresetsMenuState::InitBG()
@@ -54,14 +57,30 @@ void PresetsMenuState::InitButtons()
 	float winY = float(this->window->getSize().y);
 	
 	float scale = this->scale;
-	this->buttons["BACK_BTN"] = new  ReminderUI::Button(winY / 18, winY / 18, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
-	this->buttons["MY_PRESETS_BTN"] = new  ReminderUI::Button(winX / 3.2 - this->textures["MY_PRESETS"].getSize().x * this->scale / 2,
-		winY / 2 - this->textures["MY_PRESETS"].getSize().y * this->scale / 2, scale, scale, &this->font, sf::String(""),
+	this->buttons["BACK_BTN"] = new  ReminderUI::Button(winY / 18, winY / 18, scale, this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
+
+	this->buttons["MY_PRESETS_BTN"] = new  ReminderUI::Button(1, this->scale * 40, winX / 3.2 - this->textures["MY_PRESETS"].getSize().x * this->scale / 2,
+		winY / 2 - this->textures["MY_PRESETS"].getSize().y * this->scale / 2, scale, scale, &this->font, "",
 		this->textures["MY_PRESETS"], this->textures["MY_PRESETS"], this->textures["MY_PRESETS"]);
 
 	this->buttons["NEW_PRESET_BTN"] = new  ReminderUI::Button(winX / 1.5 - this->textures["NEW_PRESET"].getSize().x * this->scale / 2,
-		winY / 2 - this->textures["MY_PRESETS"].getSize().y * this->scale / 2, scale, scale, &this->font, sf::String(""),
-		this->textures["NEW_PRESET"], this->textures["NEW_PRESET"], this->textures["NEW_PRESET"]);
+		winY / 2 - this->textures["MY_PRESETS"].getSize().y * this->scale / 2, scale, this->textures["NEW_PRESET"], this->textures["NEW_PRESET"],
+		this->textures["NEW_PRESET"]);
+
+	this->buttons["DELETE_BTN"] = new  ReminderUI::Button(winX / 1.15 - this->textures["DELETE_1"].getSize().x * this->scale / 2,
+		winY / 1.3 - this->textures["DELETE_1"].getSize().y * this->scale / 2, scale, this->textures["DELETE_1"], this->textures["DELETE_1"],
+		this->textures["DELETE_1"]);
+	this->buttons["DELETE_BTN"]->Hide(1);
+
+	this->buttons["PREVIEW_BTN"] = new  ReminderUI::Button(winX / 1.15 - this->textures["PREVIEW_1"].getSize().x * this->scale / 2,
+		winY / 1.5 - this->textures["PREVIEW_1"].getSize().y * this->scale / 2, scale, this->textures["PREVIEW_1"], this->textures["PREVIEW_1"],
+		this->textures["PREVIEW_1"]);
+	this->buttons["PREVIEW_BTN"]->Hide(1);
+
+	this->buttons["IMPORT_BTN"] = new  ReminderUI::Button(winX / 1.15 - this->textures["IMPORT_1"].getSize().x * this->scale / 2,
+		winY / 2.5 - this->textures["IMPORT_1"].getSize().y * this->scale / 2, scale, this->textures["IMPORT_1"], this->textures["IMPORT_1"],
+		this->textures["IMPORT_1"]);
+	this->buttons["IMPORT_BTN"]->Hide(1);
 
 }
 
@@ -94,6 +113,15 @@ void PresetsMenuState::InitTextures()
 	texture.loadFromFile("Resources/Textures/UI/Settings/Rectangle_21.png");
 	this->textures["DDL_SECOND_HOVER"] = texture;
 
+	texture.loadFromFile("Resources/Textures/UI/PresetsMenu/DELETE.png");
+	this->textures["DELETE_1"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/PresetsMenu/PREVIEW.png");
+	this->textures["PREVIEW_1"] = texture;
+
+	texture.loadFromFile("Resources/Textures/UI/PresetsMenu/IMPORT.png");
+	this->textures["IMPORT_1"] = texture;
+
 }
 
 void PresetsMenuState::InitSprites()
@@ -116,12 +144,21 @@ void PresetsMenuState::InitDropDownLists()
 	float winY = float(this->window->getSize().y);
 	float scale = this->scale;
 
-	std::vector<std::string> l = { "Choose preset", "PRESET1", "PRESET2", "PRESET3", "PRESET4" };
-
-	this->dropDownLists["PRESETS_LIST"] = new ReminderUI::DropDownList(this->scale / 1.5, 0, winX / 1.4 - this->textures["DDL_SECOND"].getSize().x * scale / 2,
-		winY / 3 - this->textures["DDL_SECOND"].getSize().y * scale / 2, &this->font, 25, l, this->textures["DDL_SECOND"], this->textures["DDL_SECOND_HOVER"],
+	this->dropDownLists["PRESETS_LIST"] = new ReminderUI::DropDownList(this->scale * 0.9, 0, winX / 2  - this->textures["DDL_SECOND"].getSize().x * scale / 2 * 0.9,
+		winY / 4 - this->textures["DDL_SECOND"].getSize().y * scale / 2 * 0.9, &this->font, 25, this->presets, this->textures["DDL_SECOND"], this->textures["DDL_SECOND_HOVER"],
 		this->textures["DDL_SECOND"]);
-	this->dropDownLists["PRESETS_LIST"]->Hide(1, this->scale / 1.5);
+	this->dropDownLists["PRESETS_LIST"]->Hide(1);
+}
+
+void PresetsMenuState::InitTextes()
+{
+	sf::Text text;
+	text.setFont(this->font);
+	text.setColor(sf::Color::Black);
+	text.setCharacterSize(this->scale * 40);
+	text.setPosition(this->window->getSize().x / 2.6, this->window->getSize().y / 2.62);
+	text.setString(std::to_string(this->presets.size() - 1));
+	this->textes["COUNTER_TXT"] = text;
 }
 
 
@@ -143,6 +180,7 @@ void PresetsMenuState::Update(const float& dt)
 		this->InitFonts();
 		this->InitButtons();
 		this->InitDropDownLists();
+		this->InitTextes();
 	}
 }
 
@@ -156,6 +194,8 @@ void PresetsMenuState::UpdateDropDownLists(const float& dt)
 
 void PresetsMenuState::UpdateButtons()
 {
+	static bool flag = 1;
+
 	for (auto& it : this->buttons)
 	{
 		it.second->Update(this->MousePosView);
@@ -164,16 +204,60 @@ void PresetsMenuState::UpdateButtons()
 	/* Обработка кнопок */
 	if (this->buttons["BACK_BTN"]->isPressed() and this->getKeyTime())
 	{
+		flag = 1;
 		this->ToQuit = 1;
 	}
 
-	if (this->buttons["MY_PRESETS_BTN"]->isPressed() and this->getKeyTime())
+	if (flag and this->buttons["MY_PRESETS_BTN"]->isPressed() and this->getKeyTime())
 	{
-		this->buttons["NEW_PRESET_BTN"]->Hide(1, this->scale);
+		flag = 0;
+
+		this->buttons["MY_PRESETS_BTN"]->setPos(this->window->getSize().x / 6 - this->textures["MY_PRESETS"].getSize().x * this->scale / 2,
+			this->window->getSize().y / 2 - this->textures["MY_PRESETS"].getSize().y * this->scale / 2);
+		this->buttons["NEW_PRESET_BTN"]->Hide(1);
 		this->buttons["MY_PRESETS_BTN"]->setText("\n\nClick to return");
-		this->dropDownLists["PRESETS_LIST"]->Hide(0, this->scale / 1.5);
+		this->dropDownLists["PRESETS_LIST"]->Hide(0);
+
+		this->textes["COUNTER_TXT"].move(-this->scale * 280, 0);
+
+		this->buttons["DELETE_BTN"]->Hide(0);
+		this->buttons["PREVIEW_BTN"]->Hide(0);
+		this->buttons["IMPORT_BTN"]->Hide(0);
+	}
+	else if (!flag and this->buttons["MY_PRESETS_BTN"]->isPressed() and this->getKeyTime())
+	{
+		flag = 1;
+		this->buttons["MY_PRESETS_BTN"]->setPos(this->window->getSize().x / 3.2 - this->textures["MY_PRESETS"].getSize().x * this->scale / 2,
+			this->window->getSize().y / 2 - this->textures["MY_PRESETS"].getSize().y * this->scale / 2);
+		this->buttons["NEW_PRESET_BTN"]->Hide(0);
+		this->buttons["MY_PRESETS_BTN"]->setText("");
+
+		this->InitDropDownLists();
+		this->dropDownLists["PRESETS_LIST"]->Hide(1);
+
+		this->textes["COUNTER_TXT"].move(this->scale * 280, 0);
+
+		this->buttons["DELETE_BTN"]->Hide(1);
+		this->buttons["PREVIEW_BTN"]->Hide(1);
+		this->buttons["IMPORT_BTN"]->Hide(1);
 	}
 
+	// Удаление пресета
+	if (this->buttons["DELETE_BTN"]->isPressed() and this->getKeyTime())
+	{
+		int indexToRemove = this->dropDownLists["PRESETS_LIST"]->getActiveElementId();
+		if (indexToRemove >= 0 and indexToRemove < this->presets.size() and indexToRemove != 0)
+		{
+			this->presets.erase(this->presets.begin() + indexToRemove);
+		}
+
+		//this->presets												// вектор с пресетами
+		//[this->dropDownLists["PRESETS_LIST"]->getActiveElementId()];	// индекс элемента в списке пресетов
+		this->InitDropDownLists();										// переинициализация нового списка
+		this->InitTextes();
+		this->textes["COUNTER_TXT"].move(-this->scale * 280, 0);
+		this->dropDownLists["PRESETS_LIST"]->Hide(0);
+	}
 
 }
 
@@ -210,6 +294,7 @@ void PresetsMenuState::Render(sf::RenderTarget* target)
 	this->RenderButtons(target);
 	this->RenderSprites(target);
 	this->RenderDropDownLists(target);
+	this->RenderTextes(target);
 
 }
 
@@ -236,6 +321,16 @@ void PresetsMenuState::RenderDropDownLists(sf::RenderTarget* target)
 		it.second->Render(target);
 	}
 }
+
+
+void PresetsMenuState::RenderTextes(sf::RenderTarget* target)
+{
+	for (auto& it : this->textes)
+	{
+		target->draw(it.second);
+	}
+}
+
 
 void PresetsMenuState::EndState()
 {

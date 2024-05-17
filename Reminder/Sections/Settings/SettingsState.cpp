@@ -70,30 +70,32 @@ void SettingsState::InitButtons()
 	float winY = float(this->window->getSize().y);
 	float scale = this->scale;
 
-	this->buttons["BACK_BTN"] = new  ReminderUI::Button(winY / 18, winY / 18, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
-	this->buttons["GITHUB_BTN"] = new ReminderUI::Button(winX / 1.05 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.05 - this->textures["GITHUB_ICON"].getSize().y * scale, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
-	this->buttons["APPLY_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["APPLY_IDL"].getSize().x * scale / 2.0, winY / 1.2, scale, scale, &this->font, sf::String(""), this->textures["APPLY_IDL"], this->textures["APPLY_HVR"], this->textures["APPLY_HVR"]);
+	this->buttons["BACK_BTN"] = new  ReminderUI::Button(winY / 18, winY / 18, scale, this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
+	this->buttons["GITHUB_BTN"] = new ReminderUI::Button(winX / 1.05 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0,
+		winY / 1.05 - this->textures["GITHUB_ICON"].getSize().y * scale, scale, this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
+	this->buttons["APPLY_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["APPLY_IDL"].getSize().x * scale / 2.0, winY / 1.2, scale,
+		this->textures["APPLY_IDL"], this->textures["APPLY_HVR"], this->textures["APPLY_HVR"]);
 	
 	if (!this->gfxSettings.fullscreen)
 	{
-		this->buttons["FULLSCREEN_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["FULLSCREEN_MODE"].getSize().x * scale / 2.0, winY / 2, scale, scale, &this->font,
-                                                                 sf::String(""), this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE2"], this->textures["FULLSCREEN_MODE2"]);
+		this->buttons["FULLSCREEN_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["FULLSCREEN_MODE"].getSize().x * scale / 2.0, winY / 2, scale,
+			this->textures["FULLSCREEN_MODE"], this->textures["FULLSCREEN_MODE2"], this->textures["FULLSCREEN_MODE2"]);
 	}
 	else
 	{
-		this->buttons["FULLSCREEN_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["WINDOW_MODE"].getSize().x * scale / 2.0, winY / 2, scale, scale, &this->font,
-                                                                 sf::String(""), this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE2"], this->textures["WINDOW_MODE2"]);
+		this->buttons["FULLSCREEN_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["WINDOW_MODE"].getSize().x * scale / 2.0, winY / 2, scale,
+			this->textures["WINDOW_MODE"], this->textures["WINDOW_MODE2"], this->textures["WINDOW_MODE2"]);
 	}
 
 	if (!this->gfxSettings.sound)
 	{
-		this->buttons["SOUND_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["SOUND_ON"].getSize().x * scale / 2.0, winY / 3, scale, scale, &this->font,
-                                                            sf::String(""), this->textures["SOUND_ON"], this->textures["SOUND_ON2"], this->textures["SOUND_ON2"]);
+		this->buttons["SOUND_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["SOUND_ON"].getSize().x * scale / 2.0, winY / 3, scale,
+			this->textures["SOUND_ON"], this->textures["SOUND_ON2"], this->textures["SOUND_ON2"]);
 	}
 	else
 	{
-		this->buttons["SOUND_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["SOUND_OFF"].getSize().x * scale / 2.0, winY / 3, scale, scale, &this->font,
-                                                            sf::String(""), this->textures["SOUND_OFF"], this->textures["SOUND_OFF2"], this->textures["SOUND_OFF2"]);
+		this->buttons["SOUND_BTN"] = new ReminderUI::Button(winX / 2 - this->textures["SOUND_OFF"].getSize().x * scale / 2.0, winY / 3, scale,
+			this->textures["SOUND_OFF"], this->textures["SOUND_OFF2"], this->textures["SOUND_OFF2"]);
 	}
 }
 
@@ -176,8 +178,8 @@ void SettingsState::InitDropDownLists()
 		modes_str.push_back(std::to_string(i.width) + "x" + std::to_string(i.height));
 	}*/
 
-	this->dropDownLists["RESOLUTION"] = new ReminderUI::DropDownList(this->scale / 1.5, 0, winX / 3.2 - this->textures["DDL_MAIN"].getSize().x * scale / 2 , 0, &this->font, 25, l, this->textures["DDL_SECOND"],
-                                                                     this->textures["DDL_SECOND_HOVER"], this->textures["DDL_MAIN"]);
+	this->dropDownLists["RESOLUTION"] = new ReminderUI::DropDownList(this->scale / 1.5, 0, winX / 3.2 - this->textures["DDL_MAIN"].getSize().x * scale / 2, 0,
+		&this->font, 25, l, this->textures["DDL_SECOND"], this->textures["DDL_SECOND_HOVER"], this->textures["DDL_MAIN"]);
 }
 
 
@@ -235,12 +237,18 @@ void  SettingsState::UpdateButtons()
 
 	if (this->buttons["APPLY_BTN"]->isPressed() and this->getKeyTime())
 	{
-		// !!!
 		this->gfxSettings.resolution = this->videoModes[this->dropDownLists["RESOLUTION"]->getActiveElementId()];
 		
 		if (this->gfxSettings.fullscreen)
 		{
-			this->window->create(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Fullscreen, this->gfxSettings.contextSettings);
+			if (!gfxSettings.resolution.isValid())
+			{
+				this->window->create(sf::VideoMode::getDesktopMode(), this->gfxSettings.title, sf::Style::Fullscreen, this->gfxSettings.contextSettings);
+			}
+			else
+			{
+				this->window->create(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Fullscreen, this->gfxSettings.contextSettings);
+			}
 		}
 		else
 		{

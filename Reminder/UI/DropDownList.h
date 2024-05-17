@@ -31,7 +31,7 @@ namespace ReminderUI
 		const bool getKeyTime();
 		const unsigned short& getActiveElementId() const;
 		void UpdateKeyTime(const float& dt);
-		void Hide(bool flag, float scale);
+		void Hide(bool flag);
 	};
 
 }

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <unordered_map>
 
-ReminderUI::Button::Button(float x, float y, float width, float height, sf::Font* font, sf::String text, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture)
+ReminderUI::Button::Button(float x, float y, float scale, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture)
 {
 	this->id = 0;
 	this->needAnim = 1;
@@ -14,16 +14,8 @@ ReminderUI::Button::Button(float x, float y, float width, float height, sf::Font
 
 	this->sprite.setTexture(this->idleTexture);
 	this->sprite.setPosition(sf::Vector2f(x, y));
-	this->sprite.setScale(width, height);
+	this->sprite.setScale(scale, scale);
 
-	this->text.setFont(*this->font);
-	this->text.setString(text);
-	this->text.setColor(sf::Color::Black);
-	this->text.setCharacterSize(16);
-	this->text.setPosition(
-		this->sprite.getPosition().x + (this->sprite.getGlobalBounds().width / 2.0) - this->text.getGlobalBounds().width / 2.0,
-		this->sprite.getPosition().y + (this->sprite.getGlobalBounds().height / 2.0)  - this->text.getGlobalBounds().height / 1.5
-	);
 }
 
 ReminderUI::Button::Button(bool needAnim, float fontSize, float x, float y, float width, float height, sf::Font* font, sf::String text,
@@ -200,8 +192,11 @@ const short unsigned& ReminderUI::Button::getId() const
 
 void ReminderUI::Button::Render(sf::RenderTarget* target) const
 {
-	target->draw(this->sprite);
-	target->draw(this->text);
+	if (!this->hide)
+	{
+		target->draw(this->sprite);
+		target->draw(this->text);
+	}
 }
 
 void ReminderUI::Button::SmoothAnim_black(float& animSpeed)
@@ -257,19 +252,9 @@ void ReminderUI::Button::SmoothAnim_light(float& animSpeed)
 	}
 }
 
- void ReminderUI::Button::Hide(bool flag, float CurrScale)
+ void ReminderUI::Button::Hide(bool flag)
  {
-	 float scale = CurrScale * !flag ;
-     this->sprite.setScale(scale, scale);
-
-	 if (flag) 
-	 {
-		 this->text.move(8000, 8000);
-	 }
-	 else 
-	 {
-		 this->text.move(-8000, -8000);
-	 }
+	 this->hide = flag;
  }
 
  void ReminderUI::Button::setPos(sf::Vector2f& vector)

@@ -50,7 +50,7 @@ void WelcomeScreenState::MoveSprites(float dir)
 
 			this->textboxes["PASSWORD"]->setPosition(this->window->getSize().x * 10, 0);
 
-			this->buttons["BACK_BTN"]->Hide(1, this->scale);
+			this->buttons["BACK_BTN"]->Hide(1);
 
 		}
 
@@ -101,7 +101,7 @@ void WelcomeScreenState::MoveSprites(float dir)
 			this->textboxes["PASSWORD"]->setSize(this->window->getSize().y / 2.1f, this->window->getSize().x / 40.0f);
 			this->textboxes["PASSWORD"]->SetColor(sf::Color(231, 240, 254, 255));
 
-			this->buttons["BACK_BTN"]->Hide(0, this->scale);
+			this->buttons["BACK_BTN"]->Hide(0);
 		}
 
 		else if (dir == -1)
@@ -160,15 +160,17 @@ void WelcomeScreenState::InitButtons()
 	float mid = winX / 2.0 - this->textures["LOGIN_BT_IDLE"].getSize().x * scale / 2.0;
 	float yaw = winY / 2.0 - this->textures["LOGIN_BT_IDLE"].getSize().y * scale / 2.0;
 
-	this->buttons["LOGIN_BTN"] = new  ReminderUI::Button(mid, yaw + winY / 6.0, scale, scale, &this->font, sf::String(""), this->textures["LOGIN_BT_IDLE"], this->textures["LOGIN_BT_HOVER"], this->textures["LOGIN_BT_HOVER"]);
+	this->buttons["LOGIN_BTN"] = new  ReminderUI::Button(mid, yaw + winY / 6.0, scale, this->textures["LOGIN_BT_IDLE"], this->textures["LOGIN_BT_HOVER"], this->textures["LOGIN_BT_HOVER"]);
 
-	this->buttons["REGISTER_BTN"] = new  ReminderUI::Button(mid, yaw + winY / 30.0f, scale, scale, &this->font, sf::String(""), this->textures["REG_BT_IDLE"], this->textures["REG_BT_HOVER"], this->textures["REG_BT_HOVER"]);
+	this->buttons["REGISTER_BTN"] = new  ReminderUI::Button(mid, yaw + winY / 30.0f, scale, this->textures["REG_BT_IDLE"], this->textures["REG_BT_HOVER"], this->textures["REG_BT_HOVER"]);
 	this->startPositions["REGISTER_BTN"] = this->buttons["REGISTER_BTN"]->getPos();
 
-	this->buttons["GITHUB_BTN"] = new  ReminderUI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.25, scale, scale, &this->font, sf::String(""), this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
+	this->buttons["GITHUB_BTN"] = new  ReminderUI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.25, scale,
+		this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
 
-	this->buttons["BACK_BTN"] = new  ReminderUI::Button(winY / 18, winY / 18, scale, scale, &this->font, sf::String(""), this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
-	this->buttons["BACK_BTN"]->Hide(1, this->scale);
+	this->buttons["BACK_BTN"] = new  ReminderUI::Button(winY / 18, winY / 18, scale, 
+		this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
+	this->buttons["BACK_BTN"]->Hide(1);
 
 }
 
@@ -323,7 +325,7 @@ void WelcomeScreenState::UpdateButtons()
 	{
 		flag1 = 0;
 		this->animTransit = 1;
-		this->buttons["REGISTER_BTN"]->Hide(1, this->scale);
+		this->buttons["REGISTER_BTN"]->Hide(1);
 
 		this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings)); // для отладки переход
 	}
@@ -338,7 +340,7 @@ void WelcomeScreenState::UpdateButtons()
 
 	if (flag1 and this->buttons["REGISTER_BTN"]->isPressed() and this->getKeyTime() and !this->animTransit and !this->animTransitReverse) // первое нажатие на register
 	{
-		this->buttons["LOGIN_BTN"]->Hide(1, this->scale);
+		this->buttons["LOGIN_BTN"]->Hide(1);
 
 		flag1 = 0;
 		this->animTransit = 1;
@@ -368,8 +370,8 @@ void WelcomeScreenState::UpdateButtons()
 	if (this->buttons["BACK_BTN"]->isPressed() and !this->animTransit and !this->animTransitReverse)
 	{
 		this->animTransitReverse = 1;
-		this->buttons["LOGIN_BTN"]->Hide(0, this->scale);
-		this->buttons["REGISTER_BTN"]->Hide(0, this->scale);
+		this->buttons["LOGIN_BTN"]->Hide(0);
+		this->buttons["REGISTER_BTN"]->Hide(0);
 		flag1 = 1;
 		flag3 = 1;
 
