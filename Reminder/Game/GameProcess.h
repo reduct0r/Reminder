@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <random>
 #include <iostream>
+#include "json/json.h"
 
 namespace Reminder {
 class Card {
@@ -15,6 +16,8 @@ class Card {
   std::string text;
   int number = 0;
   bool failed = false;
+
+  Card(const Card &other) : title(other.title), text(other.text), number(other.number), failed(other.failed) {}
 
   Card(const std::string &title, const std::string &text) : title(title), text(text) {}
 
@@ -62,11 +65,7 @@ class CardPreset {
 
   explicit CardPreset(const std::string &name) : name(name) {}
 
-  CardPreset(const CardPreset &presetForCopy) {
-    preset = presetForCopy.preset;
-    number = presetForCopy.number;
-    name = presetForCopy.name;
-  }
+  CardPreset(const CardPreset &other) : preset(other.preset), name(other.name), number(other.number) {}
 
   int getLength() {
     return preset.size();

@@ -39,8 +39,6 @@ class Database {
 
   UserDAO containsSessionId(const std::string &sessionIdToken);
 
-  int countDatabasePresets(UserDAO &user);
-
   std::vector<CardPreset> getUserPresets(UserDAO &user);
 
   bool deleteUserPreset(const std::string &presetName, UserDAO &user);

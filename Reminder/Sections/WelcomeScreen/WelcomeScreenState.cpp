@@ -332,7 +332,15 @@ void WelcomeScreenState::UpdateButtons() {
   {
     flag3 = 0;
     this->animTransit = 1;
-    std::cout << "READY";
+
+    UserDAO userLogin(this->textboxes["LOGIN"]->getCurrentText(), this->textboxes["PASSWORD"]->getCurrentText());
+    UserDAO existingUserLogin = database.getUser(userLogin);
+
+    if (existingUserLogin.isEmpty()) {
+      // TODO
+    } else {
+      this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
+    }
   }
 
   if (flag1 and this->buttons["REGISTER_BTN"]->isPressed() and this->getKeyTime() and !this->animTransit

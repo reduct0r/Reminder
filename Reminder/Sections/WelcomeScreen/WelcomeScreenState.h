@@ -11,6 +11,8 @@ class WelcomeScreenState :
  private:
   Settings &gfxSettings;
 
+  Reminder::Database database;
+
   sf::Sprite bg;
   sf::Font font;
   sf::Event sfEvent;

@@ -1,6 +1,8 @@
 #pragma once
 #include "SettingsState.h"
 #include "../../State.h"
+#include "../../Game/GameProcess.h"
+
 
 class PresetsMenuState :
     public State {
@@ -12,8 +14,10 @@ class PresetsMenuState :
   sf::Event sfEvent;
   std::map<std::string, ReminderUI::Button *> buttons;
   std::map<std::string, ReminderUI::DropDownList *> dropDownLists;
-  std::map<std::string, sf::Text> textes;
-  std::vector<std::string> presets;
+  std::map<std::string, sf::Text> texts;
+  std::vector<std::string> presetsName;
+  std::vector<Reminder::CardPreset> *userPresets;
+  Reminder::CardPreset *activePreset;
 
   float scale = 1;
   bool startFullScreen = 0;
@@ -25,11 +29,13 @@ class PresetsMenuState :
   void InitButtons();
   void InitTextures();
   void InitSprites();
-  void InitTextes();
+  void InitTexts();
   void InitDropDownLists();
 
  public:
+  PresetsMenuState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings, std::vector<Reminder::CardPreset> *userPresets, Reminder::CardPreset *activePreset);
   PresetsMenuState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings);
+
   virtual ~PresetsMenuState();
 
   void Update(const float &dt);

@@ -4,6 +4,7 @@
 #include "SettingsState.h"
 #include "../PreesetsMenu/PresetsMenuState.h"
 #include "../../State.h"
+#include "../../Game/GameProcess.h"
 
 class MainMenuState :
     public State {
@@ -14,6 +15,8 @@ class MainMenuState :
   sf::Font font;
   sf::Event sfEvent;
   std::map<std::string, ReminderUI::Button *> buttons;
+  std::vector<Reminder::CardPreset> userPresets;
+  Reminder::CardPreset activePreset;
 
   float scale = 1;
   bool startFullScreen = 0;
