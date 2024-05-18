@@ -27,7 +27,7 @@ set(SOURCES
         "Reminder/Auth/Database.cpp"
         "Reminder/Auth/Model/UserDAO.cpp"
         "Reminder/Auth/Service/SessionIdService.cpp"
- "Reminder/Sections/PreesetsMenu/PresetsMenu.cpp" "Reminder/Sections/PreesetsMenu/PresetsMenuState.cpp")
+ "Reminder/Sections/PreesetsMenu/PresetsMenu.cpp" "Reminder/Sections/PreesetsMenu/PresetsMenuState.cpp" "Reminder/Game/GameState.cpp")
 
 set(HEADERS
         "Reminder/Init/H_Init.h"
@@ -44,7 +44,7 @@ set(HEADERS
         "Reminder/Auth/Database.h"
         "Reminder/Auth/Model/UserDAO.h"
         "Reminder/Auth/Service/SessionIdService.h"
- "Reminder/Sections/PreesetsMenu/PresetsMenu.h" "Reminder/Sections/PreesetsMenu/PresetsMenuState.h")
+ "Reminder/Sections/PreesetsMenu/PresetsMenu.h" "Reminder/Sections/PreesetsMenu/PresetsMenuState.h" "Reminder/UI/MultilineTextBox.hpp")
 
 # Файлы для копирования
 if (WIN32)

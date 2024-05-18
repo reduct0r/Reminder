@@ -181,10 +181,24 @@ void MainMenuState::UpdateButtons() {
     this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
   }
 
+
   if (this->buttons["PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
 
     this->states->push(new PresetsMenuState(this->window, this->states, this->gfxSettings));
   }
+
+	if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime())
+	{
+		std::string url = "https://github.com/reduct0r/Reminder";
+
+		#ifdef _WIN32
+			std::string command = "start " + url + ""; // Для Windows
+		#elif __APPLE__
+			std::string command = "open " + url + ""; // Для macOS
+		#endif
+		// Вызываем командную строку сформированной команды
+		system(command.c_str());
+	}
 
 }
 

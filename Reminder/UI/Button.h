@@ -53,8 +53,6 @@ namespace ReminderUI
 		void setId(const short unsigned id);
 		void setText(const sf::String text);
 		void setNewTextures(sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture);
-		
-		bool move(float VelX, float VelY, float distance);
 
 		bool moveA(float scale, sf::Vector2f targetPosition, float distances, sf::Vector2f startPositions, float dir);
 
