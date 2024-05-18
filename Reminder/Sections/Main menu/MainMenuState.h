@@ -5,7 +5,6 @@
 #include "../PreesetsMenu/PresetsMenuState.h"
 #include "../../State.h"
 #include "../../Game/GameProcess.h"
-#include "../../Auth/Database.h"
 
 class MainMenuState :
     public State {
