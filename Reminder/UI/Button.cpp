@@ -255,6 +255,14 @@ void ReminderUI::Button::SmoothAnim_light(float& animSpeed)
  void ReminderUI::Button::Hide(bool flag)
  {
 	 this->hide = flag;
+	 if (flag)
+	 {
+		 this->sprite.setTextureRect(sf::IntRect(0, 0, 0, 0));
+	 }
+	 else
+	 {
+		 this->sprite.setTextureRect(sf::IntRect(sf::Vector2i(0,0), sf::Vector2i(this->sprite.getTexture()->getSize().x, this->sprite.getTexture()->getSize().y)));
+	 }
  }
 
  void ReminderUI::Button::setPos(sf::Vector2f& vector)

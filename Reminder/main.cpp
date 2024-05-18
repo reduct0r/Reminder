@@ -2,6 +2,7 @@
 //#include <pqxx/pqxx>
 #include "Sections/Main menu/MainMenu.h"
 #include "Sections/WelcomeScreen/WelcomeScreen.h"
+#include "UI/MultilineTextBox.hpp"
 
 
 int main()
@@ -14,6 +15,34 @@ int main()
 
 	return 0;
 }
+
+//int main() {
+//    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML TextBox Example");
+//    sf::Font font;
+//    font.loadFromFile("Resources/Fonts/ARIAL.TTF");
+//
+//    MultiLineTextBox textBox(100, 100, 600, 400, font, 24);
+//
+//    sf::Clock clock;
+//    while (window.isOpen()) {
+//        sf::Event event;
+//        while (window.pollEvent(event)) {
+//            if (event.type == sf::Event::Closed)
+//                window.close();
+//            textBox.handleEvent(event);
+//        }
+//
+//        float deltaTime = clock.restart().asSeconds();
+//        textBox.update(deltaTime);
+//
+//        window.clear();
+//        textBox.draw(window);
+//        window.display();
+//    }
+//
+//    return 0;
+//}
+
 
 //
 //#include "tinyfiledialogs.h"
