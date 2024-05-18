@@ -8,6 +8,7 @@
 #include <algorithm>
 #include "Model/UserDAO.h"
 #include "Service/SessionIdService.h"
+#include "../Game/GameProcess.h"
 
 namespace Reminder {
 class Database {
@@ -37,6 +38,14 @@ class Database {
   UserDAO getUser(UserDAO &user);
 
   UserDAO containsSessionId(const std::string &sessionIdToken);
+
+  int countDatabasePresets(UserDAO &user);
+
+  std::vector<CardPreset> getUserPresets(UserDAO &user);
+
+  bool deleteUserPreset(const std::string &presetName, UserDAO &user);
+
+  bool addUserPreset(CardPreset &newCardPreset, UserDAO &user);
 };
 }
 

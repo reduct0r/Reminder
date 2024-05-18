@@ -1,49 +1,42 @@
 #include "MainMenuState.h"
 #include <iostream>
 #include "../WelcomeScreen/WelcomeScreen.h"
-MainMenuState::MainMenuState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings)
-	:State(window, states), gfxSettings(gfxSettings)
-{
-	this->InitTextures();
-	this->InitVars();
-	this->InitSprites();
-	this->InitBG();
-	this->InitFonts();
-	this->InitButtons();
+MainMenuState::MainMenuState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings)
+    : State(window, states), gfxSettings(gfxSettings) {
+  this->InitTextures();
+  this->InitVars();
+  this->InitSprites();
+  this->InitBG();
+  this->InitFonts();
+  this->InitButtons();
 
-	this->startFullScreen = this->gfxSettings.fullscreen;
+  this->startFullScreen = this->gfxSettings.fullscreen;
 }
 
-MainMenuState::~MainMenuState()
-{
-	auto it = this->buttons.begin();
-	for (auto it = this->buttons.begin(); it != this->buttons.end(); ++it)
-	{
-		delete it->second;
-	}
+MainMenuState::~MainMenuState() {
+  auto it = this->buttons.begin();
+  for (auto it = this->buttons.begin(); it != this->buttons.end(); ++it) {
+    delete it->second;
+  }
 }
 
 // INIT
-void MainMenuState::InitVars()
-{
-	this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_MAIN"].getSize().x;
+void MainMenuState::InitVars() {
+  this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_MAIN"].getSize().x;
 }
 
-void MainMenuState::InitBG()
-{
-	float scale = this->scale;
+void MainMenuState::InitBG() {
+  float scale = this->scale;
 
-	this->bg.setScale(sf::Vector2f(scale, scale));
-	this->bg.setTexture(this->textures["BG_MAIN"]);
+  this->bg.setScale(sf::Vector2f(scale, scale));
+  this->bg.setTexture(this->textures["BG_MAIN"]);
 
 }
 
-void MainMenuState::InitFonts()
-{
-	if (!this->font.loadFromFile("Resources/Fonts/ARIAL.ttf"))
-	{
-		throw("WelcomeScreenState: COULD NOT LOAD FONT");
-	}
+void MainMenuState::InitFonts() {
+  if (!this->font.loadFromFile("Resources/Fonts/ARIAL.ttf")) {
+    throw ("WelcomeScreenState: COULD NOT LOAD FONT");
+  }
 }
 
 void MainMenuState::InitButtons()
@@ -73,81 +66,77 @@ void MainMenuState::InitButtons()
 	this->buttons["SETTINGS_BTN1"] = new ReminderUI::Button(mid, yaw + winY / 5.2, scale,  this->textures["SETTINGS"], this->textures["SETTINGS2"], this->textures["SETTINGS2"]);
 }
 
-void MainMenuState::InitTextures()
-{
-	sf::Texture texture;
-	texture.setSmooth(1);
+void MainMenuState::InitTextures() {
+  sf::Texture texture;
+  texture.setSmooth(1);
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/Background.png");
-	this->textures["BG_MAIN"] = texture;
+  texture.loadFromFile("Resources/Textures/UI/Main Menu/Background.png");
+  this->textures["BG_MAIN"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Github icon.png");
-	this->textures["GITHUB_ICON"] = texture;
+  texture.loadFromFile("Resources/Textures/UI/Welcome Screen/Github icon.png");
+  this->textures["GITHUB_ICON"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button.png");
-	this->textures["SETTINGS_ICON"] = texture;
+  texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button.png");
+  this->textures["SETTINGS_ICON"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/Log_out1.png");
-	this->textures["LOG_OUT"] = texture;
+  texture.loadFromFile("Resources/Textures/UI/Main Menu/Log_out1.png");
+  this->textures["LOG_OUT"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/Log_out2.png");
-	this->textures["LOG_OUT2"] = texture;
+  texture.loadFromFile("Resources/Textures/UI/Main Menu/Log_out2.png");
+  this->textures["LOG_OUT2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/start_game_button.png");
-	this->textures["STARTGAME"] = texture;
+  texture.loadFromFile("Resources/Textures/UI/Main Menu/start_game_button.png");
+  this->textures["STARTGAME"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/start_game_button2.png");
-	this->textures["STARTGAME2"] = texture;
+  texture.loadFromFile("Resources/Textures/UI/Main Menu/start_game_button2.png");
+  this->textures["STARTGAME2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/choose_preset_button.png");
-	this->textures["PRESETS"] = texture;
+  texture.loadFromFile("Resources/Textures/UI/Main Menu/choose_preset_button.png");
+  this->textures["PRESETS"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/choose_preset_button2.png");
-	this->textures["PRESETS2"] = texture;
+  texture.loadFromFile("Resources/Textures/UI/Main Menu/choose_preset_button2.png");
+  this->textures["PRESETS2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button1.png");
-	this->textures["SETTINGS"] = texture;
+  texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button1.png");
+  this->textures["SETTINGS"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button2.png");
-	this->textures["SETTINGS2"] = texture;
+  texture.loadFromFile("Resources/Textures/UI/Main Menu/settings_button2.png");
+  this->textures["SETTINGS2"] = texture;
 
-	texture.loadFromFile("Resources/Textures/UI/Main Menu/Logo reminder.png");
-	this->textures["LOGO"] = texture;
-
-}
-
-void MainMenuState::InitSprites()
-{
-	float winX = float(this->window->getSize().x);
-	float winY = float(this->window->getSize().y);
-	float scale = this->scale;
-
-	sf::Sprite sprite;
-	sprite.setScale(scale, scale);
-	sprite.setTexture(this->textures["LOGO"]);
-	sprite.setPosition(winX / 2.0 - this->textures["LOGO"].getSize().x * scale / 2.05, winY / 2.2 - this->textures["LOGO"].getSize().y * scale / 2.0 - winY / 5.0);
-	this->sprites["LOGO"] = sprite;
+  texture.loadFromFile("Resources/Textures/UI/Main Menu/Logo reminder.png");
+  this->textures["LOGO"] = texture;
 
 }
 
+void MainMenuState::InitSprites() {
+  float winX = float(this->window->getSize().x);
+  float winY = float(this->window->getSize().y);
+  float scale = this->scale;
 
-// UPDATE 
-void MainMenuState::Update(const float& dt)
-{
-	this->UpdateMousePos();
-	this->UpdateKeyTime(dt);
-	this->UpdateButtons();
-	this->UpdateEvents();
+  sf::Sprite sprite;
+  sprite.setScale(scale, scale);
+  sprite.setTexture(this->textures["LOGO"]);
+  sprite.setPosition(winX / 2.0 - this->textures["LOGO"].getSize().x * scale / 2.05,
+                     winY / 2.2 - this->textures["LOGO"].getSize().y * scale / 2.0 - winY / 5.0);
+  this->sprites["LOGO"] = sprite;
 
-	if (this->bg.getTexture()->getSize().x * this->scale != this->window->getSize().x)
-	{
-		this->InitTextures();
-		this->InitVars();
-		this->InitSprites();
-		this->InitBG();
-		this->InitFonts();
-		this->InitButtons();
-	}
+}
+
+// UPDATE
+void MainMenuState::Update(const float &dt) {
+  this->UpdateMousePos();
+  this->UpdateKeyTime(dt);
+  this->UpdateButtons();
+  this->UpdateEvents();
+
+  if (this->bg.getTexture()->getSize().x * this->scale != this->window->getSize().x) {
+    this->InitTextures();
+    this->InitVars();
+    this->InitSprites();
+    this->InitBG();
+    this->InitFonts();
+    this->InitButtons();
+  }
 }
 
 void MainMenuState::UpdateButtons()
@@ -183,58 +172,45 @@ void MainMenuState::UpdateButtons()
 
 }
 
-void MainMenuState::UpdateSprites()
-{
+void MainMenuState::UpdateSprites() {
 }
 
-void MainMenuState::UpdateEvents()
-{
-	while (this->window->pollEvent(this->sfEvent))
-	{
-		if (this->sfEvent.type == sf::Event::Closed)
-		{
-			this->window->close();
-		}
-	}
+void MainMenuState::UpdateEvents() {
+  while (this->window->pollEvent(this->sfEvent)) {
+    if (this->sfEvent.type == sf::Event::Closed) {
+      this->window->close();
+    }
+  }
 }
 
-void MainMenuState::UpdateKeyBoardBinds(const float& dt)
-{
-	this->CheckForQuit();
+void MainMenuState::UpdateKeyBoardBinds(const float &dt) {
+  this->CheckForQuit();
 }
-
 
 //RENDER
-void MainMenuState::Render(sf::RenderTarget* target)
-{
-	if (!target)
-	{
-		target = this->window;
-	}
+void MainMenuState::Render(sf::RenderTarget *target) {
+  if (!target) {
+    target = this->window;
+  }
 
-	target->draw(this->bg);
-	this->RenderButtons(target);
-	this->RenderSprites(target);
+  target->draw(this->bg);
+  this->RenderButtons(target);
+  this->RenderSprites(target);
 
 }
 
-void MainMenuState::RenderButtons(sf::RenderTarget* target)
-{
-	for (auto& it : this->buttons)
-	{
-		it.second->Render(target);
-	}
+void MainMenuState::RenderButtons(sf::RenderTarget *target) {
+  for (auto &it : this->buttons) {
+    it.second->Render(target);
+  }
 }
 
-void MainMenuState::RenderSprites(sf::RenderTarget* target)
-{
-	for (auto& it : this->sprites)
-	{
-		target->draw(it.second);
-	}
+void MainMenuState::RenderSprites(sf::RenderTarget *target) {
+  for (auto &it : this->sprites) {
+    target->draw(it.second);
+  }
 }
 
-void MainMenuState::EndState()
-{
-	std::cout << "ENDING...";
+void MainMenuState::EndState() {
+  std::cout << "ENDING...";
 }

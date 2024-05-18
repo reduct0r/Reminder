@@ -1,18 +1,19 @@
-﻿//#include "Sections/WelcomeScreen/H_Welcome_screen.h"
-//#include <pqxx/pqxx>
 #include "Sections/Main menu/MainMenu.h"
 #include "Sections/WelcomeScreen/WelcomeScreen.h"
 
+int main() {
 
-int main()
-{
-	//MainMenu mainMenu;
-	//mainMenu.Run();
+  Reminder::Database database;
 
-	WelcomeScreen welcomeScreen;
-	welcomeScreen.Run();
+  if (database.containsSessionId(SessionIdService::readSessionId()).isEmpty()) {
+    WelcomeScreen welcomeScreen;
+    welcomeScreen.Run();
+  } else {
+    MainMenu mainMenu;
+    mainMenu.Run();
+  }
 
-	return 0;
+  return 0;
 }
 
 //

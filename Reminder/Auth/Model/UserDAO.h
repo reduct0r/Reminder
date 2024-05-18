@@ -17,17 +17,17 @@ class UserDAO {
 
   UserDAO();
 
-  const std::string &GetUsername() const;
+  const std::string &getUsername() const;
 
-  void SetUsername(const std::string &username);
+  void setUsername(const std::string &username);
 
-  const std::string &GetPassword() const;
+  const std::string &getPassword() const;
 
-  void SetPassword(const std::string &password);
+  void setPassword(const std::string &password);
 
-  const std::string &GetSessionId() const;
+  const std::string &getSessionId() const;
 
-  void SetSessionId(const std::string &session_id);
+  void setSessionId(const std::string &session_id);
 
   bool isEmpty();
 
