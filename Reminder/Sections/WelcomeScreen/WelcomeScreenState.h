@@ -56,13 +56,6 @@ public:
 	WelcomeScreenState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings);
 	virtual ~WelcomeScreenState();
 
-
-	void AnimOpenFields();
-	void AnimCloseFields();
-	bool moveA(sf::Sprite& sprite, float VelX, float VelY, float distance) const;
 	void MoveSprites(float dir);
 };
-
-
-
 #endif

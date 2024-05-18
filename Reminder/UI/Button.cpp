@@ -1,8 +1,8 @@
-#include "Button.h"
+﻿#include "Button.h"
 #include <iostream>
 #include <unordered_map>
 
-ReminderUI::Button::Button(float x, float y, float width, float height, sf::Font* font, sf::String text, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture)
+ReminderUI::Button::Button(float x, float y, float scale, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture)
 {
 	this->id = 0;
 	this->needAnim = 1;
@@ -14,16 +14,8 @@ ReminderUI::Button::Button(float x, float y, float width, float height, sf::Font
 
 	this->sprite.setTexture(this->idleTexture);
 	this->sprite.setPosition(sf::Vector2f(x, y));
-	this->sprite.setScale(width, height);
+	this->sprite.setScale(scale, scale);
 
-	this->text.setFont(*this->font);
-	this->text.setString(text);
-	this->text.setColor(sf::Color::Black);
-	this->text.setCharacterSize(16);
-	this->text.setPosition(
-		this->sprite.getPosition().x + (this->sprite.getGlobalBounds().width / 2.0) - this->text.getGlobalBounds().width / 2.0,
-		this->sprite.getPosition().y + (this->sprite.getGlobalBounds().height / 2.0)  - this->text.getGlobalBounds().height / 1.5
-	);
 }
 
 ReminderUI::Button::Button(bool needAnim, float fontSize, float x, float y, float width, float height, sf::Font* font, sf::String text,
@@ -134,93 +126,50 @@ void ReminderUI::Button::setNewTextures(sf::Texture idleTexture, sf::Texture hov
 	this->pressedTexture = pressedTexture;
 }
 
-bool ReminderUI::Button::move(float VelX, float VelY, float distance)
+bool ReminderUI::Button::moveA(float scale, sf::Vector2f targetPosition, float distances, sf::Vector2f startPositions, float dir)
 {
-	static float accumulatedDistance = 0.0f; // ���������������� ���������� �����������
-	static bool init = true; // ���������� ��� ������������� ��� ����������� ��������
-	static sf::Vector2f initialPos; // ��������� ������� ������
+	bool allButtonsAtTarget = true;
 
-	// ��������� ��������� ��������� � ������������
-	if (init)
+	if (dir == -1)
 	{
-		initialPos = sprite.getPosition();
-		accumulatedDistance = 0.0f;
-		init = false;
+		startPositions = sf::Vector2f(startPositions.x, startPositions.y + distances * targetPosition.y / abs(targetPosition.y));
 	}
 
-	// ��������� ����������� �������� �� ������� ����
-	float moveX = VelX * this->dt;
-	float moveY = VelY * this->dt;
-	float frameDistance = std::sqrt(moveX * moveX + moveY * moveY); // ����������, ���������� �� �����
+	sf::Vector2f vectorBetweenPoints = this->sprite.getPosition() - startPositions;
+	float distanceS = std::hypot(vectorBetweenPoints.x, vectorBetweenPoints.y);
 
-	// ���������, �� ��������� �� �� ����� ����������
-	if (accumulatedDistance + frameDistance >= distance)
+	if (distanceS <= distances)
 	{
-		// �������������� ���, ���� �� ��������� ������
-		float lastStep = distance - accumulatedDistance; // ���������� ���������� ��� �����������
-		float factor = lastStep / frameDistance; // ������ ���������� ���������� ����
-		sprite.move(moveX * factor, moveY * factor); // ���������� ������ �� ���������� ����������
-		accumulatedDistance = distance; // ��������� ����������� ����������
-		init = true; // ���������� ������ ��� ����� ������� ��������
-		return 1;
+		allButtonsAtTarget = false;
+
+		sf::Vector2f direction = targetPosition;
+		float acceleration = 16 * scale * abs(distances - distanceS);
+		if (acceleration < 5)
+		{
+			acceleration = 5;
+		}
+		float speed = acceleration * this->dt;
+
+		if (distances > speed)
+		{
+			direction /= distances;
+			this->sprite.move(direction * speed * dir);
+		}
+		else
+		{
+			this->sprite.setPosition(targetPosition);
+		}
 	}
-	else
+
+	if (allButtonsAtTarget)
 	{
-		sprite.move(moveX, moveY); // ���������� ������
-		accumulatedDistance += frameDistance; // ��������� ����������� ����������
+		// return 1;
+		// something return
 	}
+
+	return 1;
+
 }
-	// NEW
-	bool ReminderUI::Button::moveA(float scale, sf::Vector2f targetPosition, float distances, sf::Vector2f startPositions, float dir)
-	{
-		bool allButtonsAtTarget = true;
-		//targetPosition *= dir;
-
-		if (dir == -1)
-		{
-			startPositions = sf::Vector2f(startPositions.x, startPositions.y + distances * targetPosition.y / abs(targetPosition.y));
-		}
-
-
-		sf::Vector2f vectorBetweenPoints = this->sprite.getPosition() - startPositions;
-		float distanceS = std::hypot(vectorBetweenPoints.x, vectorBetweenPoints.y);
-		std::cout << "BYN -> " << distanceS << " BTN \n";
-
-
-		if (distanceS <= distances)
-		{
-			allButtonsAtTarget = false;
-
-			sf::Vector2f direction = targetPosition;
-			// ��������� � ���������� ��� ��������
-			float acceleration = 16 * scale * abs(distances - distanceS);
-			if (acceleration < 5)
-			{
-				acceleration = 5;
-			}
-			float speed = acceleration * this->dt;
-
-			if (distances > speed)
-			{
-				direction /= distances;
-				this->sprite.move(direction * speed * dir);
-			}
-			else
-			{
-				this->sprite.setPosition(targetPosition);
-			}
-		}
-
-		if (allButtonsAtTarget)
-		{
-			std::cout << "DONE BTN";
-		}
-
-		return 1;
-
-	}
-
-
 
 const bool ReminderUI::Button::isPressed() const
 {
@@ -243,68 +192,69 @@ const short unsigned& ReminderUI::Button::getId() const
 
 void ReminderUI::Button::Render(sf::RenderTarget* target) const
 {
-	target->draw(this->sprite);
-	target->draw(this->text);
+	if (!this->hide)
+	{
+		target->draw(this->sprite);
+		target->draw(this->text);
+	}
 }
 
 void ReminderUI::Button::SmoothAnim_black(float& animSpeed)
 {
 
-    if (this->alpha > 0 and !this->changedButton)
-    {
-        this->alpha -= animSpeed; // ��������� ���������� ������� �� ��������
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // ��������� ����� ������������ �������
-        this->procAnim = 1;
-        this->changedButton = 0;
-    }
-    else if (this->alpha == 0)
-    {
-        this->sprite.setTexture(this->hoveredTexture);
-        this->alpha = 255;
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
-        this->changedButton = 1;
-        this->procAnim = 0;
-    }
-    if (this->procAnim and this->changedButton and this->alpha < 255)
-    {
-        this->alpha += animSpeed;
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // ��������� ����� ������������ �������
-        if (this->alpha == 255) { this->procAnim = 0; }
-    }
+	if (this->alpha > 0 and !this->changedButton)
+	{
+		this->alpha -= animSpeed; // Изменение затемнения спрайта со временем
+		this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
+		this->procAnim = 1;
+		this->changedButton = 0;
+	}
+	else if (this->alpha == 0)
+	{
+		this->sprite.setTexture(this->hoveredTexture);
+		this->alpha = 255;
+		this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
+		this->changedButton = 1;
+		this->procAnim = 0;
+	}
+	if (this->procAnim and this->changedButton and this->alpha < 255)
+	{
+		this->alpha += animSpeed;
+		this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
+		if (this->alpha == 255) { this->procAnim = 0; }
+	}
 
 }
 
- void ReminderUI::Button::SmoothAnim_light(float& animSpeed)
- {
-    if (this->procAnim and !this->changedButton) // ������� ������ �������� ����������
-    {
-        this->alpha += animSpeed;
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // ��������� ����� ������������ �������
-        if (this->alpha == 255) { this->procAnim = 0; }
-    }
+void ReminderUI::Button::SmoothAnim_light(float& animSpeed)
+{
+	if (this->procAnim and !this->changedButton) // Плавная отмена анимации затемнения
+	{
+		this->alpha += animSpeed;
+		this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255)); // Установка новой прозрачности спрайта
+		if (this->alpha == 255) { this->procAnim = 0; }
+	}
 
-    if (this->alpha > 0 and this->changedButton) // ��������� �������
-    {
-        this->alpha -= animSpeed;
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
-        this->procAnim = 1;
-        if (this->alpha == 0) { this->procAnim = 0; }
-    }
+	if (this->alpha > 0 and this->changedButton) // Затемняем нажатую
+	{
+		this->alpha -= animSpeed;
+		this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
+		this->procAnim = 1;
+		if (this->alpha == 0) { this->procAnim = 0; }
+	}
 
-    else if (this->alpha < 255 and !this->procAnim) // ���������� ������� ������
-    {
-        this->alpha += animSpeed;
-        this->sprite.setTexture(this->idleTexture);
-        this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
-        this->changedButton = 0;
-    }
+	else if (this->alpha < 255 and !this->procAnim) // Возвращаем зеленую плавно
+	{
+		this->alpha += animSpeed;
+		this->sprite.setTexture(this->idleTexture);
+		this->sprite.setColor(sf::Color(this->alpha, this->alpha, this->alpha, 255));
+		this->changedButton = 0;
+	}
 }
 
- void ReminderUI::Button::Hide(bool flag, float CurrScale)
+ void ReminderUI::Button::Hide(bool flag)
  {
-     static float scaleX = this->sprite.getScale().x;
-	 float scale = CurrScale * !flag ;
-     this->sprite.setScale(scale, scale);
+	 this->hide = flag;
  }
 
  void ReminderUI::Button::setPos(sf::Vector2f& vector)

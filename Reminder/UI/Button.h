@@ -15,6 +15,7 @@ namespace ReminderUI
 		short unsigned id = 0;
 
 		float alpha = 255;
+		bool hide = 0;
 		bool changedButton = 0;
 		bool procAnim = 0;
 		bool needAnim = 1;
@@ -33,7 +34,7 @@ namespace ReminderUI
 	public:
 		float animSpeed = 8.5;
 
-		Button(float x, float y, float width, float height, sf::Font* font, sf::String text, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture);
+		Button(float x, float y, float scale, sf::Texture idleTexture, sf::Texture hoveredTexture, sf::Texture pressedTexture);
 		Button(bool needAnim, float fontSize, float x, float y, float width, float height, sf::Font* font, sf::String text, sf::Texture idleTexture, sf::Texture hoveredTexture,
 			sf::Texture pressedTexture, short unsigned id = 0);
 		~Button();
@@ -46,7 +47,7 @@ namespace ReminderUI
 		void SmoothAnim_black(float& animSpeed);
 		void SmoothAnim_light(float& animSpeed);
 
-		void Hide(bool flag, float scale);
+		void Hide(bool flag);
 		void setPos(sf::Vector2f& vector);
 		void setPos(float x, float y);
 		void setId(const short unsigned id);
