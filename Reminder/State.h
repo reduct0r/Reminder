@@ -1,7 +1,7 @@
 #ifndef STATE_H
 #define STATE_H
 
-/* Основной класс состояния */
+/* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 
 #include<vector>
 #include<map>
@@ -16,42 +16,41 @@
 #include "../../UI/TextBox.h"
 #include"Settings.h"
 
-class State
-{
-private:
+class State {
+ private:
 
-protected:
-	sf::RenderWindow* window;									// Текущее окно
-	std::map<std::string,sf::Texture> textures;					// Набор текстур для текущего стейта
-	std::unordered_map<std::string, sf::Sprite> sprites;		// Набор спрайтов для текущего стейта, не включая background
-												
-
-	sf::Vector2i MousePosScreen;
-	sf::Vector2i MousePosWindow;
-	sf::Vector2f MousePosView;
-
-	std::stack<State*>* states;									//orig
-
-	bool ToQuit;												// Выход?
-	float keyTime;
-	float keyTimeMax;
-
-public:
-	State(sf::RenderWindow* window, std::stack<State*>* states);				// Конструктор
-	virtual ~State();															// Деструктор
-
-	const bool getQuit() const;						
-	const bool getKeyTime();
+ protected:
+  sf::RenderWindow *window;                                    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+  std::map<std::string, sf::Texture> textures;                    // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
+  std::unordered_map<std::string, sf::Sprite>
+      sprites;        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ background
 
 
-	virtual void Update(const float& dt) = 0;						// Обновление (опрос)
-	virtual void Render(sf::RenderTarget* target = nullptr) = 0;	// Рендер
-	virtual void UpdateKeyBoardBinds(const float& dt) = 0;			// Клавиши
-	virtual void UpdateMousePos();
-	virtual void UpdateKeyTime(const float& dt);
+  sf::Vector2i MousePosScreen;
+  sf::Vector2i MousePosWindow;
+  sf::Vector2f MousePosView;
 
-	virtual void CheckForQuit();					// Выйти?						
-	virtual void EndState();						// Стейт выхода
+  std::stack<State *> *states;                                    //orig
+
+  bool ToQuit;                                                // пїЅпїЅпїЅпїЅпїЅ?
+  float keyTime;
+  float keyTimeMax;
+
+ public:
+  State(sf::RenderWindow *window, std::stack<State *> *states);                // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+  virtual ~State();                                                            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+
+  const bool getQuit() const;
+  const bool getKeyTime();
+
+  virtual void Update(const float &dt) = 0;                        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅпїЅпїЅпїЅпїЅ)
+  virtual void Render(sf::RenderTarget *target = nullptr) = 0;    // пїЅпїЅпїЅпїЅпїЅпїЅ
+  virtual void UpdateKeyBoardBinds(const float &dt) = 0;            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+  virtual void UpdateMousePos();
+  virtual void UpdateKeyTime(const float &dt);
+
+  virtual void CheckForQuit();                    // пїЅпїЅпїЅпїЅпїЅ?
+  virtual void EndState();                        // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 
 };
 

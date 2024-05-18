@@ -95,9 +95,11 @@ class CardPreset {
   std::string name;
   int number = 0;
 
+  CardPreset() : number(0) {}
+
   explicit CardPreset(const std::string &name) : name(name) {}
 
-  CardPreset(CardPreset &presetForCopy) {
+  CardPreset(const CardPreset &presetForCopy) {
     preset = presetForCopy.preset;
     number = presetForCopy.number;
     name = presetForCopy.name;
@@ -148,6 +150,38 @@ class CardPreset {
   void clear() {
     preset.clear();
     number = 0;
+  }
+
+  std::string toJson() {
+    Json::Value root;
+    Json::StreamWriterBuilder builder;
+    std::ostringstream os;
+
+    root["presetName"] = this->name;
+
+    Json::Value cards(Json::arrayValue);
+    for (const auto &card : this->preset) {
+      Json::Value cardJson;
+      cardJson["title"] = card.title;
+      cardJson["cardId"] = card.number;
+      cardJson["description"] = card.text;
+      cards.append(cardJson);
+    }
+    root["cards"] = cards;
+
+    std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
+    writer->write(root, &os);
+    return os.str();
+  }
+
+  const std::vector<Card> &getPreset() const {
+    return preset;
+  }
+  const std::string &getName() const {
+    return name;
+  }
+  int getNumber() const {
+    return number;
   }
 
 };

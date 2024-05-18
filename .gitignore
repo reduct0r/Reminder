@@ -412,3 +412,4 @@ out/
 
 CMakeUserPresets.json
 vcpkg-configuration.json
+/Reminder/Auth/sessionId.txt
