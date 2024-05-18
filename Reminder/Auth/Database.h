@@ -43,7 +43,7 @@ class Database {
 
   std::vector<CardPreset> getUserPresets(UserDAO &user);
 
-  bool deletePreset(const std::string& presetName, UserDAO& user);
+  bool deleteUserPreset(const std::string &presetName, UserDAO &user);
 
   bool addUserPreset(CardPreset &newCardPreset, UserDAO &user);
 };

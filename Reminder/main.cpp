@@ -3,20 +3,22 @@
 #include "Sections/Main menu/MainMenu.h"
 #include "Sections/WelcomeScreen/WelcomeScreen.h"
 
+int main() {
 
-int main()
-{
-	//ShowWelcomeScreen();
+  Reminder::Database database;
 
-	//MainMenu mainMenu;
-	//mainMenu.Run();
+  if (database.containsSessionId(SessionIdService::readSessionId()).isEmpty()) {
+    WelcomeScreen welcomeScreen;
+    welcomeScreen.Run();
+  } else {
+    MainMenu mainMenu;
+    mainMenu.Run();
+  }
 
-	WelcomeScreen welcomeScreen;
 
 
-	welcomeScreen.Run();
 
-	return 0;
+  return 0;
 }
 
 //

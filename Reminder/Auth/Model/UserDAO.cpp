@@ -1,21 +1,21 @@
 #include "UserDAO.h"
 
-const std::string &UserDAO::GetUsername() const {
+const std::string &UserDAO::getUsername() const {
   return username;
 }
-void UserDAO::SetUsername(const std::string &username) {
+void UserDAO::setUsername(const std::string &username) {
   UserDAO::username = username;
 }
-const std::string &UserDAO::GetPassword() const {
+const std::string &UserDAO::getPassword() const {
   return password;
 }
-void UserDAO::SetPassword(const std::string &password) {
+void UserDAO::setPassword(const std::string &password) {
   UserDAO::password = password;
 }
-const std::string &UserDAO::GetSessionId() const {
+const std::string &UserDAO::getSessionId() const {
   return sessionId;
 }
-void UserDAO::SetSessionId(const std::string &session_id) {
+void UserDAO::setSessionId(const std::string &session_id) {
   sessionId = session_id;
 }
 
@@ -23,9 +23,8 @@ UserDAO::UserDAO(const std::string &username, const std::string &password, const
     username), password(password), sessionId(session_id) {}
 
 UserDAO::UserDAO(const std::string &username, const std::string &password) : username(username), password(password) {}
-UserDAO::UserDAO() {
 
-}
+UserDAO::UserDAO() {}
 
 bool UserDAO::isEmpty() {
   return (username == "" && password == "");

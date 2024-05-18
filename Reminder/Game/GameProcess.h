@@ -125,8 +125,8 @@ class CardPreset {
     Json::Value cards(Json::arrayValue);
     for (const auto &card : this->preset) {
       Json::Value cardJson;
-      cardJson["cardId"] = card.number;
       cardJson["title"] = card.title;
+      cardJson["cardId"] = card.number;
       cardJson["description"] = card.text;
       cards.append(cardJson);
     }
@@ -135,6 +135,16 @@ class CardPreset {
     std::unique_ptr<Json::StreamWriter> writer(builder.newStreamWriter());
     writer->write(root, &os);
     return os.str();
+  }
+
+  const std::vector<Card> &getPreset() const {
+    return preset;
+  }
+  const std::string &getName() const {
+    return name;
+  }
+  int getNumber() const {
+    return number;
   }
 
 };
