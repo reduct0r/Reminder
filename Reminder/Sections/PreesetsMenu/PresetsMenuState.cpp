@@ -11,7 +11,31 @@ PresetsMenuState::PresetsMenuState(sf::RenderWindow *window, std::stack<State *>
   this->InitFonts();
   this->InitButtons();
   this->InitDropDownLists();
-  this->InitTextes();
+  this->InitTexts();
+
+  this->startFullScreen = this->gfxSettings.fullscreen;
+}
+
+PresetsMenuState::PresetsMenuState(sf::RenderWindow *window,
+                                   std::stack<State *> *states,
+                                   Settings &gfxSettings,
+                                   std::vector<Reminder::CardPreset> *userPresets,
+                                   Reminder::CardPreset *activePreset,
+                                   Reminder::Database *database,
+                                   UserDAO *existingUser) : State(window, states),
+                                                            gfxSettings(gfxSettings),
+                                                            userPresets(userPresets),
+                                                            activePreset(activePreset),
+                                                            database(database),
+                                                            existingUser(existingUser) {
+  this->InitTextures();
+  this->InitVars();
+  this->InitSprites();
+  this->InitBG();
+  this->InitFonts();
+  this->InitButtons();
+  this->InitDropDownLists();
+  this->InitTexts();
 
   this->startFullScreen = this->gfxSettings.fullscreen;
 }
@@ -26,8 +50,14 @@ PresetsMenuState::~PresetsMenuState() {
 // INIT
 void PresetsMenuState::InitVars() {
   this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_PRESETS"].getSize().x;
-
-  this->presets = {"Choose preset", "PRESET1", "PRESET2", "PRESET3", "PRESET4"};
+  if (!userPresets->empty()) {
+    presetsName.push_back("Choose Preset");
+    for (auto &preset : *userPresets) {
+      presetsName.push_back(preset.getName());
+    }
+  } else {
+    this->presetsName = {"No presets"};
+  }
 }
 
 void PresetsMenuState::InitBG() {
@@ -175,21 +205,21 @@ void PresetsMenuState::InitDropDownLists() {
                                                                          * scale / 2 * 0.9,
                                                                      &this->font,
                                                                      25,
-                                                                     this->presets,
+                                                                     this->presetsName,
                                                                      this->textures["DDL_SECOND"],
                                                                      this->textures["DDL_SECOND_HOVER"],
                                                                      this->textures["DDL_SECOND"]);
   this->dropDownLists["PRESETS_LIST"]->Hide(1);
 }
 
-void PresetsMenuState::InitTextes() {
+void PresetsMenuState::InitTexts() {
   sf::Text text;
   text.setFont(this->font);
-  text.setColor(sf::Color::Black);
+  text.setFillColor(sf::Color::Black);
   text.setCharacterSize(this->scale * 40);
-  text.setPosition(this->window->getSize().x / 2.6, this->window->getSize().y / 2.62);
-  text.setString(std::to_string(this->presets.size() - 1));
-  this->textes["COUNTER_TXT"] = text;
+  text.setPosition(this->window->getSize().x / 2.57, this->window->getSize().y / 2.63);
+  text.setString(std::to_string(this->presetsName.size() - 1));
+  this->texts["COUNTER_TXT"] = text;
 }
 
 // UPDATE
@@ -208,7 +238,7 @@ void PresetsMenuState::Update(const float &dt) {
     this->InitFonts();
     this->InitButtons();
     this->InitDropDownLists();
-    this->InitTextes();
+    this->InitTexts();
   }
 }
 
@@ -241,7 +271,7 @@ void PresetsMenuState::UpdateButtons() {
     this->buttons["MY_PRESETS_BTN"]->setText("\n\nClick to return");
     this->dropDownLists["PRESETS_LIST"]->Hide(0);
 
-    this->textes["COUNTER_TXT"].move(-this->scale * 280, 0);
+    this->texts["COUNTER_TXT"].move(-this->scale * 280, 0);
 
     this->buttons["DELETE_BTN"]->Hide(0);
     this->buttons["PREVIEW_BTN"]->Hide(0);
@@ -257,26 +287,32 @@ void PresetsMenuState::UpdateButtons() {
     this->InitDropDownLists();
     this->dropDownLists["PRESETS_LIST"]->Hide(1);
 
-    this->textes["COUNTER_TXT"].move(this->scale * 280, 0);
+    this->texts["COUNTER_TXT"].move(this->scale * 280, 0);
 
     this->buttons["DELETE_BTN"]->Hide(1);
     this->buttons["PREVIEW_BTN"]->Hide(1);
     this->buttons["IMPORT_BTN"]->Hide(1);
   }
 
-  // �������� �������
   if (this->buttons["DELETE_BTN"]->isPressed() and this->getKeyTime()) {
     int indexToRemove = this->dropDownLists["PRESETS_LIST"]->getActiveElementId();
-    if (indexToRemove >= 0 and indexToRemove < this->presets.size() and indexToRemove != 0) {
-      this->presets.erase(this->presets.begin() + indexToRemove);
+    if (indexToRemove > 0 and indexToRemove < this->presetsName.size()) {
+      database->deleteUserPreset(userPresets->at(indexToRemove - 1).getName(), *existingUser);
+      this->presetsName.erase(this->presetsName.begin() + indexToRemove);
     }
 
-    //this->presets												// ������ � ���������
-    //[this->dropDownLists["PRESETS_LIST"]->getActiveElementId()];	// ������ �������� � ������ ��������
-    this->InitDropDownLists();                                        // ����������������� ������ ������
-    this->InitTextes();
-    this->textes["COUNTER_TXT"].move(-this->scale * 280, 0);
+    this->InitDropDownLists();
+    this->InitTexts();
+    this->texts["COUNTER_TXT"].move(-this->scale * 280, 0);
     this->dropDownLists["PRESETS_LIST"]->Hide(0);
+  }
+
+  if (this->buttons["PREVIEW_BTN"]->isPressed() and this->getKeyTime()) {
+    int indexToRemove = this->dropDownLists["PRESETS_LIST"]->getActiveElementId();
+
+    if (indexToRemove > 0) {
+      activePreset = &userPresets->at(this->dropDownLists["PRESETS_LIST"]->getActiveElementId() - 1);
+    }
   }
 
 }
@@ -329,7 +365,7 @@ void PresetsMenuState::RenderDropDownLists(sf::RenderTarget *target) {
 }
 
 void PresetsMenuState::RenderTextes(sf::RenderTarget *target) {
-  for (auto &it : this->textes) {
+  for (auto &it : this->texts) {
     target->draw(it.second);
   }
 }
