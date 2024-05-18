@@ -20,8 +20,14 @@ PresetsMenuState::PresetsMenuState(sf::RenderWindow *window,
                                    std::stack<State *> *states,
                                    Settings &gfxSettings,
                                    std::vector<Reminder::CardPreset> *userPresets,
-                                   Reminder::CardPreset *activePreset)
-    : State(window, states), gfxSettings(gfxSettings), userPresets(userPresets), activePreset(activePreset) {
+                                   Reminder::CardPreset *activePreset,
+                                   Reminder::Database *database,
+                                   UserDAO *existingUser) : State(window, states),
+                                                            gfxSettings(gfxSettings),
+                                                            userPresets(userPresets),
+                                                            activePreset(activePreset),
+                                                            database(database),
+                                                            existingUser(existingUser) {
   this->InitTextures();
   this->InitVars();
   this->InitSprites();
@@ -288,16 +294,14 @@ void PresetsMenuState::UpdateButtons() {
     this->buttons["IMPORT_BTN"]->Hide(1);
   }
 
-  // �������� �������
   if (this->buttons["DELETE_BTN"]->isPressed() and this->getKeyTime()) {
     int indexToRemove = this->dropDownLists["PRESETS_LIST"]->getActiveElementId();
     if (indexToRemove > 0 and indexToRemove < this->presetsName.size()) {
+      database->deleteUserPreset(userPresets->at(indexToRemove - 1).getName(), *existingUser);
       this->presetsName.erase(this->presetsName.begin() + indexToRemove);
     }
 
-    //this->presetsName												// ������ � ���������
-    //[this->dropDownLists["PRESETS_LIST"]->getActiveElementId()];	// ������ �������� � ������ ��������
-    this->InitDropDownLists();                                        // ����������������� ������ ������
+    this->InitDropDownLists();
     this->InitTexts();
     this->texts["COUNTER_TXT"].move(-this->scale * 280, 0);
     this->dropDownLists["PRESETS_LIST"]->Hide(0);

@@ -204,7 +204,7 @@ bool Database::deleteUserPreset(const std::string &presetName, UserDAO &user) {
         "UPDATE users\n"
         "SET presets = (\n"
         "    SELECT jsonb_agg(elem) \n"
-        "    FROM jsonb_array_elements(presetsName) elem\n"
+        "    FROM jsonb_array_elements(presets) elem\n"
         "    WHERE elem->>'presetName' <> \'" + presetName + "\'\n"
         ")\n"
         "WHERE username = \'" + user.getUsername() + "\';";
