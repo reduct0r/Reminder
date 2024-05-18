@@ -35,7 +35,13 @@ class PresetsMenuState :
   void InitDropDownLists();
 
  public:
-  PresetsMenuState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings, std::vector<Reminder::CardPreset> *userPresets, Reminder::CardPreset *activePreset, Reminder::Database *database, UserDAO *existingUser);
+  PresetsMenuState(sf::RenderWindow *window,
+                   std::stack<State *> *states,
+                   Settings &gfxSettings,
+                   std::vector<Reminder::CardPreset> *userPresets,
+                   Reminder::CardPreset *activePreset,
+                   Reminder::Database *database,
+                   UserDAO *existingUser);
   PresetsMenuState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings);
 
   virtual ~PresetsMenuState();
