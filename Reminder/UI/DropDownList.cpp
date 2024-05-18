@@ -84,6 +84,11 @@ void ReminderUI::DropDownList::UpdateKeyTime(const float& dt)
 	}
 }
 
+void ReminderUI::DropDownList::Hide(bool flag)
+{
+	this->activeElement->Hide(flag);
+}
+
 void ReminderUI::DropDownList::Render(sf::RenderTarget* target) const
 {
 	this->activeElement->Render(target);

@@ -1,5 +1,3 @@
-﻿//#include "Sections/WelcomeScreen/H_Welcome_screen.h"
-//#include <pqxx/pqxx>
 #include "Sections/Main menu/MainMenu.h"
 #include "Sections/WelcomeScreen/WelcomeScreen.h"
 
@@ -14,9 +12,6 @@ int main() {
     MainMenu mainMenu;
     mainMenu.Run();
   }
-
-
-
 
   return 0;
 }

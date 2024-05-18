@@ -39,74 +39,31 @@ void MainMenuState::InitFonts() {
   }
 }
 
-void MainMenuState::InitButtons() {
-  float winX = float(this->window->getSize().x);
-  float winY = float(this->window->getSize().y);
+void MainMenuState::InitButtons()
+{
+	float winX = float(this->window->getSize().x);
+	float winY = float(this->window->getSize().y);
 
-  float scale = this->scale;
+	float scale = this->scale;
 
-  this->buttons["GITHUB_BTN"] =
-      new ReminderUI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0,
-                             winY / 1.25,
-                             scale,
-                             scale,
-                             &this->font,
-                             sf::String(""),
-                             this->textures["GITHUB_ICON"],
-                             this->textures["GITHUB_ICON"],
-                             this->textures["GITHUB_ICON"]);
-  this->buttons["SETTINGS_BTN"] = new ReminderUI::Button(winX - winX / 15,
-                                                         winY / 50,
-                                                         scale,
-                                                         scale,
-                                                         &this->font,
-                                                         sf::String(""),
-                                                         this->textures["SETTINGS_ICON"],
-                                                         this->textures["SETTINGS_ICON"],
-                                                         this->textures["SETTINGS_ICON"]);
+	this->buttons["GITHUB_BTN"] = new ReminderUI::Button(winX / 2.0 - this->textures["GITHUB_ICON"].getSize().x * scale / 2.0, winY / 1.25, scale,
+		this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"], this->textures["GITHUB_ICON"]);
 
-  this->buttons["LOGOUT_BTN"] = new ReminderUI::Button(winX / 10 - this->textures["LOG_OUT"].getSize().x * scale / 2.0,
-                                                       winY * 0.05,
-                                                       scale,
-                                                       scale,
-                                                       &this->font,
-                                                       sf::String(""),
-                                                       this->textures["LOG_OUT"],
-                                                       this->textures["LOG_OUT2"],
-                                                       this->textures["LOG_OUT2"]);
+	this->buttons["SETTINGS_BTN"] = new ReminderUI::Button(winX - winX / 15, winY / 50, scale,
+		this->textures["SETTINGS_ICON"], this->textures["SETTINGS_ICON"], this->textures["SETTINGS_ICON"]);
 
-  float mid = winX / 2.0 - this->textures["STARTGAME"].getSize().x * scale / 2.0;
-  float yaw = winY / 2.0 - this->textures["STARTGAME"].getSize().y * scale / 2.0;
+	this->buttons["LOGOUT_BTN"] = new ReminderUI::Button(winX / 10 - this->textures["LOG_OUT"].getSize().x * scale / 2.0, winY * 0.05, scale,
+		this->textures["LOG_OUT"], this->textures["LOG_OUT2"], this->textures["LOG_OUT2"]);
 
-  this->buttons["GAME_BTN"] = new ReminderUI::Button(mid,
-                                                     yaw - winY * 0.05,
-                                                     scale,
-                                                     scale,
-                                                     &this->font,
-                                                     sf::String(""),
-                                                     this->textures["STARTGAME"],
-                                                     this->textures["STARTGAME2"],
-                                                     this->textures["STARTGAME2"]);
 
-  this->buttons["PRESETS_BTN"] = new ReminderUI::Button(mid,
-                                                        yaw + winY / 14.0,
-                                                        scale,
-                                                        scale,
-                                                        &this->font,
-                                                        sf::String(""),
-                                                        this->textures["PRESETS"],
-                                                        this->textures["PRESETS2"],
-                                                        this->textures["PRESETS2"]);
+	float mid = winX / 2.0 - this->textures["STARTGAME"].getSize().x * scale / 2.0;
+	float yaw = winY / 2.0 - this->textures["STARTGAME"].getSize().y * scale / 2.0;
 
-  this->buttons["SETTINGS_BTN1"] = new ReminderUI::Button(mid,
-                                                          yaw + winY / 5.2,
-                                                          scale,
-                                                          scale,
-                                                          &this->font,
-                                                          sf::String(""),
-                                                          this->textures["SETTINGS"],
-                                                          this->textures["SETTINGS2"],
-                                                          this->textures["SETTINGS2"]);
+	this->buttons["GAME_BTN"] = new ReminderUI::Button(mid, yaw - winY * 0.05, scale, this->textures["STARTGAME"], this->textures["STARTGAME2"], this->textures["STARTGAME2"]);
+
+	this->buttons["PRESETS_BTN"] = new ReminderUI::Button(mid, yaw + winY / 14.0, scale, this->textures["PRESETS"], this->textures["PRESETS2"], this->textures["PRESETS2"]);
+
+	this->buttons["SETTINGS_BTN1"] = new ReminderUI::Button(mid, yaw + winY / 5.2, scale,  this->textures["SETTINGS"], this->textures["SETTINGS2"], this->textures["SETTINGS2"]);
 }
 
 void MainMenuState::InitTextures() {
@@ -182,37 +139,37 @@ void MainMenuState::Update(const float &dt) {
   }
 }
 
-void MainMenuState::UpdateButtons() {
-  for (auto &it : this->buttons) {
-    it.second->Update(this->MousePosView);
-  }
+void MainMenuState::UpdateButtons()
+{
+	for (auto& it : this->buttons)
+	{
+		it.second->Update(this->MousePosView);
+	}
 
-  /* Обработка кнопок */
-  if (this->buttons["SETTINGS_BTN"]->isPressed() and this->getKeyTime()) {
-    this->states->push(new SettingsState(this->window, this->states, this->gfxSettings));
-  }
+	/* Обработка кнопок */
+	if (this->buttons["SETTINGS_BTN"]->isPressed() and this->getKeyTime())
+	{
+		this->states->push(new SettingsState(this->window, this->states, this->gfxSettings));
+	}
+	if (this->buttons["SETTINGS_BTN1"]->isPressed() and this->getKeyTime())
+	{
+		this->states->push(new SettingsState(this->window, this->states, this->gfxSettings));
+	}
 
-  if (this->buttons["LOGOUT_BTN"]->isPressed() and this->getKeyTime()) {
-    if (SessionIdService::deleteSessionId()) {
-      this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
-    } else {
-      // Hz
-    }
+	if (this->buttons["LOGOUT_BTN"]->isPressed() and this->getKeyTime())
+	{
+		// ВЫЙТИ ИХЗ АККА
 
-    //if (!this->states->empty()) {
-    //	delete this->states->top();
-    //	this->states->pop();
-    //}
+		this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
+	}
+
+	if (this->buttons["PRESETS_BTN"]->isPressed() and this->getKeyTime())
+	{
 
 
-    //this->states->pop();
-    //this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
-    //this->window->close();
-    /*WelcomeScreen welcomeScreen1;
-    welcomeScreen1.Run();*/
-    /* РАЗЛОГИНИТЬ !!!!*/
-    //this->ToQuit = 1;
-  }
+		this->states->push(new PresetsMenuState(this->window, this->states, this->gfxSettings));
+	}
+
 }
 
 void MainMenuState::UpdateSprites() {
