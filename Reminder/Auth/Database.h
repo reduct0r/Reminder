@@ -14,13 +14,11 @@ namespace Reminder {
 class Database {
  private:
   pqxx::connection connection;
-  std::string connectionString;
   std::string usersTableName;
  public:
 
-  Database() {
+  Database() : connection(parseConfigFile()) {
     parseConfigFile();
-    this->connection = pqxx::connection(connectionString);
   }
 
   virtual ~Database() {
@@ -31,7 +29,7 @@ class Database {
 
   bool comparePasswords(const std::string &password, const std::string &hashedPassword);
 
-  void parseConfigFile();
+  std::string parseConfigFile();
 
   UserDAO createUser(const std::string &username, const std::string &password);
 
