@@ -1,121 +1,103 @@
 ﻿#include "WelcomeScreen.h"
 #include <iostream>
 
-void WelcomeScreen::InitWindow()
-{
+void WelcomeScreen::InitWindow() {
 
-    if (this->gfxSettings.fullscreen)
-    {
-        this->window = new sf::RenderWindow(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Fullscreen, this->gfxSettings.contextSettings);
-    }
-    else
-    {
-        this->window = new sf::RenderWindow(this->gfxSettings.resolution, this->gfxSettings.title, sf::Style::Titlebar | sf::Style::Close, this->gfxSettings.contextSettings);
-    }
-    
-    this->window->setFramerateLimit(this->gfxSettings.frameLimit);
-    this->window->setVerticalSyncEnabled(this->gfxSettings.VSync);
+  if (this->gfxSettings.fullscreen) {
+    this->window = new sf::RenderWindow(this->gfxSettings.resolution,
+                                        this->gfxSettings.title,
+                                        sf::Style::Fullscreen,
+                                        this->gfxSettings.contextSettings);
+  } else {
+    this->window = new sf::RenderWindow(this->gfxSettings.resolution,
+                                        this->gfxSettings.title,
+                                        sf::Style::Titlebar | sf::Style::Close,
+                                        this->gfxSettings.contextSettings);
+  }
+
+  this->window->setFramerateLimit(this->gfxSettings.frameLimit);
+  this->window->setVerticalSyncEnabled(this->gfxSettings.VSync);
 }
 
-void WelcomeScreen::InitVars()
-{
-    this->window = nullptr;
-    this->dt = 0;
+void WelcomeScreen::InitVars() {
+  this->window = nullptr;
+  this->dt = 0;
 }
 
-void WelcomeScreen::InitStates()
-{
-    this->states.push(new WelcomeScreenState(this->window, &this->states, this->gfxSettings));
+void WelcomeScreen::InitStates() {
+  this->states.push(new WelcomeScreenState(this->window, &this->states, this->gfxSettings));
 }
 
-void WelcomeScreen::InitSettings()
-{
-    this->gfxSettings.LoadFromFile("Config/SFML SPECS.ini");
+void WelcomeScreen::InitSettings() {
+  this->gfxSettings.LoadFromFile("Config/SFML SPECS.ini");
 
 }
 
-WelcomeScreen::WelcomeScreen()
-{
-    this->InitVars();
-    this->InitSettings();
-    this->InitWindow();
-    this->InitStates();
+WelcomeScreen::WelcomeScreen() {
+  this->InitVars();
+  this->InitSettings();
+  this->InitWindow();
+  this->InitStates();
 }
 
-WelcomeScreen::~WelcomeScreen()
-{
-    delete this->window;
+WelcomeScreen::~WelcomeScreen() {
+  delete this->window;
 
-    while (!this->states.empty())
-    {
-        delete this->states.top();
-        this->states.pop();
-    }
+  while (!this->states.empty()) {
+    delete this->states.top();
+    this->states.pop();
+  }
 }
 
 // FUNCTIONS
 
-void WelcomeScreen::Update()
-{
-    this->UpdateEvents();
+void WelcomeScreen::Update() {
+  this->UpdateEvents();
 
-    if (!this->states.empty())
-    {
-        this->states.top()->Update(this->dt);
+  if (!this->states.empty()) {
+    this->states.top()->Update(this->dt);
 
-        if (this->states.top()->getQuit())
-        {
-            this->states.top()->EndState();
-            delete this->states.top();
-            this->states.pop();
-        }
+    if (this->states.top()->getQuit()) {
+      this->states.top()->EndState();
+      delete this->states.top();
+      this->states.pop();
     }
-
-    else
-    {
-        this->EndApplication(); // ДЕЙСТВИЕ ПЕРЕД ВЫХОДОМ
-        this->window->close();
-    }
+  } else {
+    this->EndApplication(); // ДЕЙСТВИЕ ПЕРЕД ВЫХОДОМ
+    this->window->close();
+  }
 }
 
-
-void WelcomeScreen::EndApplication()
-{
-    // ДЕЛАЕМ ВСЕ ЧТО НУЖНО ПЕРЕД ТЕМ КАК ЗАКРЫТЬ ОКНО
-    std::cout << "EXIT";
+void WelcomeScreen::EndApplication() {
+  // ДЕЛАЕМ ВСЕ ЧТО НУЖНО ПЕРЕД ТЕМ КАК ЗАКРЫТЬ ОКНО
+  std::cout << "EXIT";
 }
 
-void WelcomeScreen::Run()
-{
-    while (this->window->isOpen())
-    {
-        this->UpdateDT();
-        this->Update();
-        this->Render();
-    }
+void WelcomeScreen::Run() {
+  while (this->window->isOpen()) {
+    this->UpdateDT();
+    this->Update();
+    this->Render();
+  }
 }
 
-void WelcomeScreen::UpdateEvents()
-{
+void WelcomeScreen::UpdateEvents() {
 
 }
 
-void WelcomeScreen::UpdateDT()
-{
-    this->dt = this->dtClock.restart().asSeconds();
+void WelcomeScreen::UpdateDT() {
+  this->dt = this->dtClock.restart().asSeconds();
 }
 
 // RENDER
-void WelcomeScreen::Render()
-{
-    this->window->clear();
+void WelcomeScreen::Render() {
+  this->window->clear();
 
-    if (!this->states.empty())
-    {
-        this->states.top()->Render(this->window);
-    }
+  if (!this->states.empty()) {
+    this->states.top()->Render(this->window);
+  }
 
-    this->window->display();
+  this->window->display();
 }
 
 //void DemoCard(sf::RenderWindow& mainWindow, Reminder::TextureManager& textureManager, Reminder::WindowSpecs& mainWindowSpecs)

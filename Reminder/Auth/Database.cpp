@@ -137,9 +137,9 @@ UserDAO Database::containsSessionId(const std::string &sessionIdToken) {
 }
 
 int Database::countDatabasePresets(UserDAO &user) {
-  pqxx::work tunnel(connection); // Туннель для работы с бд
+  pqxx::work tunnel(connection);
   std::string query =
-      "SELECT count(*) FROM presets WHERE username = " + user.getUsername() + ";"; // Запрос в бд для получения пресетов
+      "SELECT count(*) FROM presets WHERE username = " + user.getUsername() + ";";
   pqxx::result result = tunnel.exec(query);
   tunnel.commit();
 
@@ -151,13 +151,12 @@ int Database::countDatabasePresets(UserDAO &user) {
 }
 
 std::vector<Reminder::CardPreset> Database::getUserPresets(UserDAO &user) {
-  std::vector<Reminder::CardPreset> presets; // Вектор для хранения пресетов из БД
+  std::vector<Reminder::CardPreset> presets;
   try {
-    pqxx::work tunnel(connection); // Туннель для работы с БД
+    pqxx::work tunnel(connection);
 
-    // Запрос для получения пресетов из таблицы users
     std::string query = "SELECT presets FROM users WHERE username = " + tunnel.quote(user.getUsername()) + ";";
-    pqxx::result result = tunnel.exec(query); // Вызов запроса
+    pqxx::result result = tunnel.exec(query);
     tunnel.commit();
 
     if (result.empty()) {
@@ -165,7 +164,7 @@ std::vector<Reminder::CardPreset> Database::getUserPresets(UserDAO &user) {
     } else {
       for (const auto &row : result) {
         if (row[0].is_null()) {
-          continue; // Пропускаем запись, если колонка presets содержит NULL
+          continue;
         }
 
         auto json_data = row[0].as<std::string>();
@@ -181,7 +180,6 @@ std::vector<Reminder::CardPreset> Database::getUserPresets(UserDAO &user) {
         }
         delete reader;
 
-        // Преобразование JSON массива пресетов
         for (const auto &preset_json : root) {
           Reminder::CardPreset preset(preset_json["presetName"].asString());
           for (const auto &card_json : preset_json["cards"]) {
@@ -224,14 +222,15 @@ bool Database::deleteUserPreset(const std::string &presetName, UserDAO &user) {
   }
 }
 
-
 bool Database::addUserPreset(CardPreset &cardPreset, UserDAO &user) {
   try {
     pqxx::work txn(connection);
 
-    std::string query = "UPDATE users\n"
-                        "SET presets = COALESCE(presets, '[]'::jsonb) || '[" + cardPreset.toJson() + "]'::jsonb\n"
-                        "WHERE username = \'"+ user.getUsername() + "\';";
+    std::string query =
+        "UPDATE users\n"
+        "SET presets = COALESCE(presets, '[]'::jsonb) || '[" + cardPreset.toJson() + "]'::jsonb\n"
+        "WHERE username = \'"
+        + user.getUsername() + "\';";
 
     pqxx::result result = txn.exec(query);
 

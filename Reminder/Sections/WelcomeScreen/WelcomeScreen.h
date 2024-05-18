@@ -1,40 +1,39 @@
 ﻿#pragma once
 #include "WelcomeScreenState.h"
 
-class WelcomeScreen
-{
-private:
-    Settings gfxSettings;
+class WelcomeScreen {
+ private:
+  Settings gfxSettings;
 
-    sf::RenderWindow* window;
-    sf::Event sfEvent;
-    sf::Clock dtClock;
-    float dt;
+  sf::RenderWindow *window;
+  sf::Event sfEvent;
+  sf::Clock dtClock;
+  float dt;
 
-    std::stack<State*> states;
+  std::stack<State *> states;
 
-    // Init
-    void InitVars();
-    void InitWindow();
-    void InitStates();
-    void InitSettings();
-    
-public:
-    // Core
-    WelcomeScreen();
-    virtual ~WelcomeScreen();
-    void Run();
+  // Init
+  void InitVars();
+  void InitWindow();
+  void InitStates();
+  void InitSettings();
 
-    // Update
-    void Update();
-    void UpdateEvents();
-    void UpdateDT();        //  Обновление переменной времени отрисовки кадра
+ public:
+  // Core
+  WelcomeScreen();
+  virtual ~WelcomeScreen();
+  void Run();
 
-    //Render
-    void Render();
+  // Update
+  void Update();
+  void UpdateEvents();
+  void UpdateDT();        //  Обновление переменной времени отрисовки кадра
 
-    // Functions
-    void EndApplication();
+  //Render
+  void Render();
+
+  // Functions
+  void EndApplication();
 
 };
 
