@@ -368,6 +368,7 @@ void WelcomeScreenState::UpdateButtons() {
     } else {
       SessionIdService::saveNewSessionId(existingUser.getSessionId());
       this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
+      flag1 = 1;
     }
   }
 
@@ -377,7 +378,6 @@ void WelcomeScreenState::UpdateButtons() {
     this->buttons["REGISTER_BTN"]->Hide(0);
     flag1 = 1;
     flag3 = 1;
-
   }
 
   if (!flag2 and !this->animTransitReverse) {
