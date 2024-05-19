@@ -340,6 +340,7 @@ void WelcomeScreenState::UpdateButtons() {
       // TODO
     } else {
       this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
+      flag3 = 1;
     }
   }
 
@@ -347,7 +348,6 @@ void WelcomeScreenState::UpdateButtons() {
       and !this->animTransitReverse) // первое нажатие на register
   {
     this->buttons["LOGIN_BTN"]->Hide(1);
-    this->buttons["LOGIN_BTN"]->setPos(8000, 0);
 
     flag1 = 0;
     this->animTransit = 1;
