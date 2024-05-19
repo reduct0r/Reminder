@@ -155,7 +155,7 @@ std::vector<CardPreset> Database::getUserPresets(UserDAO &user) {
     std::vector<CardPreset> presets;
     pqxx::work tunnel(connection);
 
-    std::string query = "SELECT presets FROM users WHERE username = " + tunnel.quote(user.getUsername()) + ";";
+    std::string query = "SELECT presets FROM users WHERE username = \'" + user.getUsername() + "\';";
     pqxx::result result = tunnel.exec(query);
     tunnel.commit();
 
