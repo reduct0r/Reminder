@@ -99,7 +99,7 @@ UserDAO Database::getUser(UserDAO &user) {
 }
 
 std::string Database::parseConfigFile() {
-  std::ifstream file("/Users/exist/CLionProjects/Reminder/Reminder/Auth/DatabaseConfig.json");
+  std::ifstream file("Config/DatabaseConfig.json");
   if (!file.is_open()) {
     std::cerr << "Невозможно открыть JSON файл" << std::endl;
     exit(1);

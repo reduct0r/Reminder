@@ -38,7 +38,7 @@ class SessionIdService {
 
   // Working
   static std::string readSessionId() {
-    std::ifstream file("/Users/exist/CLionProjects/Reminder/Reminder/Auth/sessionId.txt");
+    std::ifstream file("Config/sessionId.txt");
     std::string data;
 
     if (file.is_open()) {
@@ -52,7 +52,7 @@ class SessionIdService {
   // Working
   static bool deleteSessionId() {
     std::ofstream file
-        ("/Users/exist/CLionProjects/Reminder/Reminder/Auth/sessionId.txt", std::ofstream::out | std::ofstream::trunc);
+        ("Config/sessionId.txt", std::ofstream::out | std::ofstream::trunc);
 
     if (!file.is_open()) {
       return false;
@@ -64,7 +64,7 @@ class SessionIdService {
 
   // Working
   static bool saveNewSessionId(const std::string &data) {
-    std::string filename = "/Users/exist/CLionProjects/Reminder/Reminder/Auth/sessionId.txt";
+    std::string filename = "Config/sessionId.txt";
     std::ofstream file(filename, std::ofstream::out | std::ofstream::trunc);
 
     if (!file.is_open()) {
