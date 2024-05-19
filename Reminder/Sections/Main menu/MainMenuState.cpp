@@ -186,7 +186,7 @@ void MainMenuState::UpdateButtons() {
 
   if (this->buttons["LOGOUT_BTN"]->isPressed() and this->getKeyTime()) {
     SessionIdService::deleteSessionId();
-    this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
+     this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
   }
 
   if (this->buttons["PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
@@ -197,10 +197,6 @@ void MainMenuState::UpdateButtons() {
                                             &activePreset,
                                             &database,
                                             &existingUser));
-
-    this->states->push(new PresetsMenuState(this->window,
-        this->states,
-        this->gfxSettings));
   }
 
     if (this->buttons["GAME_BTN"]->isPressed() and this->getKeyTime())

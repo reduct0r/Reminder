@@ -4,15 +4,15 @@
 
 int main() {
 
-//  Reminder::Database database;
+  Reminder::Database database;
 
- // if (database.containsSessionId(SessionIdService::readSessionId()).isEmpty()) {
+  if (database.containsSessionId(SessionIdService::readSessionId()).isEmpty()) {
     WelcomeScreen welcomeScreen;
     welcomeScreen.Run();
-  //} else {
-  //  MainMenu mainMenu;
-  //  mainMenu.Run();
- // }
+  } else {
+    MainMenu mainMenu;
+    mainMenu.Run();
+  }
 
   return 0;
 }

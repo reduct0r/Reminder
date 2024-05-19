@@ -10,7 +10,7 @@ class WelcomeScreenState :
  private:
   Settings &gfxSettings;
 
-//  Reminder::Database database;
+  Reminder::Database database;
 
   sf::Sprite bg;
   sf::Font font;
@@ -20,6 +20,9 @@ class WelcomeScreenState :
   std::unordered_map<std::string, sf::Vector2f> targetPositions;
   std::map<std::string, float> distances;
   std::map<std::string, sf::Vector2f> startPositions;
+  bool flag1 = true;
+  bool flag2 = true;
+  bool flag3 = true;
 
   sf::Clock dtClock;
   float dt;

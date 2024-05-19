@@ -313,11 +313,6 @@ void WelcomeScreenState::UpdateButtons() {
     it.second->Update(this->MousePosView);
   }
 
-  /* Обработка кнопок */
-  static bool flag1 = true;
-  static bool flag2 = true;
-  static bool flag3 = true;
-
   if (flag1 and this->buttons["LOGIN_BTN"]->isPressed() and !this->animTransit
       and !this->animTransitReverse) // первое нажатие на login
   {
@@ -325,7 +320,7 @@ void WelcomeScreenState::UpdateButtons() {
     this->animTransit = 1;
     this->buttons["REGISTER_BTN"]->Hide(1);
 
-    this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings)); // для отладки переход
+//    this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings)); // для отладки переход
   } else if (flag3 and this->buttons["LOGIN_BTN"]->isPressed() and !this->animTransitReverse and !this->animTransit
       and this->textboxes["LOGIN"]->getCurrentText() != ""
       and this->textboxes["PASSWORD"]->getCurrentText() != "") // второе нажатие на login, когда поля открыты
@@ -337,7 +332,8 @@ void WelcomeScreenState::UpdateButtons() {
     UserDAO existingUserLogin = database.getUser(userLogin);
 
     if (existingUserLogin.isEmpty()) {
-       TODO
+       // TODO
+       flag3 = 1;
     } else {
      this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
       flag3 = 1;
@@ -364,7 +360,7 @@ void WelcomeScreenState::UpdateButtons() {
     UserDAO existingUser = database.createUser(user.getUsername(), user.getPassword());
 
     if (existingUser.isEmpty()) {
-      // TODO
+      flag3 = 1;
     } else 
     {
       SessionIdService::saveNewSessionId(existingUser.getSessionId());
