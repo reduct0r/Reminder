@@ -25,6 +25,12 @@ MainMenuState::~MainMenuState() {
 // INIT
 void MainMenuState::InitVars() {
   this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_MAIN"].getSize().x;
+  if (database.containsSessionId(SessionIdService::readSessionId()).isEmpty()) {
+    userPresets = {};
+  } else {
+    existingUser = database.containsSessionId(SessionIdService::readSessionId());
+    userPresets = database.getUserPresets(existingUser);
+  }
 }
 
 void MainMenuState::InitBG() {
@@ -178,15 +184,18 @@ void MainMenuState::UpdateButtons() {
   }
 
   if (this->buttons["LOGOUT_BTN"]->isPressed() and this->getKeyTime()) {
-    // ВЫЙТИ ИХЗ АККА
-
+    SessionIdService::deleteSessionId();
     this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
   }
 
-
   if (this->buttons["PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
-
-    this->states->push(new PresetsMenuState(this->window, this->states, this->gfxSettings));
+    this->states->push(new PresetsMenuState(this->window,
+                                            this->stafxSettings,
+                                            &usertes,
+                                            this->gPresets,
+                                            &activePreset,
+                                            &database,
+                                            &existingUser));
   }
 
 	if (this->buttons["GAME_BTN"]->isPressed() and this->getKeyTime())
@@ -206,6 +215,7 @@ void MainMenuState::UpdateButtons() {
 		// Вызываем командную строку сформированной команды
 		system(command.c_str());
 	}
+
 
 }
 

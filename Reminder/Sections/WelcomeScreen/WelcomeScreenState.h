@@ -2,7 +2,6 @@
 #define  WELCOMWSCREENSTATE_H
 
 #include "../Main menu/MainMenuState.h"
-#include "../../Auth/Database.h"
 #include "../../Auth/Model/UserDAO.h"
 #include "../../Auth/Service/SessionIdService.h"
 
@@ -10,6 +9,8 @@ class WelcomeScreenState :
     public State {
  private:
   Settings &gfxSettings;
+
+  Reminder::Database database;
 
   sf::Sprite bg;
   sf::Font font;

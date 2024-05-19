@@ -162,8 +162,8 @@ void GameState::InitTexts() {
     text.setPosition(this->window->getSize().x / 1.18, this->window->getSize().y / 1.8);
     this->texts["COUNTER_AWAITING"] = text;
 
-    // èíèöèàëèçàöèÿ òåêñòà ÒÎËÜÊÎ ÄËß ÏÅÐÂÎÉ êàðòî÷êè
-    // ÑÄÅËÀÒÜ ÏÎ ÓÌÎË×ÀÍÈÞ ÀÊÒÈÂÍÎÉ ÏÅÐÂÓÞ ÊÀÐÒÓ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
     std::string cardTitle = "This is a card title.";
     GameState::showCardText(cardTitle);
 
@@ -209,32 +209,32 @@ void GameState::UpdateButtons() {
         this->ToQuit = 1;
     }
 
-    // ïîâîðîò êàðòî÷êè
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     if (this->showingTitle and this->buttons["ACTIVE_CARD_BTN"]->isPressed() and this->getKeyTime()) {
 
         this->showingTitle = 0;
-        // DESCRIPTION ïîëó÷àòü èç àêòèâíîé êàðòû
+        // DESCRIPTION ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
         GameState::showCardText("DESCRIPTION This is a long text that needs to be wrapped within the rectangular sprite. SFML is a great library for graphics in C++");   
     }
     else if (!this->showingTitle and this->buttons["ACTIVE_CARD_BTN"]->isPressed() and this->getKeyTime())
     {
         this->showingTitle = 1;
-        // title ïîëó÷àòü èç àêòèâíîé êàðòû
+        // title ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
         GameState::showCardText("This is a card title.");
     }
 
     if (this->buttons["SWIPE_RIGHT_BTN"]->isPressed() and this->getKeyTime()) {
-        // óáðàòü èç âåêòîðà awaiting
-        // ïóøèòü â âåêòîð ñ ôåéëàìè
-        // ÑÄÅËÀÒÜ ÑËÅÄÓÞÙÓÞ ÊÀÐÒÓ ÀÊÒÈÂÍÎÉ
-        // çàòåì ïîêàçàòü òàéòë ÀÊÒÈÂÍÎÉ êàðòû GameState::showCardText("This is a card title.");
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ awaiting
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ GameState::showCardText("This is a card title.");
     }
 
     if (this->buttons["SWIPE_LEFT_BTN"]->isPressed() and this->getKeyTime()) {
-        // óáðàòü èç âåêòîðà awaiting
-        // ïóøèòü â âåêòîð ñ îòãàäàííûìè
-        // ÑÄÅËÀÒÜ ÑËÅÄÓÞÙÓÞ ÊÀÐÒÓ ÀÊÒÈÂÍÎÉ
-        // çàòåì ïîêàçàòü òàéòë ÀÊÒÈÂÍÎÉ êàðòû GameState::showCardText("This is a card title.");
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ awaiting
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ GameState::showCardText("This is a card title.");
     }
 }
 
@@ -304,14 +304,14 @@ void  GameState::showCardText(std::string cardTitle)
     this->cardText.clear();
     sf::Vector2f spriteTopLeft = this->buttons["ACTIVE_CARD_BTN"]->getPos();
 
-    // Ðàçäåëåíèå òåêñòà íà ñòðîêè
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     const float maxWidth = this->textures["ACTIVE_CARD"].getSize().x * this->scale;
-    unsigned int characterSize = 40 * this->scale; // Ðàçìåð ñèìâîëîâ
+    unsigned int characterSize = 40 * this->scale; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     auto lines = wordWrap(cardTitle, this->font, characterSize, maxWidth);
 
-    // Îòðèñîâêà òåêñòà â ïðåäåëàõ ñïðàéòà
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
-    float lineSpacing = 1.1f * 2 * this->scale; // Êîýôôèöèåíò èíòåðâàëà ìåæäó ñòðîêàìè
+    float lineSpacing = 1.1f * 2 * this->scale; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     float yOffset = 10 * this->scale;
     for (const auto& line : lines)
     {
@@ -352,5 +352,3 @@ std::vector<std::string> wordWrap(const std::string& text, sf::Font& font, unsig
 
     return lines;
 }
-
-
