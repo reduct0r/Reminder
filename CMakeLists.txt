@@ -28,8 +28,7 @@ set(SOURCES
         "Reminder/Auth/Model/UserDAO.cpp"
         "Reminder/Auth/Service/SessionIdService.cpp"
         "Reminder/Sections/PreesetsMenu/PresetsMenu.cpp"
-        "Reminder/Sections/PreesetsMenu/PresetsMenuState.cpp"
-        "Reminder/Game/GameState.cpp")
+        "Reminder/Sections/PreesetsMenu/PresetsMenuState.cpp")
 
 set(HEADERS
         "Reminder/Init/H_Init.h"

@@ -1,7 +1,7 @@
 #include "MainMenuState.h"
 #include <iostream>
 #include "../WelcomeScreen/WelcomeScreen.h"
-#include "../../Game/GameState.h"
+
 MainMenuState::MainMenuState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings)
 	:State(window, states), gfxSettings(gfxSettings)
 {
@@ -200,7 +200,7 @@ void MainMenuState::UpdateButtons() {
 
 	if (this->buttons["GAME_BTN"]->isPressed() and this->getKeyTime())
 	{
-		this->states->push(new GameState(this->window, this->states, this->gfxSettings));
+
 	}
 
 	if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime())
