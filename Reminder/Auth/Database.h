@@ -10,7 +10,6 @@
 #include "Service/SessionIdService.h"
 #include "../Game/GameProcess.h"
 
-namespace Reminder {
 class Database {
  private:
   pqxx::connection connection;
@@ -43,6 +42,5 @@ class Database {
 
   bool addUserPreset(CardPreset &newCardPreset, UserDAO &user);
 };
-}
 
 #endif

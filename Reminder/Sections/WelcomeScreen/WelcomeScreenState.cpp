@@ -360,7 +360,7 @@ void WelcomeScreenState::UpdateButtons() {
     UserDAO user(this->textboxes["LOGIN"]->getCurrentText(),
                  this->textboxes["PASSWORD"]->getCurrentText());
 
-    Reminder::Database database;
+    Database database;
     UserDAO existingUser = database.createUser(user.getUsername(), user.getPassword());
 
     if (existingUser.isEmpty()) {

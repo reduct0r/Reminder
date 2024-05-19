@@ -8,8 +8,6 @@
 #include <iostream>
 #include "json/json.h"
 
-
-#pragma once
 #include "../Sections/PreesetsMenu/PresetsMenu.h"
 
 class Game {
@@ -47,7 +45,7 @@ public:
 
 };
 
-namespace Reminder {
+
 class Card {
  public:
   std::string title;
@@ -186,11 +184,11 @@ class CardPreset {
 
 };
 
-void init(Reminder::CardPreset &preset);
+void init(CardPreset &preset);
 
 bool menu(bool &answer, bool flag);
 
-void run(Reminder::CardPreset &preset);
-}
+void run(CardPreset &preset);
+
 
 #endif //REMINDER_GAMEPROCESS_H

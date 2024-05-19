@@ -10,7 +10,7 @@ class WelcomeScreenState :
  private:
   Settings &gfxSettings;
 
-  Reminder::Database database;
+  Database database;
 
   sf::Sprite bg;
   sf::Font font;

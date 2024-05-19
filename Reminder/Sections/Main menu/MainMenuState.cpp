@@ -190,9 +190,9 @@ void MainMenuState::UpdateButtons() {
 
   if (this->buttons["PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
     this->states->push(new PresetsMenuState(this->window,
-                                            this->stafxSettings,
-                                            &usertes,
-                                            this->gPresets,
+                                            this->states,
+                                            this->gfxSettings,
+                                            &userPresets,
                                             &activePreset,
                                             &database,
                                             &existingUser));

@@ -1,5 +1,4 @@
 #include "Database.h"
-using namespace Reminder;
 
 std::string Database::hashPassword(const std::string &password) {
   // Создание объекта контекста хеширования SHA-256

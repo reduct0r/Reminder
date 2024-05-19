@@ -17,9 +17,9 @@ private:
     std::map<std::string, sf::Text> texts;
     std::vector<sf::Text> cardText;
     std::vector<std::string> presetsName;
-    std::vector<Reminder::CardPreset>* userPresets;
-    Reminder::CardPreset* activePreset;
-    Reminder::Database* database;
+    std::vector<CardPreset>* userPresets;
+    CardPreset* activePreset;
+    Database* database;
     UserDAO* existingUser;
 
     // ������ � �������
@@ -41,7 +41,7 @@ private:
     void InitDropDownLists();
 
 public:
-    GameState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings, std::vector<Reminder::CardPreset>* userPresets, Reminder::CardPreset* activePreset, Reminder::Database* database, UserDAO* existingUser);
+    GameState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings, std::vector<CardPreset>* userPresets, CardPreset* activePreset, Database* database, UserDAO* existingUser);
     GameState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings);
 
     virtual ~GameState();

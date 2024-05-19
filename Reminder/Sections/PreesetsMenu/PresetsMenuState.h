@@ -6,20 +6,20 @@
 
 class PresetsMenuState :
     public State {
- private:
-  Settings &gfxSettings;
+private:
 
-  sf::Sprite bg;
-  sf::Font font;
-  sf::Event sfEvent;
-  std::map<std::string, ReminderUI::Button *> buttons;
-  std::map<std::string, ReminderUI::DropDownList *> dropDownLists;
-  std::map<std::string, sf::Text> texts;
-  std::vector<std::string> presetsName;
-  std::vector<Reminder::CardPreset> *userPresets;
-  Reminder::CardPreset *activePreset;
-  Reminder::Database *database;
-  UserDAO *existingUser;
+    Settings &gfxSettings;
+    sf::Sprite bg;
+    sf::Font font;
+    sf::Event sfEvent;
+    std::map<std::string, ReminderUI::Button *> buttons;
+    std::map<std::string, ReminderUI::DropDownList *> dropDownLists;
+    std::map<std::string, sf::Text> texts;
+    std::vector<std::string> presetsName;
+    std::vector<CardPreset> *userPresets;
+    CardPreset *activePreset;
+    Database *database;
+    UserDAO *existingUser;
 
   float scale = 1;
   bool startFullScreen = 0;
@@ -38,9 +38,9 @@ class PresetsMenuState :
   PresetsMenuState(sf::RenderWindow *window,
                    std::stack<State *> *states,
                    Settings &gfxSettings,
-                   std::vector<Reminder::CardPreset> *userPresets,
-                   Reminder::CardPreset *activePreset,
-                   Reminder::Database *database,
+                   std::vector<CardPreset> *userPresets,
+                   CardPreset *activePreset,
+                   Database *database,
                    UserDAO *existingUser);
   PresetsMenuState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings);
 

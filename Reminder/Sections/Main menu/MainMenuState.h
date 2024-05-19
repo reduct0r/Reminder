@@ -15,9 +15,9 @@ class MainMenuState :
   sf::Font font;
   sf::Event sfEvent;
   std::map<std::string, ReminderUI::Button *> buttons;
-  std::vector<Reminder::CardPreset> userPresets;
-  Reminder::CardPreset activePreset;
-  Reminder::Database database;
+  std::vector<CardPreset> userPresets;
+  CardPreset activePreset;
+  Database database;
   UserDAO existingUser;
 
   float scale = 1;

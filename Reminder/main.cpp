@@ -4,7 +4,7 @@
 
 int main() {
 
-  Reminder::Database database;
+  Database database;
 
   if (database.containsSessionId(SessionIdService::readSessionId()).isEmpty()) {
     WelcomeScreen welcomeScreen;
