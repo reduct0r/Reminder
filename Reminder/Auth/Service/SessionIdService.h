@@ -13,12 +13,10 @@
 class SessionIdService {
  public:
 
-  // Working
   static bool compareTo(const std::string &dbToken, const std::string &userToken) {
     return dbToken == userToken;
   }
 
-  // Working
   static std::string generateRandomKey() {
     int const key_length = 16;
     unsigned char key[key_length];
@@ -36,7 +34,6 @@ class SessionIdService {
     return sessionIdToken.str();
   }
 
-  // Working
   static std::string readSessionId() {
     std::ifstream file("Config/sessionId.txt");
     std::string data;
@@ -49,7 +46,6 @@ class SessionIdService {
     return data;
   }
 
-  // Working
   static bool deleteSessionId() {
     std::ofstream file
         ("Config/sessionId.txt", std::ofstream::out | std::ofstream::trunc);
@@ -62,7 +58,6 @@ class SessionIdService {
     return true;
   }
 
-  // Working
   static bool saveNewSessionId(const std::string &data) {
     std::string filename = "Config/sessionId.txt";
     std::ofstream file(filename, std::ofstream::out | std::ofstream::trunc);

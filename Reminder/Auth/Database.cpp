@@ -2,26 +2,20 @@
 using namespace Reminder;
 
 std::string Database::hashPassword(const std::string &password) {
-  // Создание объекта контекста хеширования SHA-256
   EVP_MD_CTX *mdctx = EVP_MD_CTX_new();
   const EVP_MD *md = EVP_sha256();
 
   unsigned char hash[SHA256_DIGEST_LENGTH];
 
-  // Инициализация контекста хеширования
   EVP_DigestInit_ex(mdctx, md, nullptr);
 
-  // Обновление контекста хеширования данными пароля
   EVP_DigestUpdate(mdctx, password.c_str(), password.length());
 
-  // Получение хеша
   unsigned int hash_len;
   EVP_DigestFinal_ex(mdctx, hash, &hash_len);
 
-  // Освобождение контекста хеширования
   EVP_MD_CTX_free(mdctx);
 
-  // Преобразование хеша в строку
   std::stringstream ss;
   for (int i = 0; i < SHA256_DIGEST_LENGTH; i++) {
     ss << std::hex << std::setw(2) << std::setfill('0') << (int) hash[i];
@@ -227,8 +221,8 @@ bool Database::addUserPreset(CardPreset &cardPreset, UserDAO &user) {
     std::string query =
         "UPDATE users\n"
         "SET presets = COALESCE(presetsName, '[]'::jsonb) || '[" + cardPreset.toJson() + "]'::jsonb\n"
-                                                                                         "WHERE username = \'"
-            + user.getUsername() + "\';";
+        "WHERE username = \'"
+        + user.getUsername() + "\';";
 
     pqxx::result result = txn.exec(query);
 
