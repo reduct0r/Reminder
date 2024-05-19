@@ -2,15 +2,14 @@
 #include <iostream>
 #include "../WelcomeScreen/WelcomeScreen.h"
 
-MainMenuState::MainMenuState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings)
-	:State(window, states), gfxSettings(gfxSettings)
-{
-	this->InitTextures();
-	this->InitVars();
-	this->InitSprites();
-	this->InitBG();
-	this->InitFonts();
-	this->InitButtons();
+MainMenuState::MainMenuState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings)
+    : State(window, states), gfxSettings(gfxSettings) {
+  this->InitTextures();
+  this->InitVars();
+  this->InitSprites();
+  this->InitBG();
+  this->InitFonts();
+  this->InitButtons();
 
   this->startFullScreen = this->gfxSettings.fullscreen;
 }
@@ -27,11 +26,12 @@ void MainMenuState::InitVars() {
   this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_MAIN"].getSize().x;
   if (database.containsSessionId(SessionIdService::readSessionId()).isEmpty()) {
     userPresets = {};
-  } else 
-  {
+  } else {
     existingUser = database.containsSessionId(SessionIdService::readSessionId());
     userPresets = database.getUserPresets(existingUser);
   }
+
+  activePreset = userPresets.at(3);
 }
 
 void MainMenuState::InitBG() {
@@ -186,37 +186,40 @@ void MainMenuState::UpdateButtons() {
 
   if (this->buttons["LOGOUT_BTN"]->isPressed() and this->getKeyTime()) {
     SessionIdService::deleteSessionId();
-     this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
+    this->states->push(new WelcomeScreenState(this->window, this->states, this->gfxSettings));
   }
 
   if (this->buttons["PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
     this->states->push(new PresetsMenuState(this->window,
                                             this->states,
                                             this->gfxSettings,
-                                            &userPresets,
-                                            &activePreset,
+                                            userPresets,
+                                            activePreset,
                                             &database,
-                                            &existingUser));
+                                            existingUser));
   }
 
-    if (this->buttons["GAME_BTN"]->isPressed() and this->getKeyTime())
-    {
-        this->states->push(new GameState(this->window, this->states, this->gfxSettings));
-    }
+  if (this->buttons["GAME_BTN"]->isPressed() and this->getKeyTime()) {
+    this->states->push(new GameState(this->window,
+                                     this->states,
+                                     this->gfxSettings,
+                                     userPresets,
+                                     activePreset,
+                                     &database,
+                                     existingUser));
+  }
 
-	if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime())
-	{
-		std::string url = "https://github.com/reduct0r/Reminder";
+  if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime()) {
+    std::string url = "https://github.com/reduct0r/Reminder";
 
-		#ifdef _WIN32
-			std::string command = "start " + url + ""; // Для Windows
-		#elif __APPLE__
-			std::string command = "open " + url + ""; // Для macOS
-		#endif
-		// Вызываем командную строку сформированной команды
-		system(command.c_str());
-	}
-
+#ifdef _WIN32
+    std::string command = "start " + url + ""; // Для Windows
+#elif __APPLE__
+    std::string command = "open " + url + ""; // Для macOS
+#endif
+    // Вызываем командную строку сформированной команды
+    system(command.c_str());
+  }
 
 }
 

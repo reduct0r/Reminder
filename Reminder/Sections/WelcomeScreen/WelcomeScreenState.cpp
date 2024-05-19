@@ -332,10 +332,10 @@ void WelcomeScreenState::UpdateButtons() {
     UserDAO existingUserLogin = database.getUser(userLogin);
 
     if (existingUserLogin.isEmpty()) {
-       // TODO
-       flag3 = 1;
+      // TODO
+      flag3 = 1;
     } else {
-     this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
+      this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
       flag3 = 1;
     }
   }
@@ -361,8 +361,7 @@ void WelcomeScreenState::UpdateButtons() {
 
     if (existingUser.isEmpty()) {
       flag3 = 1;
-    } else 
-    {
+    } else {
       SessionIdService::saveNewSessionId(existingUser.getSessionId());
       this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
       flag1 = 1;

@@ -23,7 +23,7 @@ void PresetsMenu::InitWindow() {
 }
 
 void PresetsMenu::InitStates() {
-  this->states.push(new PresetsMenuState(this->window, &this->states, this->gfxSettings));
+  // this->states.push(new PresetsMenuState(this->window, &this->states, this->gfxSettings));
 }
 
 void PresetsMenu::InitSettings() {

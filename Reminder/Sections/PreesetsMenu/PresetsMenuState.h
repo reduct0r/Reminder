@@ -16,10 +16,10 @@ class PresetsMenuState :
   std::map<std::string, ReminderUI::DropDownList *> dropDownLists;
   std::map<std::string, sf::Text> texts;
   std::vector<std::string> presetsName;
-  std::vector<Reminder::CardPreset> *userPresets;
-  Reminder::CardPreset *activePreset;
+  std::vector<Reminder::CardPreset> userPresets;
+  Reminder::CardPreset activePreset;
   Reminder::Database *database;
-  UserDAO *existingUser;
+  UserDAO existingUser;
 
   float scale = 1;
   bool startFullScreen = 0;
@@ -38,10 +38,10 @@ class PresetsMenuState :
   PresetsMenuState(sf::RenderWindow *window,
                    std::stack<State *> *states,
                    Settings &gfxSettings,
-                   std::vector<Reminder::CardPreset> *userPresets,
-                   Reminder::CardPreset *activePreset,
+                   std::vector<Reminder::CardPreset> &userPresets,
+                   Reminder::CardPreset &activePreset,
                    Reminder::Database *database,
-                   UserDAO *existingUser);
+                   UserDAO &existingUser);
 
   PresetsMenuState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings);
 

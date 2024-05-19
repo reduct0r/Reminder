@@ -73,7 +73,8 @@ UserDAO Database::getUser(UserDAO &user) {
     std::string
         queryUsername = "SELECT username FROM " + usersTableName + " WHERE username = '" + usernameToLowerCase + "';";
     std::string
-        querySessionId = "SELECT session_id FROM " + usersTableName + " WHERE username = '" + usernameToLowerCase + "';";
+        querySessionId =
+        "SELECT session_id FROM " + usersTableName + " WHERE username = '" + usernameToLowerCase + "';";
 
     pqxx::result password = tunnel.exec(queryPassword);
     pqxx::result username = tunnel.exec(queryUsername);
@@ -206,8 +207,8 @@ bool Database::deleteUserPreset(const std::string &presetName, UserDAO &user) {
         "    SELECT jsonb_agg(elem) \n"
         "    FROM jsonb_array_elements(presets) elem\n"
         "    WHERE elem->>'presetName' <> \'" + presetName + "\'\n"
-        ")\n"
-        "WHERE username = \'" + user.getUsername() + "\';";
+                                                             ")\n"
+                                                             "WHERE username = \'" + user.getUsername() + "\';";
 
     pqxx::result result = txn.exec(query);
 
@@ -226,8 +227,8 @@ bool Database::addUserPreset(CardPreset &cardPreset, UserDAO &user) {
     std::string query =
         "UPDATE users\n"
         "SET presets = COALESCE(presetsName, '[]'::jsonb) || '[" + cardPreset.toJson() + "]'::jsonb\n"
-        "WHERE username = \'"
-        + user.getUsername() + "\';";
+                                                                                         "WHERE username = \'"
+            + user.getUsername() + "\';";
 
     pqxx::result result = txn.exec(query);
 

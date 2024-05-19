@@ -19,10 +19,10 @@ PresetsMenuState::PresetsMenuState(sf::RenderWindow *window, std::stack<State *>
 PresetsMenuState::PresetsMenuState(sf::RenderWindow *window,
                                    std::stack<State *> *states,
                                    Settings &gfxSettings,
-                                   std::vector<Reminder::CardPreset> *userPresets,
-                                   Reminder::CardPreset *activePreset,
+                                   std::vector<Reminder::CardPreset> &userPresets,
+                                   Reminder::CardPreset &activePreset,
                                    Reminder::Database *database,
-                                   UserDAO *existingUser) : State(window, states),
+                                   UserDAO &existingUser) : State(window, states),
                                                             gfxSettings(gfxSettings),
                                                             userPresets(userPresets),
                                                             activePreset(activePreset),
@@ -50,9 +50,9 @@ PresetsMenuState::~PresetsMenuState() {
 // INIT
 void PresetsMenuState::InitVars() {
   this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_PRESETS"].getSize().x;
-  if (!userPresets->empty()) {
+  if (!userPresets.empty()) {
     presetsName.push_back("Choose Preset");
-    for (auto &preset : *userPresets) {
+    for (auto &preset : userPresets) {
       presetsName.push_back(preset.getName());
     }
   } else {
@@ -86,9 +86,21 @@ void PresetsMenuState::InitButtons() {
                                                      this->textures["BACK"],
                                                      this->textures["BACK"]);
 
-	this->buttons["MY_PRESETS_BTN"] = new  ReminderUI::Button(0, this->scale * 40, winX / 3.2 - this->textures["MY_PRESETS"].getSize().x * this->scale / 2,
-		winY / 2 - this->textures["MY_PRESETS"].getSize().y * this->scale / 2, scale, scale, &this->font, "",
-		this->textures["MY_PRESETS"], this->textures["MY_PRESETS"], this->textures["MY_PRESETS"]);
+  this->buttons["MY_PRESETS_BTN"] = new ReminderUI::Button(0,
+                                                           this->scale * 40,
+                                                           winX / 3.2
+                                                               - this->textures["MY_PRESETS"].getSize().x * this->scale
+                                                                   / 2,
+                                                           winY / 2
+                                                               - this->textures["MY_PRESETS"].getSize().y * this->scale
+                                                                   / 2,
+                                                           scale,
+                                                           scale,
+                                                           &this->font,
+                                                           "",
+                                                           this->textures["MY_PRESETS"],
+                                                           this->textures["MY_PRESETS"],
+                                                           this->textures["MY_PRESETS"]);
 
   this->buttons["NEW_PRESET_BTN"] =
       new ReminderUI::Button(winX / 1.5 - this->textures["NEW_PRESET"].getSize().x * this->scale / 2,
@@ -285,7 +297,7 @@ void PresetsMenuState::UpdateButtons() {
   if (this->buttons["DELETE_BTN"]->isPressed() and this->getKeyTime()) {
     int indexToRemove = this->dropDownLists["PRESETS_LIST"]->getActiveElementId();
     if (indexToRemove > 0 and indexToRemove < this->presetsName.size()) {
-      database->deleteUserPreset(userPresets->at(indexToRemove - 1).getName(), *existingUser);
+      database->deleteUserPreset(userPresets.at(indexToRemove - 1).getName(), existingUser);
       this->presetsName.erase(this->presetsName.begin() + indexToRemove);
     }
 
@@ -299,7 +311,9 @@ void PresetsMenuState::UpdateButtons() {
     int indexToRemove = this->dropDownLists["PRESETS_LIST"]->getActiveElementId();
 
     if (indexToRemove > 0) {
-      activePreset = &userPresets->at(this->dropDownLists["PRESETS_LIST"]->getActiveElementId() - 1);
+      activePreset = userPresets.at(this->dropDownLists["PRESETS_LIST"]->getActiveElementId() - 1);
+    } else {
+
     }
   }
 

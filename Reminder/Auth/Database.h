@@ -2,7 +2,6 @@
 #define REMINDER_REMINDER_DATABASE_DATABASE_H_
 
 #include "pqxx/pqxx"
-
 #include <json/json.h>
 #include <fstream>
 #include <openssl/sha.h>
@@ -14,13 +13,11 @@
 namespace Reminder {
 class Database {
  private:
-  pqxx::connection connection;
   std::string usersTableName;
+  pqxx::connection connection;
  public:
 
-  Database() : connection(parseConfigFile()) {
-    parseConfigFile();
-  }
+  Database() : connection(parseConfigFile()) {}
 
   virtual ~Database() {
     connection.close();
