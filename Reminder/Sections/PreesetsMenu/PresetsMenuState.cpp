@@ -86,21 +86,9 @@ void PresetsMenuState::InitButtons() {
                                                      this->textures["BACK"],
                                                      this->textures["BACK"]);
 
-  this->buttons["MY_PRESETS_BTN"] = new ReminderUI::Button(1,
-                                                           this->scale * 40,
-                                                           winX / 3.2
-                                                               - this->textures["MY_PRESETS"].getSize().x * this->scale
-                                                                   / 2,
-                                                           winY / 2
-                                                               - this->textures["MY_PRESETS"].getSize().y * this->scale
-                                                                   / 2,
-                                                           scale,
-                                                           scale,
-                                                           &this->font,
-                                                           "",
-                                                           this->textures["MY_PRESETS"],
-                                                           this->textures["MY_PRESETS"],
-                                                           this->textures["MY_PRESETS"]);
+	this->buttons["MY_PRESETS_BTN"] = new  ReminderUI::Button(0, this->scale * 40, winX / 3.2 - this->textures["MY_PRESETS"].getSize().x * this->scale / 2,
+		winY / 2 - this->textures["MY_PRESETS"].getSize().y * this->scale / 2, scale, scale, &this->font, "",
+		this->textures["MY_PRESETS"], this->textures["MY_PRESETS"], this->textures["MY_PRESETS"]);
 
   this->buttons["NEW_PRESET_BTN"] =
       new ReminderUI::Button(winX / 1.5 - this->textures["NEW_PRESET"].getSize().x * this->scale / 2,
