@@ -49,14 +49,16 @@ GameState::~GameState() {
 
 // INIT
 void GameState::InitVars() {
-    this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_PRESETS"].getSize().x;
-    if (!userPresets->empty()) {
+    this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_GAME"].getSize().x;
+
+    /*if (!this->userPresets->empty()) {
         presetsName.push_back("Choose Preset");
         for (auto& preset : *userPresets) {
             presetsName.push_back(preset.getName());
         }
-    }
-    else {
+    }*/
+    //else 
+    {
         this->presetsName = { "No presets" };
     }
 }
@@ -65,7 +67,7 @@ void GameState::InitBG() {
     float scale = this->scale;
 
     this->bg.setScale(sf::Vector2f(scale, scale));
-    this->bg.setTexture(this->textures["BG_PRESETS"]);
+    this->bg.setTexture(this->textures["BG_GAME"]);
 
 }
 
@@ -78,66 +80,22 @@ void GameState::InitFonts() {
 void GameState::InitButtons() {
     float winX = float(this->window->getSize().x);
     float winY = float(this->window->getSize().y);
-
     float scale = this->scale;
-    this->buttons["BACK_BTN"] = new ReminderUI::Button(winY / 18,
-        winY / 18,
-        scale,
-        this->textures["BACK"],
-        this->textures["BACK"],
-        this->textures["BACK"]);
 
-    this->buttons["MY_PRESETS_BTN"] = new ReminderUI::Button(1,
-        this->scale * 40,
-        winX / 3.2
-        - this->textures["MY_PRESETS"].getSize().x * this->scale
-        / 2,
-        winY / 2
-        - this->textures["MY_PRESETS"].getSize().y * this->scale
-        / 2,
-        scale,
-        scale,
-        &this->font,
-        "",
-        this->textures["MY_PRESETS"],
-        this->textures["MY_PRESETS"],
-        this->textures["MY_PRESETS"]);
+    this->buttons["BACK_BTN"] = new ReminderUI::Button(winY / 18, winY / 18, scale, this->textures["BACK"], this->textures["BACK"], this->textures["BACK"]);
 
-    this->buttons["NEW_PRESET_BTN"] =
-        new ReminderUI::Button(winX / 1.5 - this->textures["NEW_PRESET"].getSize().x * this->scale / 2,
-            winY / 2 - this->textures["MY_PRESETS"].getSize().y * this->scale / 2,
-            scale,
-            this->textures["NEW_PRESET"],
-            this->textures["NEW_PRESET"],
-            this->textures["NEW_PRESET"]);
+    this->buttons["SWIPE_RIGHT_BTN"] = new ReminderUI::Button(winX / 2.4, winY / 1.32, scale, this->textures["ARROW_RIGHT"], this->textures["ARROW_RIGHT"], this->textures["ARROW_RIGHT"]);
 
-    this->buttons["DELETE_BTN"] =
-        new ReminderUI::Button(winX / 1.15 - this->textures["DELETE_1"].getSize().x * this->scale / 2,
-            winY / 1.3 - this->textures["DELETE_1"].getSize().y * this->scale / 2,
-            scale,
-            this->textures["DELETE_1"],
-            this->textures["DELETE_1"],
-            this->textures["DELETE_1"]);
-    this->buttons["DELETE_BTN"]->Hide(1);
+    this->buttons["SWIPE_LEFT_BTN"] = new ReminderUI::Button(winX / 6.5, winY / 1.32, scale, this->textures["ARROW_LEFT"], this->textures["ARROW_LEFT"], this->textures["ARROW_LEFT"]);
 
-    this->buttons["PREVIEW_BTN"] =
-        new ReminderUI::Button(winX / 1.15 - this->textures["PREVIEW_1"].getSize().x * this->scale / 2,
-            winY / 1.5 - this->textures["PREVIEW_1"].getSize().y * this->scale / 2,
-            scale,
-            this->textures["PREVIEW_1"],
-            this->textures["PREVIEW_1"],
-            this->textures["PREVIEW_1"]);
-    this->buttons["PREVIEW_BTN"]->Hide(1);
+    this->buttons["AWAITING_BTN"] = new ReminderUI::Button(0, this->scale * 40, winX / 1.55, winY / 1.9, scale, scale, &this->font, "",
+        this->textures["AWAITING_CARDS"], this->textures["AWAITING_CARDS"], this->textures["AWAITING_CARDS"]);
 
-    this->buttons["IMPORT_BTN"] =
-        new ReminderUI::Button(winX / 1.15 - this->textures["IMPORT_1"].getSize().x * this->scale / 2,
-            winY / 2.5 - this->textures["IMPORT_1"].getSize().y * this->scale / 2,
-            scale,
-            this->textures["IMPORT_1"],
-            this->textures["IMPORT_1"],
-            this->textures["IMPORT_1"]);
-    this->buttons["IMPORT_BTN"]->Hide(1);
+    this->buttons["FAILED_BTN"] = new ReminderUI::Button(0, this->scale * 40, winX / 1.55, winY / 6, scale, scale, &this->font, "",
+        this->textures["FAILED_CARDS"], this->textures["FAILED_CARDS"], this->textures["FAILED_CARDS"]);
 
+    this->buttons["ACTIVE_CARD_BTN"] = new ReminderUI::Button(0, this->scale * 40, winX / 7.5, winY / 3.6, scale, scale, &this->font, "",
+        this->textures["ACTIVE_CARD"], this->textures["ACTIVE_CARD_HOVER"], this->textures["ACTIVE_CARD_HOVER"]);
 }
 
 void GameState::InitTextures() {
@@ -147,39 +105,33 @@ void GameState::InitTextures() {
     texture.loadFromFile("Resources/Textures/UI/Welcome Screen/back2.png");
     this->textures["BACK"] = texture;
 
-    texture.loadFromFile("Resources/Textures/UI/PresetsMenu/Logo presets.png");
+    texture.loadFromFile("Resources/Textures/UI/Game/Logo reminder mini.png");
     this->textures["LOGO"] = texture;
 
-    texture.loadFromFile("Resources/Textures/UI/PresetsMenu/Background.png");
-    this->textures["BG_PRESETS"] = texture;
+    texture.loadFromFile("Resources/Textures/UI/Game/Background.png");
+    this->textures["BG_GAME"] = texture;
 
-    texture.loadFromFile("Resources/Textures/UI/PresetsMenu/field my presets and counter.png");
-    this->textures["MY_PRESETS"] = texture;
+    texture.loadFromFile("Resources/Textures/UI/Game/arrow rigrt.png");
+    this->textures["ARROW_RIGHT"] = texture;
 
-    texture.loadFromFile("Resources/Textures/UI/PresetsMenu/field new preset.png");
-    this->textures["NEW_PRESET"] = texture;
+    texture.loadFromFile("Resources/Textures/UI/Game/arrow left.png");
+    this->textures["ARROW_LEFT"] = texture;
 
-    texture.loadFromFile("Resources/Textures/UI/Settings/Resolution.png");
-    this->textures["DDL_MAIN"] = texture;
+    texture.loadFromFile("Resources/Textures/UI/Game/awaiting cards.png");
+    this->textures["AWAITING_CARDS"] = texture;
 
-    texture.loadFromFile("Resources/Textures/UI/Settings/Rectangle_20.png");
-    this->textures["DDL_SECOND"] = texture;
+    texture.loadFromFile("Resources/Textures/UI/Game/failed cards.png");
+    this->textures["FAILED_CARDS"] = texture;
 
-    texture.loadFromFile("Resources/Textures/UI/Settings/Rectangle_21.png");
-    this->textures["DDL_SECOND_HOVER"] = texture;
+    texture.loadFromFile("Resources/Textures/UI/Game/Active Card.png");
+    this->textures["ACTIVE_CARD"] = texture;
 
-    texture.loadFromFile("Resources/Textures/UI/PresetsMenu/DELETE.png");
-    this->textures["DELETE_1"] = texture;
-
-    texture.loadFromFile("Resources/Textures/UI/PresetsMenu/PREVIEW.png");
-    this->textures["PREVIEW_1"] = texture;
-
-    texture.loadFromFile("Resources/Textures/UI/PresetsMenu/IMPORT.png");
-    this->textures["IMPORT_1"] = texture;
+    texture.loadFromFile("Resources/Textures/UI/Game/Intuitive.png");
+    this->textures["ACTIVE_CARD_HOVER"] = texture;
 
 }
 
-void PresetsMenuState::InitSprites() {
+void GameState::InitSprites() {
     float winX = float(this->window->getSize().x);
     float winY = float(this->window->getSize().y);
     float scale = this->scale;
@@ -187,30 +139,13 @@ void PresetsMenuState::InitSprites() {
     sf::Sprite sprite;
     sprite.setScale(scale, scale);
     sprite.setTexture(this->textures["LOGO"]);
-    sprite.setPosition(winX / 2.0 - this->textures["LOGO"].getSize().x * scale / 2.05,
-        winY / 3 - this->textures["LOGO"].getSize().y * scale / 2.0 - winY / 7.0);
+    sprite.setPosition(winX / 4.5, winY / 8.5);
     this->sprites["LOGO"] = sprite;
 
 }
 
-void PresetsMenuState::InitDropDownLists() {
-    float winX = float(this->window->getSize().x);
-    float winY = float(this->window->getSize().y);
-    float scale = this->scale;
+void GameState::InitDropDownLists() {
 
-    this->dropDownLists["PRESETS_LIST"] = new ReminderUI::DropDownList(this->scale * 0.9,
-        0,
-        winX / 2 - this->textures["DDL_SECOND"].getSize().x
-        * scale / 2 * 0.9,
-        winY / 4 - this->textures["DDL_SECOND"].getSize().y
-        * scale / 2 * 0.9,
-        &this->font,
-        25,
-        this->presetsName,
-        this->textures["DDL_SECOND"],
-        this->textures["DDL_SECOND_HOVER"],
-        this->textures["DDL_SECOND"]);
-    this->dropDownLists["PRESETS_LIST"]->Hide(1);
 }
 
 void GameState::InitTexts() {
@@ -218,9 +153,22 @@ void GameState::InitTexts() {
     text.setFont(this->font);
     text.setFillColor(sf::Color::Black);
     text.setCharacterSize(this->scale * 40);
-    text.setPosition(this->window->getSize().x / 2.57, this->window->getSize().y / 2.63);
-    text.setString(std::to_string(this->presetsName.size() - 1));
-    this->texts["COUNTER_TXT"] = text;
+
+    text.setString("0f");
+    text.setPosition(this->window->getSize().x / 1.18, this->window->getSize().y / 5.1);
+    this->texts["COUNTER_FAILED"] = text;
+
+    text.setString("0a");
+    text.setPosition(this->window->getSize().x / 1.18, this->window->getSize().y / 1.8);
+    this->texts["COUNTER_AWAITING"] = text;
+
+    // èíèöèàëèçàöèÿ òåêñòà ÒÎËÜÊÎ ÄËß ÏÅÐÂÎÉ êàðòî÷êè
+    // ÑÄÅËÀÒÜ ÏÎ ÓÌÎË×ÀÍÈÞ ÀÊÒÈÂÍÎÉ ÏÅÐÂÓÞ ÊÀÐÒÓ
+    std::string cardTitle = "This is a card title.";
+    GameState::showCardText(cardTitle);
+
+
+
 }
 
 // UPDATE
@@ -261,67 +209,39 @@ void GameState::UpdateButtons() {
         this->ToQuit = 1;
     }
 
-    if (flag and this->buttons["MY_PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
-        flag = 0;
+    // ïîâîðîò êàðòî÷êè
+    if (this->showingTitle and this->buttons["ACTIVE_CARD_BTN"]->isPressed() and this->getKeyTime()) {
 
-        this->buttons["MY_PRESETS_BTN"]->setPos(
-            this->window->getSize().x / 6 - this->textures["MY_PRESETS"].getSize().x * this->scale / 2,
-            this->window->getSize().y / 2 - this->textures["MY_PRESETS"].getSize().y * this->scale / 2);
-        this->buttons["NEW_PRESET_BTN"]->Hide(1);
-        this->buttons["MY_PRESETS_BTN"]->setText("\n\nClick to return");
-        this->dropDownLists["PRESETS_LIST"]->Hide(0);
-
-        this->texts["COUNTER_TXT"].move(-this->scale * 280, 0);
-
-        this->buttons["DELETE_BTN"]->Hide(0);
-        this->buttons["PREVIEW_BTN"]->Hide(0);
-        this->buttons["IMPORT_BTN"]->Hide(0);
+        this->showingTitle = 0;
+        // DESCRIPTION ïîëó÷àòü èç àêòèâíîé êàðòû
+        GameState::showCardText("DESCRIPTION This is a long text that needs to be wrapped within the rectangular sprite. SFML is a great library for graphics in C++");   
     }
-    else if (!flag and this->buttons["MY_PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
-        flag = 1;
-        this->buttons["MY_PRESETS_BTN"]->setPos(
-            this->window->getSize().x / 3.2 - this->textures["MY_PRESETS"].getSize().x * this->scale / 2,
-            this->window->getSize().y / 2 - this->textures["MY_PRESETS"].getSize().y * this->scale / 2);
-        this->buttons["NEW_PRESET_BTN"]->Hide(0);
-        this->buttons["MY_PRESETS_BTN"]->setText("");
-
-        this->InitDropDownLists();
-        this->dropDownLists["PRESETS_LIST"]->Hide(1);
-
-        this->texts["COUNTER_TXT"].move(this->scale * 280, 0);
-
-        this->buttons["DELETE_BTN"]->Hide(1);
-        this->buttons["PREVIEW_BTN"]->Hide(1);
-        this->buttons["IMPORT_BTN"]->Hide(1);
+    else if (!this->showingTitle and this->buttons["ACTIVE_CARD_BTN"]->isPressed() and this->getKeyTime())
+    {
+        this->showingTitle = 1;
+        // title ïîëó÷àòü èç àêòèâíîé êàðòû
+        GameState::showCardText("This is a card title.");
     }
 
-    if (this->buttons["DELETE_BTN"]->isPressed() and this->getKeyTime()) {
-        int indexToRemove = this->dropDownLists["PRESETS_LIST"]->getActiveElementId();
-        if (indexToRemove > 0 and indexToRemove < this->presetsName.size()) {
-            database->deleteUserPreset(userPresets->at(indexToRemove - 1).getName(), *existingUser);
-            this->presetsName.erase(this->presetsName.begin() + indexToRemove);
-        }
-
-        this->InitDropDownLists();
-        this->InitTexts();
-        this->texts["COUNTER_TXT"].move(-this->scale * 280, 0);
-        this->dropDownLists["PRESETS_LIST"]->Hide(0);
+    if (this->buttons["SWIPE_RIGHT_BTN"]->isPressed() and this->getKeyTime()) {
+        // óáðàòü èç âåêòîðà awaiting
+        // ïóøèòü â âåêòîð ñ ôåéëàìè
+        // ÑÄÅËÀÒÜ ÑËÅÄÓÞÙÓÞ ÊÀÐÒÓ ÀÊÒÈÂÍÎÉ
+        // çàòåì ïîêàçàòü òàéòë ÀÊÒÈÂÍÎÉ êàðòû GameState::showCardText("This is a card title.");
     }
 
-    if (this->buttons["PREVIEW_BTN"]->isPressed() and this->getKeyTime()) {
-        int indexToRemove = this->dropDownLists["PRESETS_LIST"]->getActiveElementId();
-
-        if (indexToRemove > 0) {
-            activePreset = &userPresets->at(this->dropDownLists["PRESETS_LIST"]->getActiveElementId() - 1);
-        }
+    if (this->buttons["SWIPE_LEFT_BTN"]->isPressed() and this->getKeyTime()) {
+        // óáðàòü èç âåêòîðà awaiting
+        // ïóøèòü â âåêòîð ñ îòãàäàííûìè
+        // ÑÄÅËÀÒÜ ÑËÅÄÓÞÙÓÞ ÊÀÐÒÓ ÀÊÒÈÂÍÎÉ
+        // çàòåì ïîêàçàòü òàéòë ÀÊÒÈÂÍÎÉ êàðòû GameState::showCardText("This is a card title.");
     }
-
 }
 
-void PresetsMenuState::UpdateSprites() {
+void GameState::UpdateSprites() {
 }
 
-void PresetsMenuState::UpdateEvents() {
+void GameState::UpdateEvents() {
     while (this->window->pollEvent(this->sfEvent)) {
         if (this->sfEvent.type == sf::Event::Closed) {
             this->window->close();
@@ -329,7 +249,7 @@ void PresetsMenuState::UpdateEvents() {
     }
 }
 
-void PresetsMenuState::UpdateKeyBoardBinds(const float& dt) {
+void GameState::UpdateKeyBoardBinds(const float& dt) {
     this->CheckForQuit();
 }
 
@@ -369,8 +289,68 @@ void GameState::RenderTextes(sf::RenderTarget* target) {
     for (auto& it : this->texts) {
         target->draw(it.second);
     }
+
+    for (auto& it : this->cardText) {
+        target->draw(it);
+    }
 }
 
 void GameState::EndState() {
     std::cout << "ENDING...";
 }
+
+void  GameState::showCardText(std::string cardTitle)
+{
+    this->cardText.clear();
+    sf::Vector2f spriteTopLeft = this->buttons["ACTIVE_CARD_BTN"]->getPos();
+
+    // Ðàçäåëåíèå òåêñòà íà ñòðîêè
+    const float maxWidth = this->textures["ACTIVE_CARD"].getSize().x * this->scale;
+    unsigned int characterSize = 40 * this->scale; // Ðàçìåð ñèìâîëîâ
+    auto lines = wordWrap(cardTitle, this->font, characterSize, maxWidth);
+
+    // Îòðèñîâêà òåêñòà â ïðåäåëàõ ñïðàéòà
+
+    float lineSpacing = 1.1f * 2 * this->scale; // Êîýôôèöèåíò èíòåðâàëà ìåæäó ñòðîêàìè
+    float yOffset = 10 * this->scale;
+    for (const auto& line : lines)
+    {
+        sf::Text sfText(line, font, characterSize);
+        sfText.setColor(sf::Color::Black);
+        sfText.setPosition(spriteTopLeft.x + 10 * this->scale, spriteTopLeft.y + yOffset);
+        yOffset += sfText.getLocalBounds().height * lineSpacing;
+        this->cardText.push_back(sfText);
+    }
+}
+
+std::vector<std::string> wordWrap(const std::string& text, sf::Font& font, unsigned int characterSize, float maxWidth) 
+{
+    std::vector<std::string> lines;
+    std::istringstream wordStream(text);
+    std::string word;
+    std::string currentLine;
+
+    while (wordStream >> word) {
+        std::string testLine = currentLine + (currentLine.empty() ? "" : " ") + word;
+        sf::Text testText(testLine, font, characterSize);
+        if (testText.getLocalBounds().width > maxWidth) {
+            if (!currentLine.empty()) {
+                lines.push_back(currentLine);
+                currentLine.clear();
+            }
+            currentLine = word;
+        }
+        else {
+            currentLine = testLine;
+        }
+    }
+
+    if (!currentLine.empty()) 
+    {
+        lines.push_back(currentLine);
+    }
+
+    return lines;
+}
+
+

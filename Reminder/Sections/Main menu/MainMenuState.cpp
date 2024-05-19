@@ -1,14 +1,16 @@
 #include "MainMenuState.h"
 #include <iostream>
 #include "../WelcomeScreen/WelcomeScreen.h"
-MainMenuState::MainMenuState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings)
-    : State(window, states), gfxSettings(gfxSettings) {
-  this->InitTextures();
-  this->InitVars();
-  this->InitSprites();
-  this->InitBG();
-  this->InitFonts();
-  this->InitButtons();
+#include "../../Game/GameState.h"
+MainMenuState::MainMenuState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings)
+	:State(window, states), gfxSettings(gfxSettings)
+{
+	this->InitTextures();
+	this->InitVars();
+	this->InitSprites();
+	this->InitBG();
+	this->InitFonts();
+	this->InitButtons();
 
   this->startFullScreen = this->gfxSettings.fullscreen;
 }
@@ -186,6 +188,11 @@ void MainMenuState::UpdateButtons() {
 
     this->states->push(new PresetsMenuState(this->window, this->states, this->gfxSettings));
   }
+
+	if (this->buttons["GAME_BTN"]->isPressed() and this->getKeyTime())
+	{
+		this->states->push(new GameState(this->window, this->states, this->gfxSettings));
+	}
 
 	if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime())
 	{

@@ -15,14 +15,20 @@ private:
     std::map<std::string, ReminderUI::Button*> buttons;
     std::map<std::string, ReminderUI::DropDownList*> dropDownLists;
     std::map<std::string, sf::Text> texts;
+    std::vector<sf::Text> cardText;
     std::vector<std::string> presetsName;
     std::vector<Reminder::CardPreset>* userPresets;
     Reminder::CardPreset* activePreset;
     Reminder::Database* database;
     UserDAO* existingUser;
 
+    // вектор с фейлами
+    // вектор с отгаданными (или счетчик отгаданных)
+    // активная карта
+
     float scale = 1;
     bool startFullScreen = 0;
+    bool showingTitle = 1;
 
     //Inits
     void InitVars();
@@ -53,4 +59,7 @@ public:
     void RenderTextes(sf::RenderTarget* target = nullptr);
     void Render(sf::RenderTarget* target = nullptr);
     void EndState();
+    void showCardText(std::string str);
 };
+
+std::vector<std::string> wordWrap(const std::string& text, sf::Font& font, unsigned int characterSize, float maxWidth);
