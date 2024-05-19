@@ -19,12 +19,17 @@ private:
     std::vector<std::string> presetsName;
     std::vector<Reminder::CardPreset>* userPresets;
     Reminder::CardPreset* activePreset;
-   // Reminder::Database* database;
-  //  UserDAO* existingUser;
+    Reminder::Database* database;
+    UserDAO* existingUser;
 
-    // ������ � �������
-    // ������ � ����������� (��� ������� ����������)
-    // �������� �����
+    // Вектор с фейлами                     
+    // Вектор с отгаданными (или счетчик)
+    // Активная карта
+
+    // Vector with fails
+    // Vector with guesses (or counter)
+    // Active card
+
 
     float scale = 1;
     bool startFullScreen = 0;
@@ -41,7 +46,7 @@ private:
     void InitDropDownLists();
 
 public:
-   // GameState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings, std::vector<Reminder::CardPreset>* userPresets, Reminder::CardPreset* activePreset, Reminder::Database* database, UserDAO* existingUser);
+    GameState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings, std::vector<Reminder::CardPreset>* userPresets, Reminder::CardPreset* activePreset, Reminder::Database* database, UserDAO* existingUser);
     GameState(sf::RenderWindow* window, std::stack<State*>* states, Settings& gfxSettings);
 
     virtual ~GameState();

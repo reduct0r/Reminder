@@ -18,8 +18,8 @@ class PresetsMenuState :
   std::vector<std::string> presetsName;
   std::vector<Reminder::CardPreset> *userPresets;
   Reminder::CardPreset *activePreset;
-//  Reminder::Database *database;
- // UserDAO *existingUser;
+  Reminder::Database *database;
+  UserDAO *existingUser;
 
   float scale = 1;
   bool startFullScreen = 0;
@@ -35,13 +35,14 @@ class PresetsMenuState :
   void InitDropDownLists();
 
  public:
-  //PresetsMenuState(sf::RenderWindow *window,
-  //                 std::stack<State *> *states,
-  //                 Settings &gfxSettings,
-  //                 std::vector<Reminder::CardPreset> *userPresets,
-  //                 Reminder::CardPreset *activePreset,
-  //                 Reminder::Database *database,
-  //                 UserDAO *existingUser);
+  PresetsMenuState(sf::RenderWindow *window,
+                   std::stack<State *> *states,
+                   Settings &gfxSettings,
+                   std::vector<Reminder::CardPreset> *userPresets,
+                   Reminder::CardPreset *activePreset,
+                   Reminder::Database *database,
+                   UserDAO *existingUser);
+
   PresetsMenuState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings);
 
   virtual ~PresetsMenuState();

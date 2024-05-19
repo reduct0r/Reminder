@@ -16,29 +16,29 @@ GameState::GameState(sf::RenderWindow* window, std::stack<State*>* states, Setti
     this->startFullScreen = this->gfxSettings.fullscreen;
 }
 
-//GameState::GameState(sf::RenderWindow* window,
-//    std::stack<State*>* states,
-//    Settings& gfxSettings,
-//    std::vector<Reminder::CardPreset>* userPresets,
-//    Reminder::CardPreset* activePreset,
-//    Reminder::Database* database,
-//    UserDAO* existingUser) : State(window, states),
-//    gfxSettings(gfxSettings),
-//    userPresets(userPresets),
-//    activePreset(activePreset),
-//    database(database),
-//    existingUser(existingUser) {
-//    this->InitTextures();
-//    this->InitVars();
-//    this->InitSprites();
-//    this->InitBG();
-//    this->InitFonts();
-//    this->InitButtons();
-//    this->InitDropDownLists();
-//    this->InitTexts();
-//
-//    this->startFullScreen = this->gfxSettings.fullscreen;
-//}
+GameState::GameState(sf::RenderWindow* window,
+    std::stack<State*>* states,
+    Settings& gfxSettings,
+    std::vector<Reminder::CardPreset>* userPresets,
+    Reminder::CardPreset* activePreset,
+    Reminder::Database* database,
+    UserDAO* existingUser) : State(window, states),
+    gfxSettings(gfxSettings),
+    userPresets(userPresets),
+    activePreset(activePreset),
+    database(database),
+    existingUser(existingUser) {
+    this->InitTextures();
+    this->InitVars();
+    this->InitSprites();
+    this->InitBG();
+    this->InitFonts();
+    this->InitButtons();
+    this->InitDropDownLists();
+    this->InitTexts();
+
+    this->startFullScreen = this->gfxSettings.fullscreen;
+}
 
 GameState::~GameState() {
     auto it = this->buttons.begin();
@@ -51,12 +51,12 @@ GameState::~GameState() {
 void GameState::InitVars() {
     this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_GAME"].getSize().x;
 
-    /*if (!this->userPresets->empty()) {
-        presetsName.push_back("Choose Preset");
-        for (auto& preset : *userPresets) {
-            presetsName.push_back(preset.getName());
-        }
-    }*/
+    //if (!this->userPresets->empty()) {
+    //    presetsName.push_back("Choose Preset");
+    //    for (auto& preset : *userPresets) {
+    //        presetsName.push_back(preset.getName());
+    //    }
+    //}
     //else 
     {
         this->presetsName = { "No presets" };
@@ -162,8 +162,10 @@ void GameState::InitTexts() {
     text.setPosition(this->window->getSize().x / 1.18, this->window->getSize().y / 1.8);
     this->texts["COUNTER_AWAITING"] = text;
 
-    // ������������� ������ ������ ��� ������ ��������
-    // ������� �� ��������� �������� ������ �����
+    // Инициализация активной карточки и всего для нее
+    // Титул ТОЛЬКО  для первой карточки сюда
+    // Initialize the active card and everything for it
+    // Title ONLY for the first card here
     std::string cardTitle = "This is a card title.";
     GameState::showCardText(cardTitle);
 
@@ -209,32 +211,43 @@ void GameState::UpdateButtons() {
         this->ToQuit = 1;
     }
 
-    // ������� ��������
+    // Показать описание // Show description
     if (this->showingTitle and this->buttons["ACTIVE_CARD_BTN"]->isPressed() and this->getKeyTime()) {
 
         this->showingTitle = 0;
-        // DESCRIPTION �������� �� �������� �����
+        // DESCRIPTION взять из активной карточки // DESCRIPTION taken from the active card
         GameState::showCardText("DESCRIPTION This is a long text that needs to be wrapped within the rectangular sprite. SFML is a great library for graphics in C++");
     }
+    // Спрятать описание - показать титул // Hide description - show title
     else if (!this->showingTitle and this->buttons["ACTIVE_CARD_BTN"]->isPressed() and this->getKeyTime())
     {
         this->showingTitle = 1;
-        // title �������� �� �������� �����
+        // title взять из активной карточки // title taken from the active card
         GameState::showCardText("This is a card title.");
     }
 
     if (this->buttons["SWIPE_RIGHT_BTN"]->isPressed() and this->getKeyTime()) {
-        // ������ �� ������� awaiting
-        // ������ � ������ � �������
-        // ������� ��������� ����� ��������
-        // ����� �������� ����� �������� ����� GameState::showCardText("This is a card title.");
+        // удалить активную карточку из awaiting
+        // добавть это карточку в фейлы
+        // сменить активную карточку
+        // показать для активной карточки GameState::showCardText("This is a card title.");
+
+        // remove the active card from awaiting
+        // add this card to files
+        // change active card
+        // show for the active card GameState::showCardText("This is a card title.");
     }
 
     if (this->buttons["SWIPE_LEFT_BTN"]->isPressed() and this->getKeyTime()) {
-        // ������ �� ������� awaiting
-        // ������ � ������ � �����������
-        // ������� ��������� ����� ��������
-        // ����� �������� ����� �������� ����� GameState::showCardText("This is a card title.");
+        // удалить активную карточку из awaiting
+        // добавть это карточку в отгаданный или счетчик +1
+        // сменить активную карточку
+        // показать для активной карточки GameState::showCardText("This is a card title.");
+
+        // remove the active card from awaiting
+        // add this card to the guessed card or counter +1
+        // change active card
+        // show for the active card GameState::showCardText("This is a card title.");
     }
 }
 

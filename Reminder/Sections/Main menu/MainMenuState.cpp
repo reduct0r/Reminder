@@ -25,12 +25,12 @@ MainMenuState::~MainMenuState() {
 // INIT
 void MainMenuState::InitVars() {
   this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_MAIN"].getSize().x;
-  //if (database.containsSessionId(SessionIdService::readSessionId()).isEmpty()) {
-  //  userPresets = {};
-  //} else 
+  if (database.containsSessionId(SessionIdService::readSessionId()).isEmpty()) {
+    userPresets = {};
+  } else 
   {
-   // existingUser = database.containsSessionId(SessionIdService::readSessionId());
-    //userPresets = database.getUserPresets(existingUser);
+    existingUser = database.containsSessionId(SessionIdService::readSessionId());
+    userPresets = database.getUserPresets(existingUser);
   }
 }
 
@@ -190,13 +190,13 @@ void MainMenuState::UpdateButtons() {
   }
 
   if (this->buttons["PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
-    //this->states->push(new PresetsMenuState(this->window,
-    //                                        this->states,
-    //                                        this->gfxSettings,
-    //                                        &userPresets,
-    //                                        &activePreset,
-    //                                        &database,
-    //                                        &existingUser));
+    this->states->push(new PresetsMenuState(this->window,
+                                            this->states,
+                                            this->gfxSettings,
+                                            &userPresets,
+                                            &activePreset,
+                                            &database,
+                                            &existingUser));
 
     this->states->push(new PresetsMenuState(this->window,
         this->states,
