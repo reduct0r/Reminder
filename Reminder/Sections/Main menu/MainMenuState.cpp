@@ -25,11 +25,12 @@ MainMenuState::~MainMenuState() {
 // INIT
 void MainMenuState::InitVars() {
   this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_MAIN"].getSize().x;
-  if (database.containsSessionId(SessionIdService::readSessionId()).isEmpty()) {
-    userPresets = {};
-  } else {
-    existingUser = database.containsSessionId(SessionIdService::readSessionId());
-    userPresets = database.getUserPresets(existingUser);
+  //if (database.containsSessionId(SessionIdService::readSessionId()).isEmpty()) {
+  //  userPresets = {};
+  //} else 
+  {
+   // existingUser = database.containsSessionId(SessionIdService::readSessionId());
+    //userPresets = database.getUserPresets(existingUser);
   }
 }
 
@@ -189,19 +190,23 @@ void MainMenuState::UpdateButtons() {
   }
 
   if (this->buttons["PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
+    //this->states->push(new PresetsMenuState(this->window,
+    //                                        this->states,
+    //                                        this->gfxSettings,
+    //                                        &userPresets,
+    //                                        &activePreset,
+    //                                        &database,
+    //                                        &existingUser));
+
     this->states->push(new PresetsMenuState(this->window,
-                                            this->states,
-                                            this->gfxSettings,
-                                            &userPresets,
-                                            &activePreset,
-                                            &database,
-                                            &existingUser));
+        this->states,
+        this->gfxSettings));
   }
 
-	if (this->buttons["GAME_BTN"]->isPressed() and this->getKeyTime())
-	{
-
-	}
+    if (this->buttons["GAME_BTN"]->isPressed() and this->getKeyTime())
+    {
+        this->states->push(new GameState(this->window, this->states, this->gfxSettings));
+    }
 
 	if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime())
 	{

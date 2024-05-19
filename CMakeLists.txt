@@ -28,7 +28,7 @@ set(SOURCES
         "Reminder/Auth/Model/UserDAO.cpp"
         "Reminder/Auth/Service/SessionIdService.cpp"
         "Reminder/Sections/PreesetsMenu/PresetsMenu.cpp"
-        "Reminder/Sections/PreesetsMenu/PresetsMenuState.cpp")
+        "Reminder/Sections/PreesetsMenu/PresetsMenuState.cpp" "Reminder/Sections/GameScreen/GameScreen.cpp" "Reminder/Sections/GameScreen/GameScreenState.cpp")
 
 set(HEADERS
         "Reminder/Init/H_Init.h"
@@ -47,7 +47,7 @@ set(HEADERS
         "Reminder/Auth/Service/SessionIdService.h"
         "Reminder/Sections/PreesetsMenu/PresetsMenu.h"
         "Reminder/Sections/PreesetsMenu/PresetsMenuState.h"
-        "Reminder/UI/MultilineTextBox.hpp")
+        "Reminder/UI/MultilineTextBox.hpp" "Reminder/Sections/GameScreen/GameScreen.h" "Reminder/Sections/GameScreen/GameScreenState.h")
 
 # Файлы для копирования
 if (WIN32)
@@ -112,6 +112,7 @@ if (WIN32)
     message("Successful!")
 
    find_package(OpenSSL REQUIRED)
+   find_package( REQUIRED)
    find_package(libpqxx CONFIG REQUIRED)
    find_package(jsoncpp CONFIG REQUIRED)
    find_package(tinyfiledialogs CONFIG REQUIRED)

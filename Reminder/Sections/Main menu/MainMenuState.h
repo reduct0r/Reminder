@@ -4,7 +4,7 @@
 #include "SettingsState.h"
 #include "../PreesetsMenu/PresetsMenuState.h"
 #include "../../State.h"
-#include "../../Game/GameProcess.h"
+#include "../GameScreen/GameScreenState.h"
 
 class MainMenuState :
     public State {
@@ -17,8 +17,8 @@ class MainMenuState :
   std::map<std::string, ReminderUI::Button *> buttons;
   std::vector<Reminder::CardPreset> userPresets;
   Reminder::CardPreset activePreset;
-  Reminder::Database database;
-  UserDAO existingUser;
+//  Reminder::Database database;
+//  UserDAO existingUser;
 
   float scale = 1;
   bool startFullScreen = 0;

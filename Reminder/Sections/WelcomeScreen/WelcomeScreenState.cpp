@@ -325,7 +325,7 @@ void WelcomeScreenState::UpdateButtons() {
     this->animTransit = 1;
     this->buttons["REGISTER_BTN"]->Hide(1);
 
-//    this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings)); // для отладки переход
+    this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings)); // для отладки переход
   } else if (flag3 and this->buttons["LOGIN_BTN"]->isPressed() and !this->animTransitReverse and !this->animTransit
       and this->textboxes["LOGIN"]->getCurrentText() != ""
       and this->textboxes["PASSWORD"]->getCurrentText() != "") // второе нажатие на login, когда поля открыты
@@ -333,15 +333,15 @@ void WelcomeScreenState::UpdateButtons() {
     flag3 = 0;
     this->animTransit = 1;
 
-    UserDAO userLogin(this->textboxes["LOGIN"]->getCurrentText(), this->textboxes["PASSWORD"]->getCurrentText());
-    UserDAO existingUserLogin = database.getUser(userLogin);
+  //  UserDAO userLogin(this->textboxes["LOGIN"]->getCurrentText(), this->textboxes["PASSWORD"]->getCurrentText());
+  //  UserDAO existingUserLogin = database.getUser(userLogin);
 
-    if (existingUserLogin.isEmpty()) {
+   // if (existingUserLogin.isEmpty()) {
       // TODO
-    } else {
-      this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
+   // } else {
+     this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
       flag3 = 1;
-    }
+   // }
   }
 
   if (flag1 and this->buttons["REGISTER_BTN"]->isPressed() and this->getKeyTime() and !this->animTransit
@@ -357,16 +357,17 @@ void WelcomeScreenState::UpdateButtons() {
       and this->textboxes["LOGIN"]->getCurrentText() != "" and this->textboxes["PASSWORD"]->getCurrentText() != "") {
     flag3 = 0;
 
-    UserDAO user(this->textboxes["LOGIN"]->getCurrentText(),
-                 this->textboxes["PASSWORD"]->getCurrentText());
+    //UserDAO user(this->textboxes["LOGIN"]->getCurrentText(),
+    //             this->textboxes["PASSWORD"]->getCurrentText());
 
-    Reminder::Database database;
-    UserDAO existingUser = database.createUser(user.getUsername(), user.getPassword());
+    //Reminder::Database database;
+    //UserDAO existingUser = database.createUser(user.getUsername(), user.getPassword());
 
-    if (existingUser.isEmpty()) {
-      // TODO
-    } else {
-      SessionIdService::saveNewSessionId(existingUser.getSessionId());
+    //if (existingUser.isEmpty()) {
+    //  // TODO
+    //} else 
+    {
+     // SessionIdService::saveNewSessionId(existingUser.getSessionId());
       this->states->push(new MainMenuState(this->window, this->states, this->gfxSettings));
       flag1 = 1;
     }
