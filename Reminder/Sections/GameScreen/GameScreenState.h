@@ -3,6 +3,7 @@
 #include "../../State.h"
 #include "../../Game/GameProcess.h"
 #include "../../Auth/Database.h"
+#include "../PreesetsMenu/PresetsMenuState.h"
 
 class GameState :
     public State {
@@ -17,23 +18,14 @@ class GameState :
   std::map<std::string, sf::Text> texts;
   std::vector<sf::Text> cardText;
   std::vector<std::string> presetsName;
-  std::vector<Reminder::CardPreset> userPresets;
-  Reminder::CardPreset activePreset;
+  std::vector<Reminder::CardPreset> &userPresets;
+  Reminder::CardPreset &activePreset;
   Reminder::Database *database;
-  UserDAO existingUser;
+  UserDAO &existingUser;
 
   std::vector<int> awaitingCardsIndexes;
   std::vector<int> failedCardsIndexes;
   int currentCardIndex = 0;
-
-  // Вектор с фейлами
-  // Вектор с отгаданными (или счетчик)
-  // Активная карта
-
-  // Vector with fails
-  // Vector with guesses (or counter)
-  // Active card
-
 
   float scale = 1;
   bool startFullScreen = 0;
@@ -58,7 +50,6 @@ class GameState :
             Reminder::CardPreset &activePreset,
             Reminder::Database *database,
             UserDAO &existingUser);
-  GameState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings);
 
   virtual ~GameState();
 

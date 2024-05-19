@@ -2,20 +2,6 @@
 #include <iostream>
 #include "../WelcomeScreen/WelcomeScreen.h"
 
-GameState::GameState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings)
-    : State(window, states), gfxSettings(gfxSettings) {
-  this->InitTextures();
-  this->InitVars();
-  this->InitSprites();
-  this->InitBG();
-  this->InitFonts();
-  this->InitButtons();
-  this->InitDropDownLists();
-  this->InitTexts();
-
-  this->startFullScreen = this->gfxSettings.fullscreen;
-}
-
 GameState::GameState(sf::RenderWindow *window,
                      std::stack<State *> *states,
                      Settings &gfxSettings,
@@ -54,6 +40,7 @@ void GameState::InitVars() {
   for (int i = activePreset.getLength() - 1; i >= 0; --i) {
     awaitingCardsIndexes.push_back(i);
   }
+
 }
 
 void GameState::InitBG() {
@@ -205,11 +192,8 @@ void GameState::InitTexts() {
   // Титул ТОЛЬКО  для первой карточки сюда
   // Initialize the active card and everything for it
   // Title ONLY for the first card here
-//  if (activePreset == nullptr) {
-//
-//  } else {
+
   GameState::showCardText(activePreset.getCardByIndex(currentCardIndex).getTitle());
-//  }
 
 }
 

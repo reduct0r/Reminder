@@ -30,8 +30,6 @@ void MainMenuState::InitVars() {
     existingUser = database.containsSessionId(SessionIdService::readSessionId());
     userPresets = database.getUserPresets(existingUser);
   }
-
-  activePreset = userPresets.at(3);
 }
 
 void MainMenuState::InitBG() {
@@ -200,13 +198,23 @@ void MainMenuState::UpdateButtons() {
   }
 
   if (this->buttons["GAME_BTN"]->isPressed() and this->getKeyTime()) {
-    this->states->push(new GameState(this->window,
-                                     this->states,
-                                     this->gfxSettings,
-                                     userPresets,
-                                     activePreset,
-                                     &database,
-                                     existingUser));
+    if (!activePreset.getName().empty()) {
+      this->states->push(new GameState(this->window,
+                                       this->states,
+                                       this->gfxSettings,
+                                       userPresets,
+                                       activePreset,
+                                       &database,
+                                       existingUser));
+    } else {
+      this->states->push(new PresetsMenuState(this->window,
+                                              this->states,
+                                              this->gfxSettings,
+                                              userPresets,
+                                              activePreset,
+                                              &database,
+                                              existingUser));
+    }
   }
 
   if (this->buttons["GITHUB_BTN"]->isPressed() and this->getKeyTime()) {

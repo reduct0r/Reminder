@@ -2,19 +2,6 @@
 #include <iostream>
 #include "../WelcomeScreen/WelcomeScreen.h"
 
-PresetsMenuState::PresetsMenuState(sf::RenderWindow *window, std::stack<State *> *states, Settings &gfxSettings)
-    : State(window, states), gfxSettings(gfxSettings) {
-  this->InitTextures();
-  this->InitVars();
-  this->InitSprites();
-  this->InitBG();
-  this->InitFonts();
-  this->InitButtons();
-  this->InitDropDownLists();
-  this->InitTexts();
-
-  this->startFullScreen = this->gfxSettings.fullscreen;
-}
 
 PresetsMenuState::PresetsMenuState(sf::RenderWindow *window,
                                    std::stack<State *> *states,
@@ -299,6 +286,7 @@ void PresetsMenuState::UpdateButtons() {
     if (indexToRemove > 0 and indexToRemove < this->presetsName.size()) {
       database->deleteUserPreset(userPresets.at(indexToRemove - 1).getName(), existingUser);
       this->presetsName.erase(this->presetsName.begin() + indexToRemove);
+      userPresets.erase(userPresets.begin() + indexToRemove - 1);
     }
 
     this->InitDropDownLists();
@@ -312,11 +300,8 @@ void PresetsMenuState::UpdateButtons() {
 
     if (indexToRemove > 0) {
       activePreset = userPresets.at(this->dropDownLists["PRESETS_LIST"]->getActiveElementId() - 1);
-    } else {
-
     }
   }
-
 }
 
 void PresetsMenuState::UpdateSprites() {

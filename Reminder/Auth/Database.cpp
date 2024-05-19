@@ -207,8 +207,8 @@ bool Database::deleteUserPreset(const std::string &presetName, UserDAO &user) {
         "    SELECT jsonb_agg(elem) \n"
         "    FROM jsonb_array_elements(presets) elem\n"
         "    WHERE elem->>'presetName' <> \'" + presetName + "\'\n"
-                                                             ")\n"
-                                                             "WHERE username = \'" + user.getUsername() + "\';";
+        ")\n"
+        "WHERE username = \'" + user.getUsername() + "\';";
 
     pqxx::result result = txn.exec(query);
 
