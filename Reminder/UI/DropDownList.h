@@ -38,6 +38,8 @@ class DropDownList {
   const unsigned short &getActiveElementId() const;
   void UpdateKeyTime(const float &dt);
   void Hide(bool flag);
+  void Blink();
+  void setActiveEl(int i);
 };
 
 }

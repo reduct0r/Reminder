@@ -109,12 +109,10 @@ void WelcomeScreenState::UpdateKeyBoardBinds(const float &dt) {
 }
 
 void WelcomeScreenState::EndState() {
-  std::cout << "Welcome Screen ENDING...";
 }
 
 void WelcomeScreenState::InitVars() {
   this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_WELCOME"].getSize().x;
-  std::cout << this->scale << "\n";
 }
 
 void WelcomeScreenState::InitBG() {

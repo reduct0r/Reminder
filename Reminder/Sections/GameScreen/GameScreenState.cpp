@@ -53,7 +53,7 @@ void GameState::InitBG() {
 
 void GameState::InitFonts() {
   if (!this->font.loadFromFile("Resources/Fonts/ARIAL.ttf")) {
-    throw ("PresetsState: COULD NOT LOAD FONT");
+    throw ("GAMEState: COULD NOT LOAD FONT");
   }
 }
 
@@ -297,9 +297,11 @@ void GameState::UpdateButtons() {
         }
       }
     } else {
+        this->buttons["SWIPE_RIGHT_BTN"]->Hide(1);
       if (!failedCardsIndexes.empty()) {
         currentCardIndex = failedCardsIndexes.at(0);
         failedCardsIndexes.erase(failedCardsIndexes.begin());
+        activePreset.getCardByIndex(currentCardIndex).setFailed(false);
         showCurrentCard();
       }
     }
@@ -374,7 +376,7 @@ void GameState::showCardText(std::string cardTitle) {
 
   const float maxWidth = this->textures["ACTIVE_CARD"].getSize().x * this->scale;
   unsigned int characterSize = 40 * this->scale;
-  auto lines = wordWrap(cardTitle, this->font, characterSize, maxWidth);
+  auto lines = wordWrap(cardTitle, this->font, characterSize, maxWidth - 15 * this->scale);
 
   float lineSpacing = 1.1f * 2 * this->scale;
   float yOffset = 10 * this->scale;

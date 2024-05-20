@@ -6,7 +6,8 @@ int main() {
 
   Reminder::Database database;
 
-  if (database.containsSessionId(SessionIdService::readSessionId()).isEmpty()) {
+  if (database.containsSessionId(SessionIdService::readSessionId()).isEmpty()) 
+  {
     WelcomeScreen welcomeScreen;
     welcomeScreen.Run();
   } else {
