@@ -33,7 +33,6 @@ PresetsMenuState::~PresetsMenuState() {
     delete it->second;
   }
 
-  delete database;
 }
 
 // INIT
