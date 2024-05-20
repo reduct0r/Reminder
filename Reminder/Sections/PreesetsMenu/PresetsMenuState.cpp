@@ -33,16 +33,6 @@ PresetsMenuState::~PresetsMenuState() {
     delete it->second;
   }
 
-  auto it2 = this->dropDownLists.begin();
-  for (auto it2 = this->dropDownLists.begin(); it2 != this->dropDownLists.end(); ++it) {
-    delete it2->second;
-  }
-
-  auto it3 = this->textboxesMulti.begin();
-  for (auto it3 = this->textboxesMulti.begin(); it3 != this->textboxesMulti.end(); ++it) {
-    delete it3->second;
-  }
-
   delete database;
 }
 
