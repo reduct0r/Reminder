@@ -1,4 +1,4 @@
-#include "PresetsMenuState.h"
+Ôªø#include "PresetsMenuState.h"
 #include <iostream>
 #include "../WelcomeScreen/WelcomeScreen.h"
 
@@ -347,7 +347,7 @@ void PresetsMenuState::UpdateButtons() {
     this->ToQuit = 1;
   }
 
-  // ÃÓË ÔÂÒÂÚ˚
+  // –ú–æ–∏ –ø—Ä–µ—Å–µ—Ç—ã
   if (flag and this->buttons["MY_PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
     flag = 0;
 
@@ -386,7 +386,7 @@ void PresetsMenuState::UpdateButtons() {
     this->buttons["CHOOSE_BTN"]->Hide(1);
   }
 
-  // ÕÓ‚˚È ÔÂÒÂÚ
+  // –ù–æ–≤—ã–π –ø—Ä–µ—Å–µ—Ç
   if (flag and this->buttons["NEW_PRESET_BTN"]->isPressed() and this->getKeyTime()) {
       flag = 0;
       this->buttons["NEW_PRESET_BTN"]->setPos(
@@ -438,7 +438,7 @@ void PresetsMenuState::UpdateButtons() {
      this->textboxesMulti["DESCRIPTION"]->clearInput();
      this->textboxesMulti["DESCRIPTION"]->setSize(0, 0);
      
-     //this->textboxes["CARD_NAME"]->GetInput();            ¬Œ«¬–¿Ÿ¿ﬁ“ —“–Œ ” »« “≈ —“Œ¬€’ œŒÀ≈…
+     //this->textboxes["CARD_NAME"]->GetInput();            –í–û–ó–í–†–ê–©–ê–Æ–¢ –°–¢–†–û–ö–£ –ò–ó –¢–ï–ö–°–¢–û–í–´–• –ü–û–õ–ï–ô
      //this->textboxesMulti["DESCRIPTION"]->getInput();
 
   }
@@ -473,17 +473,17 @@ void PresetsMenuState::UpdateButtons() {
   if (this->buttons["CLEAR_BTN"]->isPressed() and this->getKeyTime()) {
       this->textboxes["CARD_NAME"]->ClearInput();
       this->textboxesMulti["DESCRIPTION"]->clearInput();
-      // Œ◊»—“»“‹
+      // –û–ß–ò–°–¢–ò–¢–¨
   }
 
   if (this->buttons["NEXT_BTN"]->isPressed() and this->getKeyTime()) {
       //NEXT/
-      //œ–Œ¬≈– ¿ Õ¿ œ”—“€≈ œŒÀﬂ
+      //–ü–†–û–í–ï–†–ö–ê –ù–ê –ü–£–°–¢–´–ï –ü–û–õ–Ø
   }
 
   if (this->buttons["FINISH_BTN"]->isPressed() and this->getKeyTime()) {
       //FINISH - ADD PRESET TO DATABS
-      // œ–Œ¬≈– ¿ Õ¿ œ”—“€≈ œŒÀﬂ
+      // –ü–†–û–í–ï–†–ö–ê –ù–ê –ü–£–°–¢–´–ï –ü–û–õ–Ø
   }
 }
 
