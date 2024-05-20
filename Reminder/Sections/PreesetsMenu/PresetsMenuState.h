@@ -3,6 +3,7 @@
 #include "../../State.h"
 #include "../../Game/GameProcess.h"
 #include "../../Auth/Database.h"
+#include "../../UI/MultilineTextBox.hpp"
 
 class PresetsMenuState :
     public State {
@@ -14,15 +15,20 @@ class PresetsMenuState :
   sf::Event sfEvent;
   std::map<std::string, ReminderUI::Button *> buttons;
   std::map<std::string, ReminderUI::DropDownList *> dropDownLists;
+  std::map<std::string, ReminderUI::TextBox*> textboxes;
+  std::map<std::string, ReminderUI::MultiLineTextBox*> textboxesMulti;
   std::map<std::string, sf::Text> texts;
   std::vector<std::string> presetsName;
   std::vector<Reminder::CardPreset> &userPresets;
   Reminder::CardPreset &activePreset;
   Reminder::Database *database;
   UserDAO &existingUser;
+  sf::Clock dtClock;
+  Reminder::CardPreset presetToAdd;
 
   float scale = 1;
   bool startFullScreen = 0;
+  float dt;
 
   //Inits
   void InitVars();
@@ -33,6 +39,7 @@ class PresetsMenuState :
   void InitSprites();
   void InitTexts();
   void InitDropDownLists();
+  void InitTextBoxes();
 
  public:
   PresetsMenuState(sf::RenderWindow *window,
@@ -46,12 +53,15 @@ class PresetsMenuState :
   virtual ~PresetsMenuState();
 
   void Update(const float &dt);
+  void UpdateDT();
   void UpdateButtons();
   void UpdateSprites();
   void UpdateEvents();
   void UpdateKeyBoardBinds(const float &dt);
   void UpdateDropDownLists(const float &dt);
+  void UpdateTextBoxesEvent();
 
+  void RenderTextBoxes(sf::RenderTarget* target = nullptr);
   void RenderButtons(sf::RenderTarget *target = nullptr);
   void RenderSprites(sf::RenderTarget *target = nullptr);
   void RenderDropDownLists(sf::RenderTarget *target = nullptr);

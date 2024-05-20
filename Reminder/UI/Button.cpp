@@ -49,7 +49,7 @@ ReminderUI::Button::Button(bool needAnim,
   this->text.setFont(*this->font);
   this->text.setString(text);
   this->text.setColor(sf::Color::Black);
-  this->text.setCharacterSize(fontSize);
+  this->text.setCharacterSize(fontSize * width);
   this->text.setPosition(
       this->sprite.getPosition().x + (this->sprite.getGlobalBounds().width / 2.0)
           - this->text.getGlobalBounds().width / 2.0,

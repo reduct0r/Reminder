@@ -21,7 +21,7 @@ ReminderUI::DropDownList::DropDownList(float scale,
   unsigned nrOfElement = list.size();
 
   this->activeElement = new ReminderUI::Button(0,
-                                               fontSize * 2 * scale,
+                                               fontSize,
                                                x,
                                                y + idleTexture.getSize().y * scale,
                                                scale,
@@ -34,7 +34,7 @@ ReminderUI::DropDownList::DropDownList(float scale,
 
   for (size_t i = 0; i < nrOfElement; i++) {
     this->list.push_back(new ReminderUI::Button(0,
-                                                fontSize * 2 * scale,
+                                                fontSize,
                                                 x,
                                                 y + ((i + 1) * idleTexture.getSize().y * scale),
                                                 scale,
@@ -104,6 +104,16 @@ void ReminderUI::DropDownList::UpdateKeyTime(const float &dt) {
 
 void ReminderUI::DropDownList::Hide(bool flag) {
   this->activeElement->Hide(flag);
+}
+
+void ReminderUI::DropDownList::Blink()
+{
+    this->activeElement->setText("CHOOSE PRESET!");
+}
+
+void ReminderUI::DropDownList::setActiveEl(int i)
+{
+    this->activeElement->setText(this->list[i - 1]->getText());
 }
 
 void ReminderUI::DropDownList::Render(sf::RenderTarget *target) const {

@@ -192,7 +192,7 @@ void SettingsState::InitDropDownLists() {
                                                                            / 2,
                                                                    0,
                                                                    &this->font,
-                                                                   25,
+                                                                   50,
                                                                    l,
                                                                    this->textures["DDL_SECOND"],
                                                                    this->textures["DDL_SECOND_HOVER"],

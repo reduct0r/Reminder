@@ -88,11 +88,7 @@ void MainMenu::Run() {
 }
 
 void MainMenu::UpdateEvents() {
-  while (this->window->pollEvent(this->sfEvent)) {
-    if (this->sfEvent.type == sf::Event::Closed) {
-      this->window->close();
-    }
-  }
+
 }
 
 void MainMenu::UpdateDT() {

@@ -16,6 +16,7 @@ set(SOURCES
         "Reminder/Sections/WelcomeScreen/WelcomeScreen.cpp"
         "Reminder/UI/UI_anims.cpp"
         "Reminder/UI/TextBox.cpp"
+        "Reminder/UI/MultilineTextBox.hpp"
         "Reminder/Sections/Main menu/MainMenu.cpp"
         "Reminder/Sections/Settings/Settings.cpp"
         "Reminder/UI/Button.cpp"
