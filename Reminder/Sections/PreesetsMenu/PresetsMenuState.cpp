@@ -33,16 +33,6 @@ PresetsMenuState::~PresetsMenuState() {
     delete it->second;
   }
 
-  auto it2 = this->dropDownLists.begin();
-  for (auto it2 = this->dropDownLists.begin(); it2 != this->dropDownLists.end(); ++it) {
-    delete it2->second;
-  }
-
-  auto it3 = this->textboxesMulti.begin();
-  for (auto it3 = this->textboxesMulti.begin(); it3 != this->textboxesMulti.end(); ++it) {
-    delete it3->second;
-  }
-
   delete database;
 }
 
@@ -486,10 +476,9 @@ void PresetsMenuState::UpdateButtons() {
 
   if (this->buttons["CHOOSE_BTN"]->isPressed() and this->getKeyTime()) {
     int indexToRemove = this->dropDownLists["PRESETS_LIST"]->getActiveElementId();
-
     if (indexToRemove > 0) {
       activePreset = userPresets.at(this->dropDownLists["PRESETS_LIST"]->getActiveElementId() - 1);
-    } else if (this->activePreset.getName().empty()) {
+    } else if (activePreset.getName().empty()) {
       this->dropDownLists["PRESETS_LIST"]->Blink();
     }
   }
