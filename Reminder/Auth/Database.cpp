@@ -226,7 +226,7 @@ bool Database::addUserPreset(CardPreset &cardPreset, UserDAO &user) {
 
     std::string query =
         "UPDATE users\n"
-        "SET presets = COALESCE(presetsName, '[]'::jsonb) || '[" + cardPreset.toJson() + "]'::jsonb\n"
+        "SET presets = COALESCE(presets, '[]'::jsonb) || '[" + cardPreset.toJson() + "]'::jsonb\n"
                                                                                          "WHERE username = \'"
             + user.getUsername() + "\';";
 

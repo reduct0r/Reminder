@@ -24,6 +24,7 @@ class PresetsMenuState :
   Reminder::Database *database;
   UserDAO &existingUser;
   sf::Clock dtClock;
+  Reminder::CardPreset presetToAdd;
 
   float scale = 1;
   bool startFullScreen = 0;

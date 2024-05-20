@@ -2,7 +2,6 @@
 #include <iostream>
 #include "../WelcomeScreen/WelcomeScreen.h"
 
-
 PresetsMenuState::PresetsMenuState(sf::RenderWindow *window,
                                    std::stack<State *> *states,
                                    Settings &gfxSettings,
@@ -33,11 +32,24 @@ PresetsMenuState::~PresetsMenuState() {
   for (auto it = this->buttons.begin(); it != this->buttons.end(); ++it) {
     delete it->second;
   }
+
+  auto it2 = this->dropDownLists.begin();
+  for (auto it2 = this->dropDownLists.begin(); it2 != this->dropDownLists.end(); ++it) {
+    delete it2->second;
+  }
+
+  auto it3 = this->textboxesMulti.begin();
+  for (auto it3 = this->textboxesMulti.begin(); it3 != this->textboxesMulti.end(); ++it) {
+    delete it3->second;
+  }
+
+  delete database;
 }
 
 // INIT
 void PresetsMenuState::InitVars() {
   this->scale = static_cast<float>(this->window->getSize().x) / this->textures["BG_PRESETS"].getSize().x;
+  presetsName.clear();
   if (!userPresets.empty()) {
     presetsName.push_back("Choose Preset");
     for (auto &preset : userPresets) {
@@ -74,14 +86,31 @@ void PresetsMenuState::InitButtons() {
                                                      this->textures["BACK"],
                                                      this->textures["BACK"]);
 
-  this->buttons["MY_PRESETS_BTN"] = new ReminderUI::Button(0, 40, winX / 3.2 - this->textures["MY_PRESETS"].getSize().x * this->scale/ 2,
-      winY / 2- this->textures["MY_PRESETS"].getSize().y * this->scale / 2,
-      scale, scale, &this->font, "", this->textures["MY_PRESETS"],this->textures["MY_PRESETS"],this->textures["MY_PRESETS"]);
+  this->buttons["MY_PRESETS_BTN"] =
+      new ReminderUI::Button(0,
+                             40,
+                             winX / 3.2 - this->textures["MY_PRESETS"].getSize().x * this->scale / 2,
+                             winY / 2 - this->textures["MY_PRESETS"].getSize().y * this->scale / 2,
+                             scale,
+                             scale,
+                             &this->font,
+                             "",
+                             this->textures["MY_PRESETS"],
+                             this->textures["MY_PRESETS"],
+                             this->textures["MY_PRESETS"]);
 
-  this->buttons["NEW_PRESET_BTN"] = new ReminderUI::Button(0, 40, winX / 1.5 - this->textures["NEW_PRESET"].getSize().x * this->scale / 2,
-      winY / 2 - this->textures["NEW_PRESET"].getSize().y * this->scale / 2,
-      scale, scale, &this->font, "", this->textures["NEW_PRESET"], this->textures["NEW_PRESET"], this->textures["NEW_PRESET"]);
-
+  this->buttons["NEW_PRESET_BTN"] =
+      new ReminderUI::Button(0,
+                             40,
+                             winX / 1.5 - this->textures["NEW_PRESET"].getSize().x * this->scale / 2,
+                             winY / 2 - this->textures["NEW_PRESET"].getSize().y * this->scale / 2,
+                             scale,
+                             scale,
+                             &this->font,
+                             "",
+                             this->textures["NEW_PRESET"],
+                             this->textures["NEW_PRESET"],
+                             this->textures["NEW_PRESET"]);
 
   this->buttons["DELETE_BTN"] =
       new ReminderUI::Button(winX / 1.15 - this->textures["DELETE_1"].getSize().x * this->scale / 2,
@@ -112,43 +141,43 @@ void PresetsMenuState::InitButtons() {
 
   this->buttons["SAVE_BTN"] =
       new ReminderUI::Button(winX / 1.15 - this->textures["SAVE_1"].getSize().x * this->scale / 2,
-          winY / 1.96,
-          scale,
-          this->textures["SAVE_1"],
-          this->textures["SAVE_2"],
-          this->textures["SAVE_2"]);
+                             winY / 1.96,
+                             scale,
+                             this->textures["SAVE_1"],
+                             this->textures["SAVE_2"],
+                             this->textures["SAVE_2"]);
   this->buttons["SAVE_BTN"]->Hide(1);
 
   this->buttons["CHOOSE_BTN"] =
       new ReminderUI::Button(winX / 28, winY / 1.38,
-          scale,
-          this->textures["USE_THIS_1"],
-          this->textures["USE_THIS_2"],
-          this->textures["USE_THIS_2"]);
+                             scale,
+                             this->textures["USE_THIS_1"],
+                             this->textures["USE_THIS_2"],
+                             this->textures["USE_THIS_2"]);
   this->buttons["CHOOSE_BTN"]->Hide(1);
 
   this->buttons["NEXT_BTN"] =
       new ReminderUI::Button(winX / 1.3, winY / 1.2,
-          scale,
-          this->textures["NEXT_1"],
-          this->textures["NEXT_2"],
-          this->textures["NEXT_2"]);
+                             scale,
+                             this->textures["NEXT_1"],
+                             this->textures["NEXT_2"],
+                             this->textures["NEXT_2"]);
   this->buttons["NEXT_BTN"]->Hide(1);
 
   this->buttons["CLEAR_BTN"] =
       new ReminderUI::Button(winX / 1.3, winY / 1.8,
-          scale,
-          this->textures["CLEAR_1"],
-          this->textures["CLEAR_2"],
-          this->textures["CLEAR_2"]);
+                             scale,
+                             this->textures["CLEAR_1"],
+                             this->textures["CLEAR_2"],
+                             this->textures["CLEAR_2"]);
   this->buttons["CLEAR_BTN"]->Hide(1);
 
   this->buttons["FINISH_BTN"] =
       new ReminderUI::Button(winX / 1.4, winY / 2.3,
-          scale,
-          this->textures["FINISH_1"],
-          this->textures["FINISH_2"],
-          this->textures["FINISH_2"]);
+                             scale,
+                             this->textures["FINISH_1"],
+                             this->textures["FINISH_2"],
+                             this->textures["FINISH_2"]);
   this->buttons["FINISH_BTN"]->Hide(1);
 }
 
@@ -269,23 +298,21 @@ void PresetsMenuState::InitDropDownLists() {
                                                                      this->textures["DDL_SECOND"],
                                                                      this->textures["DDL_SECOND_HOVER"],
                                                                      this->textures["DDL_SECOND"]);
-  if (this->activePreset.getName() != "")
-  {
-      this->dropDownLists["PRESETS_LIST"]->setActiveEl(this->activePreset.getNumber()-1);
-  }
+//  if (!this->activePreset.getName().empty()) {
+//    this->dropDownLists["PRESETS_LIST"]->setActiveEl(this->activePreset.getNumber() - 1);
+//  }
   this->dropDownLists["PRESETS_LIST"]->Hide(1);
 }
 
-void PresetsMenuState::InitTextBoxes()
-{
-    //first two parameter for size, second two for position and the last one for thickness.
-    this->textboxes["PRESET_NAME"] = new ReminderUI::TextBox(0, 0, 0, 0, 0);
-    this->textboxes["PRESET_NAME"]->SetColor(sf::Color::White);
+void PresetsMenuState::InitTextBoxes() {
+  //first two parameter for size, second two for position and the last one for thickness.
+  this->textboxes["PRESET_NAME"] = new ReminderUI::TextBox(0, 0, 0, 0, 0);
+  this->textboxes["PRESET_NAME"]->SetColor(sf::Color::White);
 
-    this->textboxes["CARD_NAME"] = new ReminderUI::TextBox(0, 0, 0, 0, 0);
-    this->textboxes["CARD_NAME"]->SetColor(sf::Color::White);
-    
-    this->textboxesMulti["DESCRIPTION"] = new ReminderUI::MultiLineTextBox(0, 0, 0, 0, this->font, 40 * this->scale);
+  this->textboxes["CARD_NAME"] = new ReminderUI::TextBox(0, 0, 0, 0, 0);
+  this->textboxes["CARD_NAME"]->SetColor(sf::Color::White);
+
+  this->textboxesMulti["DESCRIPTION"] = new ReminderUI::MultiLineTextBox(0, 0, 0, 0, this->font, 40 * this->scale);
 }
 
 void PresetsMenuState::InitTexts() {
@@ -324,15 +351,14 @@ void PresetsMenuState::UpdateDropDownLists(const float &dt) {
   }
 }
 
-void PresetsMenuState::UpdateTextBoxesEvent()
-{
-    for (auto& it : this->textboxes) {
-        it.second->handleEvent(this->sfEvent);
-    }
+void PresetsMenuState::UpdateTextBoxesEvent() {
+  for (auto &it : this->textboxes) {
+    it.second->handleEvent(this->sfEvent);
+  }
 
-    for (auto& it : this->textboxesMulti) {
-        it.second->handleEvent(this->sfEvent);
-    }
+  for (auto &it : this->textboxesMulti) {
+    it.second->handleEvent(this->sfEvent);
+  }
 }
 
 void PresetsMenuState::UpdateButtons() {
@@ -350,7 +376,6 @@ void PresetsMenuState::UpdateButtons() {
   // Мои пресеты
   if (flag and this->buttons["MY_PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
     flag = 0;
-
     this->buttons["MY_PRESETS_BTN"]->setPos(
         this->window->getSize().x / 6.0 - this->textures["MY_PRESETS"].getSize().x * this->scale / 2.0,
         this->buttons["MY_PRESETS_BTN"]->getPos().y);
@@ -365,8 +390,7 @@ void PresetsMenuState::UpdateButtons() {
     this->buttons["IMPORT_BTN"]->Hide(0);
     this->buttons["SAVE_BTN"]->Hide(0);
     this->buttons["CHOOSE_BTN"]->Hide(0);
-  } 
-  else if (!flag and this->buttons["MY_PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
+  } else if (!flag and this->buttons["MY_PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
     flag = 1;
     this->buttons["MY_PRESETS_BTN"]->setPos(
         this->window->getSize().x / 3.2 - this->textures["MY_PRESETS"].getSize().x * this->scale / 2,
@@ -388,58 +412,58 @@ void PresetsMenuState::UpdateButtons() {
 
   // Новый пресет
   if (flag and this->buttons["NEW_PRESET_BTN"]->isPressed() and this->getKeyTime()) {
-      flag = 0;
-      this->buttons["NEW_PRESET_BTN"]->setPos(
-          this->window->getSize().x / 1.2 - this->textures["NEW_PRESET"].getSize().x * this->scale / 2.0,
-          this->window->getSize().y / 10);
-      this->texts["COUNTER_TXT"].setCharacterSize(0);
-      this->buttons["MY_PRESETS_BTN"]->Hide(1);
-      this->buttons["NEW_PRESET_BTN"]->setText("\n\n\n\n\n  Click to return  \nWITHOUT saving");
-      this->sprites["LOGO"].setScale(0, 0);
-      this->buttons["BACK_BTN"]->Hide(1);
-      this->sprites["PRESET_FIELDS_SPRITE"].setScale(scale, scale);
-      this->buttons["FINISH_BTN"]->Hide(0);
-      this->buttons["NEXT_BTN"]->Hide(0);
-      this->buttons["CLEAR_BTN"]->Hide(0);
+    InitVars();
+    InitTexts();
+    InitDropDownLists();
+    flag = 0;
+    this->buttons["NEW_PRESET_BTN"]->setPos(
+        this->window->getSize().x / 1.2 - this->textures["NEW_PRESET"].getSize().x * this->scale / 2.0,
+        this->window->getSize().y / 10);
+    this->texts["COUNTER_TXT"].setCharacterSize(0);
+    this->buttons["MY_PRESETS_BTN"]->Hide(1);
+    this->buttons["NEW_PRESET_BTN"]->setText("\n\n\n\n\n  Click to return  \nWITHOUT saving");
+    this->sprites["LOGO"].setScale(0, 0);
+    this->buttons["BACK_BTN"]->Hide(1);
+    this->sprites["PRESET_FIELDS_SPRITE"].setScale(scale, scale);
+    this->buttons["FINISH_BTN"]->Hide(0);
+    this->buttons["NEXT_BTN"]->Hide(0);
+    this->buttons["CLEAR_BTN"]->Hide(0);
 
+    this->textboxes["PRESET_NAME"]->setPosition(this->window->getSize().x / 11.1, this->window->getSize().y / 8.0);
+    this->textboxes["PRESET_NAME"]->setSize(this->window->getSize().y / 1.3, this->window->getSize().x / 38.0);
 
-      this->textboxes["PRESET_NAME"]->setPosition(this->window->getSize().x / 11.1, this->window->getSize().y / 8.0);
-      this->textboxes["PRESET_NAME"]->setSize(this->window->getSize().y / 1.3, this->window->getSize().x / 38.0);
+    this->textboxes["CARD_NAME"]->setPosition(this->window->getSize().x / 9.0, this->window->getSize().y / 2.55);
+    this->textboxes["CARD_NAME"]->setSize(this->window->getSize().y / 1.45, this->window->getSize().x / 38.0);
 
-      this->textboxes["CARD_NAME"]->setPosition(this->window->getSize().x / 9.0, this->window->getSize().y / 2.55);
-      this->textboxes["CARD_NAME"]->setSize(this->window->getSize().y / 1.45, this->window->getSize().x / 38.0);
+    this->textboxesMulti["DESCRIPTION"]->setPos(this->window->getSize().x / 9.0, this->window->getSize().y / 1.95);
+    this->textboxesMulti["DESCRIPTION"]->setSize(750 * this->scale, 300 * this->scale);
 
-      this->textboxesMulti["DESCRIPTION"]->setPos(this->window->getSize().x / 9.0, this->window->getSize().y / 1.95);
-      this->textboxesMulti["DESCRIPTION"]->setSize(750 * this->scale, 300 * this->scale);
+  } else if (!flag and this->buttons["NEW_PRESET_BTN"]->isPressed() and this->getKeyTime()) {
+    InitVars();
+    InitTexts();
+    InitDropDownLists();
+    flag = 1;
+    this->buttons["NEW_PRESET_BTN"]->setPos(
+        this->window->getSize().x / 1.5 - this->textures["NEW_PRESET"].getSize().x * this->scale / 2,
+        this->window->getSize().y / 2 - this->textures["NEW_PRESET"].getSize().y * this->scale / 2);
+    this->texts["COUNTER_TXT"].setCharacterSize(this->scale * 40);
+    this->buttons["MY_PRESETS_BTN"]->Hide(0);
+    this->buttons["NEW_PRESET_BTN"]->setText("");
+    this->sprites["LOGO"].setScale(scale, scale);
+    this->buttons["BACK_BTN"]->Hide(0);
+    this->sprites["PRESET_FIELDS_SPRITE"].setScale(0, 0);
+    this->buttons["FINISH_BTN"]->Hide(1);
+    this->buttons["NEXT_BTN"]->Hide(1);
+    this->buttons["CLEAR_BTN"]->Hide(1);
 
-  }
-  else if (!flag and this->buttons["NEW_PRESET_BTN"]->isPressed() and this->getKeyTime()) {
-      flag = 1;
-      this->buttons["NEW_PRESET_BTN"]->setPos(
-          this->window->getSize().x / 1.5 - this->textures["NEW_PRESET"].getSize().x * this->scale / 2,
-          this->window->getSize().y / 2 - this->textures["NEW_PRESET"].getSize().y * this->scale / 2);
-      this->texts["COUNTER_TXT"].setCharacterSize(this->scale * 40);
-      this->buttons["MY_PRESETS_BTN"]->Hide(0);
-      this->buttons["NEW_PRESET_BTN"]->setText("");
-      this->sprites["LOGO"].setScale(scale, scale);
-      this->buttons["BACK_BTN"]->Hide(0);
-      this->sprites["PRESET_FIELDS_SPRITE"].setScale(0, 0);
-      this->buttons["FINISH_BTN"]->Hide(1);
-      this->buttons["NEXT_BTN"]->Hide(1);
-      this->buttons["CLEAR_BTN"]->Hide(1);
+    this->textboxes["CARD_NAME"]->ClearInput();
+    this->textboxes["PRESET_NAME"]->ClearInput();
 
+    this->textboxes["CARD_NAME"]->setSize(0, 0);
+    this->textboxes["PRESET_NAME"]->setSize(0, 0);
 
-      this->textboxes["CARD_NAME"]->ClearInput();
-      this->textboxes["PRESET_NAME"]->ClearInput();
-
-      this->textboxes["CARD_NAME"]->setSize(0, 0);
-      this->textboxes["PRESET_NAME"]->setSize(0, 0);
-
-     this->textboxesMulti["DESCRIPTION"]->clearInput();
-     this->textboxesMulti["DESCRIPTION"]->setSize(0, 0);
-     
-     //this->textboxes["CARD_NAME"]->GetInput();            ВОЗВРАЩАЮТ СТРОКУ ИЗ ТЕКСТОВЫХ ПОЛЕЙ
-     //this->textboxesMulti["DESCRIPTION"]->getInput();
+    this->textboxesMulti["DESCRIPTION"]->clearInput();
+    this->textboxesMulti["DESCRIPTION"]->setSize(0, 0);
 
   }
 
@@ -447,6 +471,9 @@ void PresetsMenuState::UpdateButtons() {
     int indexToRemove = this->dropDownLists["PRESETS_LIST"]->getActiveElementId();
     if (indexToRemove > 0 and indexToRemove < this->presetsName.size()) {
       database->deleteUserPreset(userPresets.at(indexToRemove - 1).getName(), existingUser);
+      if (userPresets.at(indexToRemove - 1).getName() == activePreset.getName()) {
+        activePreset.setName("");
+      }
       this->presetsName.erase(this->presetsName.begin() + indexToRemove);
       userPresets.erase(userPresets.begin() + indexToRemove - 1);
     }
@@ -460,30 +487,36 @@ void PresetsMenuState::UpdateButtons() {
   if (this->buttons["CHOOSE_BTN"]->isPressed() and this->getKeyTime()) {
     int indexToRemove = this->dropDownLists["PRESETS_LIST"]->getActiveElementId();
 
-  
     if (indexToRemove > 0) {
       activePreset = userPresets.at(this->dropDownLists["PRESETS_LIST"]->getActiveElementId() - 1);
-    }
-    else if (this->activePreset.getName() == "")
-    {
-        this->dropDownLists["PRESETS_LIST"]->Blink();
+    } else if (this->activePreset.getName().empty()) {
+      this->dropDownLists["PRESETS_LIST"]->Blink();
     }
   }
 
   if (this->buttons["CLEAR_BTN"]->isPressed() and this->getKeyTime()) {
-      this->textboxes["CARD_NAME"]->ClearInput();
-      this->textboxesMulti["DESCRIPTION"]->clearInput();
-      // ОЧИСТИТЬ
+    this->textboxes["CARD_NAME"]->ClearInput();
+    this->textboxesMulti["DESCRIPTION"]->clearInput();
+    // ОЧИСТИТЬ
   }
 
   if (this->buttons["NEXT_BTN"]->isPressed() and this->getKeyTime()) {
-      //NEXT/
-      //ПРОВЕРКА НА ПУСТЫЕ ПОЛЯ
+    std::string description = this->textboxesMulti["DESCRIPTION"]->getInput();
+    description.erase(std::remove(description.begin(), description.end(), '\n'), description.end());
+    Reminder::Card newCard(this->textboxes["CARD_NAME"]->getCurrentText(), description);
+    presetToAdd.addCard(newCard);
+    this->textboxes["CARD_NAME"]->ClearInput();
+    this->textboxesMulti["DESCRIPTION"]->clearInput();
+    //NEXT/
+    //ПРОВЕРКА НА ПУСТЫЕ ПОЛЯ
   }
 
   if (this->buttons["FINISH_BTN"]->isPressed() and this->getKeyTime()) {
-      //FINISH - ADD PRESET TO DATABS
-      // ПРОВЕРКА НА ПУСТЫЕ ПОЛЯ
+    presetToAdd.setName(this->textboxes["PRESET_NAME"]->getCurrentText());
+    database->addUserPreset(presetToAdd, existingUser);
+    userPresets.push_back(presetToAdd);
+    //FINISH - ADD PRESET TO DATABS
+    // ПРОВЕРКА НА ПУСТЫЕ ПОЛЯ
   }
 }
 
@@ -491,12 +524,12 @@ void PresetsMenuState::UpdateSprites() {
 }
 
 void PresetsMenuState::UpdateEvents() {
-    while (this->window->pollEvent(this->sfEvent)) {
-        if (this->sfEvent.type == sf::Event::Closed) {
-            this->window->close();
-        }
-        UpdateTextBoxesEvent();
+  while (this->window->pollEvent(this->sfEvent)) {
+    if (this->sfEvent.type == sf::Event::Closed) {
+      this->window->close();
     }
+    UpdateTextBoxesEvent();
+  }
 }
 
 void PresetsMenuState::UpdateKeyBoardBinds(const float &dt) {
@@ -518,15 +551,14 @@ void PresetsMenuState::Render(sf::RenderTarget *target) {
 
 }
 
-void PresetsMenuState::RenderTextBoxes(sf::RenderTarget* target)
-{
-    for (auto& it : this->textboxes) {
-        it.second->Render(target);
-    }
+void PresetsMenuState::RenderTextBoxes(sf::RenderTarget *target) {
+  for (auto &it : this->textboxes) {
+    it.second->Render(target);
+  }
 
-    for (auto& it : this->textboxesMulti) {
-        it.second->draw(target);
-    }
+  for (auto &it : this->textboxesMulti) {
+    it.second->draw(target);
+  }
 }
 
 void PresetsMenuState::RenderButtons(sf::RenderTarget *target) {

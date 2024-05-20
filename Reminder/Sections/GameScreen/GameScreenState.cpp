@@ -31,6 +31,13 @@ GameState::~GameState() {
   for (auto it = this->buttons.begin(); it != this->buttons.end(); ++it) {
     delete it->second;
   }
+
+  auto it2 = this->dropDownLists.begin();
+  for (auto it2 = this->dropDownLists.begin(); it2 != this->dropDownLists.end(); ++it) {
+    delete it2->second;
+  }
+
+  delete database;
 }
 
 // INIT
