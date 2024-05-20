@@ -31,7 +31,8 @@ set(SOURCES
         "Reminder/Sections/PreesetsMenu/PresetsMenu.cpp"
         "Reminder/Sections/PreesetsMenu/PresetsMenuState.cpp"
         "Reminder/Sections/GameScreen/GameScreen.cpp"
-        "Reminder/Sections/GameScreen/GameScreenState.cpp")
+        "Reminder/Sections/GameScreen/GameScreenState.cpp"
+        "Reminder/Game/GameProcess.cpp")
 
 set(HEADERS
         "Reminder/Init/H_Init.h"
@@ -52,7 +53,8 @@ set(HEADERS
         "Reminder/Sections/PreesetsMenu/PresetsMenuState.h"
         "Reminder/UI/MultilineTextBox.hpp"
         "Reminder/Sections/GameScreen/GameScreen.h"
-        "Reminder/Sections/GameScreen/GameScreenState.h")
+        "Reminder/Sections/GameScreen/GameScreenState.h"
+        "Reminder/Game/GameProcess.h")
 
 # Файлы для копирования
 if (WIN32)
