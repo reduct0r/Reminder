@@ -115,6 +115,10 @@ void ReminderUI::DropDownList::setActiveEl(int i)
 {
     this->activeElement->setText(this->list[i - 1]->getText());
 }
+void ReminderUI::DropDownList::setHeadTitle(std::string name)
+{
+    this->activeElement->setText(name);
+}
 
 void ReminderUI::DropDownList::Render(sf::RenderTarget *target) const {
   this->activeElement->Render(target);

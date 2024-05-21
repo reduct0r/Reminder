@@ -40,6 +40,7 @@ class DropDownList {
   void Hide(bool flag);
   void Blink();
   void setActiveEl(int i);
+  void setHeadTitle(std::string name);
 };
 
 }

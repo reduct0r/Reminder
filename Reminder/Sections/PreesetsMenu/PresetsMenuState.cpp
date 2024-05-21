@@ -32,8 +32,6 @@ PresetsMenuState::~PresetsMenuState() {
   for (auto it = this->buttons.begin(); it != this->buttons.end(); ++it) {
     delete it->second;
   }
-
-  delete database;
 }
 
 // INIT
@@ -302,7 +300,7 @@ void PresetsMenuState::InitTextBoxes() {
   this->textboxes["CARD_NAME"] = new ReminderUI::TextBox(0, 0, 0, 0, 0);
   this->textboxes["CARD_NAME"]->SetColor(sf::Color::White);
 
-  this->textboxesMulti["DESCRIPTION"] = new ReminderUI::MultiLineTextBox(0, 0, 0, 0, this->font, 40 * this->scale);
+  this->textboxesMulti["DESCRIPTION"] = new ReminderUI::MultiLineTextBox(-10, -10, 0, 0, this->font, 40 * this->scale);
 }
 
 void PresetsMenuState::InitTexts() {
@@ -380,6 +378,12 @@ void PresetsMenuState::UpdateButtons() {
     this->buttons["IMPORT_BTN"]->Hide(0);
     this->buttons["SAVE_BTN"]->Hide(0);
     this->buttons["CHOOSE_BTN"]->Hide(0);
+
+    if (!activePreset.getName().empty())
+    {
+        this->dropDownLists["PRESETS_LIST"]->setHeadTitle(this->activePreset.getName());
+    }
+
   } else if (!flag and this->buttons["MY_PRESETS_BTN"]->isPressed() and this->getKeyTime()) {
     flag = 1;
     this->buttons["MY_PRESETS_BTN"]->setPos(

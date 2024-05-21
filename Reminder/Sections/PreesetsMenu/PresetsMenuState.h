@@ -53,7 +53,7 @@ class PresetsMenuState :
   virtual ~PresetsMenuState();
 
   void Update(const float &dt);
-  void UpdateDT();
+  //void UpdateDT();
   void UpdateButtons();
   void UpdateSprites();
   void UpdateEvents();
